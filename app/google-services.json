@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "144283092171",
+    "project_id": "projectfee-ade5a",
+    "storage_bucket": "projectfee-ade5a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:144283092171:android:c59985b5c033fc676a074e",
+        "android_client_info": {
+          "package_name": "tech.id.kasirapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWZb1aIf5dzloioR4BVdnQQhdqvH6OXGs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
