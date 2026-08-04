@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 
 public class Restaurant {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
     public String firebaseId;
     public String name;
     public String ownerName;

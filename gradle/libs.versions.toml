@@ -20,7 +20,6 @@ roomCompiler = "2.8.4"
 activityKtxVersion = "1.13.0"
 firebaseFunctions = "22.1.1"
 firebaseInappmessagingDisplay = "22.0.3"
-playServicesAds = "25.4.0"
 firebaseConfig = "23.1.0"
 firebaseAuth = "24.2.0"
 credentials = "1.6.0"
@@ -50,7 +49,7 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtxVersion" }
 firebase-functions = { group = "com.google.firebase", name = "firebase-functions", version.ref = "firebaseFunctions" }
 firebase-inappmessaging-display = { group = "com.google.firebase", name = "firebase-inappmessaging-display", version.ref = "firebaseInappmessagingDisplay" }
-play-services-ads = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "playServicesAds" }
+
 firebase-config = { group = "com.google.firebase", name = "firebase-config", version.ref = "firebaseConfig" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }

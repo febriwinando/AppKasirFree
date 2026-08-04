@@ -19,4 +19,9 @@ public interface RestaurantDao {
             long id,
             int status
     );
+
+    @Query("SELECT * FROM restaurants WHERE id=:id LIMIT 1")
+    Restaurant getById(long id);
+
+
 }

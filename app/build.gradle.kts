@@ -52,7 +52,6 @@ dependencies {
     implementation(libs.googleid)
     implementation(libs.logging.interceptor)
     implementation(libs.material)
-    implementation(libs.play.services.ads)
     implementation(libs.postgrest.kt)
     implementation(libs.retrofit)
     annotationProcessor(libs.room.compiler)
