@@ -1,6 +1,7 @@
 package tech.id.kasirapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -13,8 +14,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import tech.id.kasirapp.data.local.DatabaseClient;
@@ -97,49 +100,20 @@ public class RegisterActivity extends AppCompatActivity {
                 .ownerDao()
                 .getById(id);
 
-        DatabaseReference ref = FirebaseDatabase
-                .getInstance()
-                .getReference("owners");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        String firebaseId = ref.push().getKey();
+//        Map<String, Object> owner = new HashMap<>();
+//        owner.put("name", "Febri");
+//        owner.put("username", "febri");
+//        owner.put("email", "test@gmail.com");
 
-        HashMap<String,Object> data = new HashMap<>();
-
-        data.put("firebaseId",firebaseId);
-        data.put("name",owner.name);
-        data.put("username",owner.username);
-        data.put("email",owner.email);
-        data.put("phone",owner.phone);
-
-        ref.child(firebaseId)
-                .setValue(data)
-                .addOnSuccessListener(unused -> {
-
-                    DatabaseClient
-                            .getDatabase(this)
-                            .ownerDao()
-                            .updateFirebase(id,firebaseId,1);
-
-                    Toast.makeText(
-                            this,
-                            "Registrasi berhasil",
-                            Toast.LENGTH_SHORT
-                    ).show();
-
+        db.collection("owners")
+                .add(owner)
+                .addOnSuccessListener(documentReference -> {
+                    Log.d("Firestore", "ID : " + documentReference.getId());
                 })
                 .addOnFailureListener(e -> {
-
-                    DatabaseClient
-                            .getDatabase(this)
-                            .ownerDao()
-                            .updateSyncStatus(id,2);
-
-                    Toast.makeText(
-                            this,
-                            e.getMessage(),
-                            Toast.LENGTH_SHORT
-                    ).show();
-
+                    Log.e("Firestore", e.getMessage());
                 });
 
     }
