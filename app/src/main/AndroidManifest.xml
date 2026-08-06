@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KasirAPP">
         <activity
-            android:name=".RegisterRestaurantActivity"
+            android:name=".RegisterActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -46,6 +46,10 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".RegisterBranchActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".RegisterRestaurantActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>

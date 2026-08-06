@@ -15,6 +15,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+import tech.id.kasirapp.data.local.DatabaseClient;
+import tech.id.kasirapp.data.local.entity.Owner;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -85,15 +89,22 @@ public class LoginActivity extends AppCompatActivity {
 
                 Toast.makeText(this, "Login berhasil", Toast.LENGTH_SHORT).show();
 
-                // pindah dashboard
-                /*
-                startActivity(
-                    new Intent(
-                      this,
-                      DashboardActivity.class
-                    )
-                );
-                */
+                Owner owner = DatabaseClient.getDatabase(this)
+                        .ownerDao()
+                        .getByUsername(username);
+
+                if(owner != null){
+                    BCrypt.Result result = BCrypt.verifyer()
+                            .verify(password.toCharArray(), owner.password);
+
+
+                    if(result.verified){
+                        // Login berhasil
+                    }else{
+                        // Password salah
+                    }
+
+                }
 
             }else{
                 Toast.makeText(this, "Username atau password salah", Toast.LENGTH_SHORT).show();
@@ -101,5 +112,7 @@ public class LoginActivity extends AppCompatActivity {
         },1500);
 
     }
+
+
 
 }

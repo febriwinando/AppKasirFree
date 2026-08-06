@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.Kasir.TextInputLayout"
+        parent="Widget.Material3.TextInputLayout.OutlinedBox">
+
+        <item name="boxStrokeColor">@color/primary</item>
+        <item name="hintTextColor">@color/gray</item>
+        <item name="startIconTint">@color/primary_dark</item>
+        <item name="endIconTint">@color/primary_dark</item>
+        <item name="boxCornerRadiusTopStart">14dp</item>
+        <item name="boxCornerRadiusTopEnd">14dp</item>
+        <item name="boxCornerRadiusBottomStart">14dp</item>
+        <item name="boxCornerRadiusBottomEnd">14dp</item>
+
+    </style>
+</resources>
