@@ -4,6 +4,7 @@ package tech.id.kasirapp.data.local.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import tech.id.kasirapp.data.local.entity.Owner;
 
@@ -23,10 +24,17 @@ public interface OwnerDao {
     @Query("SELECT * FROM owners WHERE id=:id LIMIT 1")
     Owner getById(long id);
 
-    @Query("UPDATE owners SET syncStatus=:status WHERE id=:id")
-    void updateSyncStatus(long id,int status);
+    @Query("SELECT COUNT(*) FROM owners")
+    int countOwner();
 
-    @Query("UPDATE owners SET firebaseId=:firebaseId,syncStatus=:status WHERE id=:id")
-    void updateFirebase(long id,String firebaseId,int status);
+    @Query("UPDATE owners SET sync_status=:status WHERE id=:id")
+    void updateSyncStatus(long id, int status);
+
+
+    @Query("UPDATE owners SET firebase_id=:firebaseId, sync_status=:status WHERE id=:id")
+    void updateFirebase(long id, String firebaseId, int status);
+
+    @Update
+    void update(Owner owner);
 
 }

@@ -1,35 +1,44 @@
 package tech.id.kasirapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import tech.id.kasirapp.data.local.DatabaseClient;
+import tech.id.kasirapp.data.local.entity.AppSession;
 import tech.id.kasirapp.data.local.entity.Owner;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterOwnerActivity extends AppCompatActivity {
 
     TextInputEditText edtNamaOwner, edtUsername, edtEmail, edtNoHp, edtPassword, edtKonfirmasiPassword;
     MaterialButton btnRegister;
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkSession();
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
 
@@ -75,10 +84,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         Owner owner = new Owner();
-
+        owner.uuid = UUID.randomUUID().toString();
         owner.name = nama;
         owner.username = username;
-//        owner.password = password;
         owner.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());
         owner.email = email;
         owner.phone = phone;
@@ -92,29 +100,113 @@ public class RegisterActivity extends AppCompatActivity {
         uploadOwner(id);
 
     }
-
-    private void uploadOwner(long id){
+    private void uploadOwner(long id) {
 
         Owner owner = DatabaseClient
                 .getDatabase(this)
                 .ownerDao()
                 .getById(id);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-//        Map<String, Object> owner = new HashMap<>();
-//        owner.put("name", "Febri");
-//        owner.put("username", "febri");
-//        owner.put("email", "test@gmail.com");
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("owners")
                 .add(owner)
                 .addOnSuccessListener(documentReference -> {
-                    Log.d("Firestore", "ID : " + documentReference.getId());
+
+                    // Simpan document ID Firestore
+                    owner.firebaseId = documentReference.getId();
+                    owner.syncStatus = 1;
+
+                    DatabaseClient
+                            .getDatabase(this)
+                            .ownerDao()
+                            .update(owner);
+
+                    AppSession session = new AppSession();
+                    session.ownerId = owner.id;
+                    session.uuid = owner.uuid;
+                    session.isLoggedIn = true;
+
+                    DatabaseClient
+                            .getDatabase(this)
+                            .sessionDao()
+                            .insert(session);
+
+                    Toast.makeText(this,
+                            "Registrasi berhasil",
+                            Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(
+                            RegisterOwnerActivity.this,
+                            DashboardOwnerActivity.class);
+
+                    intent.putExtra("owner_id", owner.id);
+
+                    startActivity(intent);
+                    finish();
+
                 })
                 .addOnFailureListener(e -> {
+
+                    Toast.makeText(this,
+                            "Data lokal berhasil disimpan, namun gagal sinkron ke Firebase",
+                            Toast.LENGTH_LONG).show();
+
                     Log.e("Firestore", e.getMessage());
+
                 });
 
     }
+    private void checkSession(){
+
+        executor.execute(() -> {
+
+
+            AppSession session = DatabaseClient
+                    .getDatabase(RegisterOwnerActivity.this)
+                    .sessionDao()
+                    .getSession();
+
+
+            runOnUiThread(() -> {
+
+
+                if(session != null && session.isLoggedIn){
+
+
+                    Intent intent = new Intent(
+                            RegisterOwnerActivity.this,
+                            DashboardOwnerActivity.class
+                    );
+
+
+                    intent.putExtra(
+                            "owner_id",
+                            session.ownerId
+                    );
+
+
+                    startActivity(intent);
+
+                    finish();
+
+
+                }else{
+
+
+                    // Belum login
+                    // tampilkan form register
+
+                }
+
+
+            });
+
+
+        });
+
+    }
+
 }
