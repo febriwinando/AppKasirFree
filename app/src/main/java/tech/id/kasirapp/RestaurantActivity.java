@@ -2,7 +2,10 @@ package tech.id.kasirapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,15 +27,11 @@ public class RestaurantActivity extends AppCompatActivity {
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_restaurant);
 
         initView();
-
         setupToolbar();
-
         setupClick();
 
     }
@@ -40,18 +39,76 @@ public class RestaurantActivity extends AppCompatActivity {
     private void initView() {
 
         toolbar = findViewById(R.id.toolbar);
+        btnAddRestaurant = findViewById(R.id.btnAddRestaurant);
+        branchMain1 = findViewById(R.id.branchMain1);
+        branchSecond1 = findViewById(R.id.branchSecond1);
 
-        btnAddRestaurant =
+        ImageView btnRestaurantMenu1 =
+                findViewById(R.id.btnRestaurantMenu1);
 
-                findViewById(R.id.btnAddRestaurant);
+        btnRestaurantMenu1.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(
+                    RestaurantActivity.this,
+                    btnRestaurantMenu1
+            );
 
-        branchMain1 =
+            popup.getMenu().add("Edit Restoran");
+            popup.getMenu().add("Kelola Cabang");
+            popup.getMenu().add("Hapus Restoran");
 
-                findViewById(R.id.branchMain1);
+            popup.setOnMenuItemClickListener(item -> {
 
-        branchSecond1 =
+                String title = item.getTitle().toString();
 
-                findViewById(R.id.branchSecond1);
+                if (title.equals("Edit Restoran")) {
+                    Intent intent = new Intent(
+
+                            RestaurantActivity.this,
+
+                            EditRestaurantActivity.class
+
+                    );
+
+                    intent.putExtra(
+
+                            "restaurant_id",
+
+                            1L
+
+                    );
+
+                    startActivity(intent);
+
+                    return true;
+                } else if (title.equals("Kelola Cabang")) {
+                    // buka halaman cabang
+                } else if (title.equals("Hapus Restoran")) {
+                    // konfirmasi hapus
+                }
+
+                return false;
+            });
+
+            popup.show();
+        });
+
+        TextView btnAddBranch1 =
+                findViewById(R.id.btnAddBranch1);
+
+        btnAddBranch1.setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    RestaurantActivity.this,
+                    RegisterBranchActivity.class
+            );
+
+            intent.putExtra(
+                    "restaurant_id",
+                    1L
+            );
+
+            startActivity(intent);
+        });
 
     }
 

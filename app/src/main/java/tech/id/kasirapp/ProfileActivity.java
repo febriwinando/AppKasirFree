@@ -60,6 +60,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
     private void setupToolbar() {
@@ -88,7 +90,6 @@ public class ProfileActivity extends AppCompatActivity {
         );
 
         tvRestaurantName.setText("Nama Restoran");
-
         tvBranchName.setText("Cabang Utama");
 
     }

@@ -9,6 +9,7 @@ import com.google.android.material.button.MaterialButton;
 import tech.id.kasirapp.data.firebase.FirebaseRepository;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
+import tech.id.kasirapp.data.local.entity.AppSession;
 import tech.id.kasirapp.data.local.entity.Restaurant;
 
 
@@ -19,13 +20,17 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
     TextInputEditText edtEmail;
     TextInputEditText edtAlamat;
     MaterialButton btnLanjutCabang;
-
+    AppSession session;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_restaurant);
 
+        session = DatabaseClient
+                .getDatabase(RegisterRestaurantActivity.this)
+                .sessionDao()
+                .getSession();
 
         edtNamaRestoran = findViewById(R.id.edtNamaRestoran);
         edtPemilik = findViewById(R.id.edtPemilik);
@@ -121,13 +126,11 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
                     firebaseId,
                     restaurant.name,
                     restaurant.ownerName,
-
                     restaurant.phone,
-
                     restaurant.email,
-
                     restaurant.address,
-
+                    restaurant.ownerId = session.ownerId,
+                    restaurant.isActive = true,
                     new FirebaseRepository.OnCompleteListener(){
 
                         @Override

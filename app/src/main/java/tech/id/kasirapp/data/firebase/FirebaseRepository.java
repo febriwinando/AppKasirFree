@@ -19,6 +19,8 @@ public class FirebaseRepository {
             String phone,
             String email,
             String address,
+            long ownerId,
+            boolean isActive,
             OnCompleteListener listener
     ){
 
