@@ -39,4 +39,10 @@ public interface BranchDao {
 
     @Query("DELETE FROM branches WHERE restaurantId = :restaurantId")
     void deleteByRestaurant(long restaurantId);
+
+    @Query("SELECT COUNT(*) FROM branches WHERE restaurantId = :restaurantId AND isMain = 1")
+    int countMainBranch(long restaurantId);
+
+    @Query("SELECT * FROM branches WHERE restaurantId = :restaurantId")
+    List<Branch> getByRestaurantId(long restaurantId);
 }

@@ -72,39 +72,50 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutJamBuka"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:hint="Jam Buka">
+            android:hint="Jam Buka"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_access_time">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtJamBuka"
-                android:hint="08:00"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:clickable="true"
+                android:inputType="none" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutJamTutup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:hint="Jam Tutup">
+            android:hint="Jam Tutup"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_access_time">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtJamTutup"
-                android:hint="22:00"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:clickable="true"
+                android:inputType="none" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
+
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardCabangUtama"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             app:cardCornerRadius="16dp">
-
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -113,20 +124,21 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Cabang Utama"
                     android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="16sp"/>
 
                 <TextView
-                    android:text="Cabang pertama otomatis menjadi cabang utama"
-                    android:textColor="@color/gray"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    android:layout_height="wrap_content"
+                    android:text="Cabang pertama otomatis menjadi cabang utama"
+                    android:textColor="@color/gray"/>
 
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSimpan"
             android:layout_width="match_parent"

@@ -378,7 +378,6 @@ public class RestaurantActivity extends AppCompatActivity {
                         : restaurant.address
         );
 
-
         tvAddress.setTextColor(
                 Color.rgb(
                         117,
