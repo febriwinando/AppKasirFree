@@ -22,40 +22,18 @@ import tech.id.kasirapp.data.local.entity.AppSession;
 import tech.id.kasirapp.data.local.entity.Owner;
 
 public class RegisterOwnerActivity extends AppCompatActivity {
-
     TextInputEditText edtNamaOwner, edtUsername, edtEmail, edtNoHp, edtPassword, edtKonfirmasiPassword;
     MaterialButton btnRegister;
     private ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        checkSession();
-
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_register);
-
-        edtNamaOwner = findViewById(R.id.edtNamaOwner);
-        edtUsername = findViewById(R.id.edtUsername);
-        edtEmail = findViewById(R.id.edtEmail);
-        edtNoHp = findViewById(R.id.edtNoHp);
-        edtPassword = findViewById(R.id.edtPassword);
-        edtKonfirmasiPassword = findViewById(R.id.edtKonfirmasiPassword);
-        btnRegister = findViewById(R.id.btnRegister);
-
-
-        btnRegister.setOnClickListener(v -> registerOwner());
+        checkSession();
     }
 
     private void registerOwner() {
-
         String nama = edtNamaOwner.getText().toString().trim();
         String username = edtUsername.getText().toString().trim();
         String password = edtPassword.getText().toString();
@@ -96,10 +74,9 @@ public class RegisterOwnerActivity extends AppCompatActivity {
                 .getDatabase(this)
                 .ownerDao()
                 .insert(owner);
-
         uploadOwner(id);
-
     }
+
     private void uploadOwner(long id) {
 
         Owner owner = DatabaseClient
@@ -159,54 +136,52 @@ public class RegisterOwnerActivity extends AppCompatActivity {
                 });
 
     }
-    private void checkSession(){
-
+    private void checkSession() {
         executor.execute(() -> {
-
 
             AppSession session = DatabaseClient
                     .getDatabase(RegisterOwnerActivity.this)
                     .sessionDao()
                     .getSession();
 
-
             runOnUiThread(() -> {
 
-
-                if(session != null && session.isLoggedIn){
-
+                if (session != null && session.isLoggedIn) {
 
                     Intent intent = new Intent(
                             RegisterOwnerActivity.this,
                             DashboardOwnerActivity.class
                     );
 
-
-                    intent.putExtra(
-                            "owner_id",
-                            session.ownerId
-                    );
-
+                    intent.putExtra("owner_id", session.ownerId);
 
                     startActivity(intent);
-
                     finish();
 
+                } else {
 
-                }else{
+                    // Session tidak ada → baru tampilkan form register
+                    setContentView(R.layout.activity_register);
 
-
-                    // Belum login
-                    // tampilkan form register
-
+                    // Inisialisasi komponen register di sini
+                    initRegisterForm();
                 }
-
-
             });
-
-
         });
+    }
 
+    private void initRegisterForm() {
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_register);
+
+        edtNamaOwner = findViewById(R.id.edtNamaOwner);
+        edtUsername = findViewById(R.id.edtUsername);
+        edtEmail = findViewById(R.id.edtEmail);
+        edtNoHp = findViewById(R.id.edtNoHp);
+        edtPassword = findViewById(R.id.edtPassword);
+        edtKonfirmasiPassword = findViewById(R.id.edtKonfirmasiPassword);
+        btnRegister = findViewById(R.id.btnRegister);
+        btnRegister.setOnClickListener(v -> registerOwner());
     }
 
 }
