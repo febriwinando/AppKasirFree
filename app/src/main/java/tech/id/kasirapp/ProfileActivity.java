@@ -1,6 +1,8 @@
 package tech.id.kasirapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -10,6 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.card.MaterialCardView;
 
 
 public class ProfileActivity extends AppCompatActivity {
@@ -23,7 +26,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvPhone;
     private TextView tvRestaurantName;
     private TextView tvBranchName;
-
+    MaterialCardView cardRestaurant;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,16 @@ public class ProfileActivity extends AppCompatActivity {
         tvPhone = findViewById(R.id.tvPhone);
         tvRestaurantName = findViewById(R.id.tvRestaurantName);
         tvBranchName = findViewById(R.id.tvBranchName);
+        cardRestaurant = findViewById(R.id.cardRestaurant);
+
+
+        cardRestaurant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pindahkeDaftarRestaurant = new Intent(ProfileActivity.this, RestaurantActivity.class);
+                startActivity(pindahkeDaftarRestaurant);
+            }
+        });
 
     }
 
@@ -71,9 +84,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvEmail.setText(email);
         tvPhone.setText(phone);
         tvAvatar.setText(
-
                 name.substring(0, 1).toUpperCase()
-
         );
 
         tvRestaurantName.setText("Nama Restoran");
