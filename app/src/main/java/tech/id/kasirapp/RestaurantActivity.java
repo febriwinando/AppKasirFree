@@ -1,193 +1,1327 @@
 package tech.id.kasirapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import tech.id.kasirapp.data.local.AppDatabase;
+import tech.id.kasirapp.data.local.DatabaseClient;
+import tech.id.kasirapp.data.local.entity.Branch;
+import tech.id.kasirapp.data.local.entity.Restaurant;
 
 public class RestaurantActivity extends AppCompatActivity {
 
     private MaterialToolbar toolbar;
+
     private MaterialButton btnAddRestaurant;
-    private LinearLayout branchMain1;
-    private LinearLayout branchSecond1;
+
+    private LinearLayout restaurantContainer;
+
+    private AppDatabase db;
+
+    private final ExecutorService executor =
+            Executors.newSingleThreadExecutor();
+
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_restaurant);
+
+        setContentView(
+                R.layout.activity_restaurant
+        );
+
+
+        db = DatabaseClient
+                .getDatabase(this);
+
 
         initView();
+
         setupToolbar();
+
         setupClick();
 
     }
 
-    private void initView() {
 
-        toolbar = findViewById(R.id.toolbar);
-        btnAddRestaurant = findViewById(R.id.btnAddRestaurant);
-        branchMain1 = findViewById(R.id.branchMain1);
-        branchSecond1 = findViewById(R.id.branchSecond1);
+    @Override
+    protected void onStart() {
 
-        ImageView btnRestaurantMenu1 =
-                findViewById(R.id.btnRestaurantMenu1);
+        super.onStart();
 
-        btnRestaurantMenu1.setOnClickListener(v -> {
-            PopupMenu popup = new PopupMenu(
-                    RestaurantActivity.this,
-                    btnRestaurantMenu1
-            );
-
-            popup.getMenu().add("Edit Restoran");
-            popup.getMenu().add("Kelola Cabang");
-            popup.getMenu().add("Hapus Restoran");
-
-            popup.setOnMenuItemClickListener(item -> {
-
-                String title = item.getTitle().toString();
-
-                if (title.equals("Edit Restoran")) {
-                    Intent intent = new Intent(
-
-                            RestaurantActivity.this,
-
-                            EditRestaurantActivity.class
-
-                    );
-
-                    intent.putExtra(
-
-                            "restaurant_id",
-
-                            1L
-
-                    );
-
-                    startActivity(intent);
-
-                    return true;
-                } else if (title.equals("Kelola Cabang")) {
-                    // buka halaman cabang
-                } else if (title.equals("Hapus Restoran")) {
-                    // konfirmasi hapus
-                }
-
-                return false;
-            });
-
-            popup.show();
-        });
-
-        TextView btnAddBranch1 =
-                findViewById(R.id.btnAddBranch1);
-
-        btnAddBranch1.setOnClickListener(v -> {
-
-            Intent intent = new Intent(
-                    RestaurantActivity.this,
-                    RegisterBranchActivity.class
-            );
-
-            intent.putExtra(
-                    "restaurant_id",
-                    1L
-            );
-
-            startActivity(intent);
-        });
+        loadRestaurants();
 
     }
+
+
+    private void initView() {
+
+        toolbar =
+                findViewById(
+                        R.id.toolbar
+                );
+
+
+        btnAddRestaurant =
+                findViewById(
+                        R.id.btnAddRestaurant
+                );
+
+
+        restaurantContainer =
+                findViewById(
+                        R.id.restaurantContainer
+                );
+
+    }
+
 
     private void setupToolbar() {
 
-        toolbar.setNavigationOnClickListener(v -> {
-
-            finish();
-
-        });
+        toolbar.setNavigationOnClickListener(
+                v -> finish()
+        );
 
     }
+
 
     private void setupClick() {
 
-        // Tambah restoran
+        btnAddRestaurant.setOnClickListener(
+                v -> {
 
-        btnAddRestaurant.setOnClickListener(v -> {
+                    Intent intent =
+                            new Intent(
+                                    RestaurantActivity.this,
+                                    RegisterRestaurantActivity.class
+                            );
 
-            Intent intent = new Intent(
+                    startActivity(intent);
 
-                    RestaurantActivity.this,
+                }
+        );
 
-                    RegisterRestaurantActivity.class
+    }
 
-            );
 
-            startActivity(intent);
+    // =========================================================
+    // LOAD RESTORAN
+    // =========================================================
 
-        });
+    private void loadRestaurants() {
 
-        // Pilih Cabang Utama
+        executor.execute(() -> {
 
-        branchMain1.setOnClickListener(v -> {
+            List<Restaurant> restaurants =
+                    db.restaurantDao()
+                            .getAll();
 
-            selectBranch(
 
-                    1,
+            runOnUiThread(() -> {
 
-                    1
+                displayRestaurants(
+                        restaurants
+                );
 
-            );
-
-        });
-
-        // Pilih Cabang Medan
-
-        branchSecond1.setOnClickListener(v -> {
-
-            selectBranch(
-
-                    1,
-
-                    2
-
-            );
+            });
 
         });
 
     }
 
-    private void selectBranch(
 
-            long restaurantId,
+    // =========================================================
+    // DISPLAY RESTORAN
+    // =========================================================
 
-            long branchId
-
+    private void displayRestaurants(
+            List<Restaurant> restaurants
     ) {
 
-        // Nanti kita simpan cabang aktif
-        // ke AppSession / ActiveBranch table.
-        // Contoh:
-        //
-        // restaurantId = 1
-        // branchId = 2
-        //
-        // Kemudian Dashboard akan menggunakan
-        // branchId tersebut untuk mengambil
-        // produk, order, stok dan laporan.
+        restaurantContainer.removeAllViews();
+
+
+        if (restaurants == null ||
+                restaurants.isEmpty()) {
+
+            TextView empty =
+                    new TextView(this);
+
+
+            empty.setText(
+                    "Belum ada restoran.\n" +
+                            "Silakan tambahkan restoran."
+            );
+
+
+            empty.setTextSize(14);
+
+            empty.setTextColor(
+                    Color.rgb(
+                            117,
+                            117,
+                            117
+                    )
+            );
+
+
+            empty.setGravity(
+                    Gravity.CENTER
+            );
+
+
+            empty.setPadding(
+                    16,
+                    40,
+                    16,
+                    40
+            );
+
+
+            restaurantContainer.addView(
+                    empty
+            );
+
+
+            return;
+        }
+
+
+        for (Restaurant restaurant :
+                restaurants) {
+
+            createRestaurantCard(
+                    restaurant
+            );
+
+        }
+
+    }
+
+
+    // =========================================================
+    // CARD RESTORAN
+    // =========================================================
+
+    private void createRestaurantCard(
+            Restaurant restaurant
+    ) {
+
+        MaterialCardView card =
+                new MaterialCardView(this);
+
+
+        card.setRadius(
+                dp(16)
+        );
+
+
+        card.setCardElevation(
+                dp(1)
+        );
+
+
+        card.setCardBackgroundColor(
+                Color.WHITE
+        );
+
+
+        LinearLayout root =
+                new LinearLayout(this);
+
+
+        root.setOrientation(
+                LinearLayout.VERTICAL
+        );
+
+
+        // =====================================================
+        // RESTAURANT HEADER
+        // =====================================================
+
+        LinearLayout header =
+                new LinearLayout(this);
+
+
+        header.setOrientation(
+                LinearLayout.HORIZONTAL
+        );
+
+
+        header.setGravity(
+                Gravity.CENTER_VERTICAL
+        );
+
+
+        header.setPadding(
+                dp(16),
+                dp(16),
+                dp(12),
+                dp(16)
+        );
+
+
+        // Icon restoran
+
+        ImageView icon =
+                new ImageView(this);
+
+
+        icon.setImageResource(
+                R.drawable.ic_store
+        );
+
+
+        icon.setPadding(
+                dp(8),
+                dp(8),
+                dp(8),
+                dp(8)
+        );
+
+
+        header.addView(
+                icon,
+                new LinearLayout.LayoutParams(
+                        dp(40),
+                        dp(40)
+                )
+        );
+
+
+        // Informasi restoran
+
+        LinearLayout info =
+                new LinearLayout(this);
+
+
+        info.setOrientation(
+                LinearLayout.VERTICAL
+        );
+
+
+        LinearLayout.LayoutParams infoParams =
+                new LinearLayout.LayoutParams(
+                        0,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        1
+                );
+
+
+        infoParams.setMargins(
+                dp(12),
+                0,
+                0,
+                0
+        );
+
+
+        TextView tvName =
+                new TextView(this);
+
+
+        tvName.setText(
+                restaurant.name
+        );
+
+
+        tvName.setTextColor(
+                Color.rgb(
+                        33,
+                        33,
+                        33
+                )
+        );
+
+
+        tvName.setTextSize(
+                17
+        );
+
+
+        tvName.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+
+        TextView tvAddress =
+                new TextView(this);
+
+
+        tvAddress.setText(
+                restaurant.address == null
+                        ? ""
+                        : restaurant.address
+        );
+
+
+        tvAddress.setTextColor(
+                Color.rgb(
+                        117,
+                        117,
+                        117
+                )
+        );
+
+
+        tvAddress.setTextSize(
+                13
+        );
+
+
+        tvAddress.setPadding(
+                0,
+                dp(3),
+                0,
+                0
+        );
+
+
+        info.addView(
+                tvName
+        );
+
+
+        info.addView(
+                tvAddress
+        );
+
+
+        header.addView(
+                info,
+                infoParams
+        );
+
+
+        // Menu restoran
+
+        ImageView menu =
+                new ImageView(this);
+
+
+        menu.setImageResource(
+                R.drawable.ic_more_vert
+        );
+
+
+        menu.setPadding(
+                dp(4),
+                dp(4),
+                dp(4),
+                dp(4)
+        );
+
+
+        header.addView(
+                menu,
+                new LinearLayout.LayoutParams(
+                        dp(32),
+                        dp(32)
+                )
+        );
+
+
+        root.addView(
+                header
+        );
+
+
+        // =====================================================
+        // DIVIDER
+        // =====================================================
+
+        View divider =
+                new View(this);
+
+
+        divider.setBackgroundColor(
+                Color.rgb(
+                        238,
+                        238,
+                        238
+                )
+        );
+
+
+        root.addView(
+                divider,
+                new LinearLayout.LayoutParams(
+                        -1,
+                        dp(1)
+                )
+        );
+
+
+        // =====================================================
+        // HEADER CABANG
+        // =====================================================
+
+        LinearLayout branchHeader =
+                new LinearLayout(this);
+
+
+        branchHeader.setOrientation(
+                LinearLayout.HORIZONTAL
+        );
+
+
+        branchHeader.setGravity(
+                Gravity.CENTER_VERTICAL
+        );
+
+
+        branchHeader.setPadding(
+                dp(16),
+                dp(12),
+                dp(12),
+                dp(4)
+        );
+
+
+        TextView branchTitle =
+                new TextView(this);
+
+
+        branchTitle.setText(
+                "Cabang"
+        );
+
+
+        branchTitle.setTextSize(
+                13
+        );
+
+
+        branchTitle.setTextColor(
+                Color.rgb(
+                        117,
+                        117,
+                        117
+                )
+        );
+
+
+        branchTitle.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+
+        branchHeader.addView(
+                branchTitle,
+                new LinearLayout.LayoutParams(
+                        0,
+                        -2,
+                        1
+                )
+        );
+
+
+        // Tambah cabang
+
+        TextView addBranch =
+                new TextView(this);
+
+
+        addBranch.setText(
+                "+ Tambah Cabang"
+        );
+
+
+        addBranch.setTextSize(
+                13
+        );
+
+
+        addBranch.setTextColor(
+                Color.rgb(
+                        249,
+                        168,
+                        37
+                )
+        );
+
+
+        addBranch.setTypeface(
+                null,
+                Typeface.BOLD
+        );
+
+
+        addBranch.setPadding(
+                dp(8),
+                dp(8),
+                dp(8),
+                dp(8)
+        );
+
+
+        branchHeader.addView(
+                addBranch
+        );
+
+
+        root.addView(
+                branchHeader
+        );
+
+
+        // =====================================================
+        // CONTAINER CABANG
+        // =====================================================
+
+        LinearLayout branchContainer =
+                new LinearLayout(this);
+
+
+        branchContainer.setOrientation(
+                LinearLayout.VERTICAL
+        );
+
+
+        root.addView(
+                branchContainer
+        );
+
+
+        card.addView(
+                root
+        );
+
+
+        LinearLayout.LayoutParams cardParams =
+                new LinearLayout.LayoutParams(
+                        -1,
+                        -2
+                );
+
+
+        cardParams.setMargins(
+                0,
+                0,
+                0,
+                dp(16)
+        );
+
+
+        restaurantContainer.addView(
+                card,
+                cardParams
+        );
+
+
+        // =====================================================
+        // EVENT MENU RESTORAN
+        // =====================================================
+
+        menu.setOnClickListener(
+                v -> showRestaurantMenu(
+                        menu,
+                        restaurant
+                )
+        );
+
+
+        // =====================================================
+        // TAMBAH CABANG
+        // =====================================================
+
+        addBranch.setOnClickListener(
+                v -> {
+
+                    Intent intent =
+                            new Intent(
+                                    RestaurantActivity.this,
+                                    RegisterBranchActivity.class
+                            );
+
+
+                    intent.putExtra(
+                            "restaurant_id",
+                            restaurant.id
+                    );
+
+
+                    startActivity(intent);
+
+                }
+        );
+
+
+        // =====================================================
+        // LOAD CABANG
+        // =====================================================
+
+        loadBranches(
+                restaurant.id,
+                branchContainer
+        );
+
+    }
+
+
+    // =========================================================
+    // LOAD CABANG
+    // =========================================================
+
+    private void loadBranches(
+            long restaurantId,
+            LinearLayout container
+    ) {
+
+        executor.execute(() -> {
+
+            List<Branch> branches =
+                    db.branchDao()
+                            .getByRestaurant(
+                                    restaurantId
+                            );
+
+
+            runOnUiThread(() -> {
+
+                container.removeAllViews();
+
+
+                if (branches == null ||
+                        branches.isEmpty()) {
+
+                    TextView empty =
+                            new TextView(this);
+
+
+                    empty.setText(
+                            "Belum ada cabang."
+                    );
+
+
+                    empty.setTextSize(
+                            13
+                    );
+
+
+                    empty.setTextColor(
+                            Color.rgb(
+                                    158,
+                                    158,
+                                    158
+                            )
+                    );
+
+
+                    empty.setPadding(
+                            dp(16),
+                            dp(10),
+                            dp(16),
+                            dp(16)
+                    );
+
+
+                    container.addView(
+                            empty
+                    );
+
+
+                    return;
+                }
+
+
+                for (Branch branch :
+                        branches) {
+
+                    createBranchView(
+                            container,
+                            branch
+                    );
+
+                }
+
+            });
+
+        });
+
+    }
+
+
+    // =========================================================
+    // CABANG
+    // =========================================================
+
+    private void createBranchView(
+            LinearLayout container,
+            Branch branch
+    ) {
+
+        LinearLayout row =
+                new LinearLayout(this);
+
+
+        row.setOrientation(
+                LinearLayout.HORIZONTAL
+        );
+
+
+        row.setGravity(
+                Gravity.CENTER_VERTICAL
+        );
+
+
+        row.setPadding(
+                dp(16),
+                dp(10),
+                dp(16),
+                dp(10)
+        );
+
+
+        // =====================================================
+        // DOT
+        // =====================================================
+
+        View dot =
+                new View(this);
+
+
+        GradientDrawable dotBackground =
+                new GradientDrawable();
+
+
+        dotBackground.setShape(
+                GradientDrawable.OVAL
+        );
+
+
+        dotBackground.setColor(
+                Color.rgb(
+                        249,
+                        168,
+                        37
+                )
+        );
+
+
+        dot.setBackground(
+                dotBackground
+        );
+
+
+        row.addView(
+                dot,
+                new LinearLayout.LayoutParams(
+                        dp(8),
+                        dp(8)
+                )
+        );
+
+
+        // =====================================================
+        // INFO CABANG
+        // =====================================================
+
+        LinearLayout info =
+                new LinearLayout(this);
+
+
+        info.setOrientation(
+                LinearLayout.VERTICAL
+        );
+
+
+        LinearLayout.LayoutParams infoParams =
+                new LinearLayout.LayoutParams(
+                        0,
+                        -2,
+                        1
+                );
+
+
+        infoParams.setMargins(
+                dp(12),
+                0,
+                0,
+                0
+        );
+
+
+        TextView name =
+                new TextView(this);
+
+
+        name.setText(
+                branch.name
+        );
+
+
+        name.setTextSize(
+                15
+        );
+
+
+        name.setTextColor(
+                Color.rgb(
+                        33,
+                        33,
+                        33
+                )
+        );
+
+
+        if (branch.isMain) {
+
+            name.setTypeface(
+                    null,
+                    Typeface.BOLD
+            );
+
+        }
+
+
+        TextView address =
+                new TextView(this);
+
+
+        address.setText(
+                branch.address == null
+                        ? ""
+                        : branch.address
+        );
+
+
+        address.setTextSize(
+                12
+        );
+
+
+        address.setTextColor(
+                Color.rgb(
+                        117,
+                        117,
+                        117
+                )
+        );
+
+
+        address.setPadding(
+                0,
+                dp(3),
+                0,
+                0
+        );
+
+
+        info.addView(
+                name
+        );
+
+
+        info.addView(
+                address
+        );
+
+
+        row.addView(
+                info,
+                infoParams
+        );
+
+
+        // =====================================================
+        // LABEL CABANG UTAMA
+        // =====================================================
+
+        if (branch.isMain) {
+
+            TextView label =
+                    new TextView(this);
+
+
+            label.setText(
+                    "Utama"
+            );
+
+
+            label.setTextSize(
+                    11
+            );
+
+
+            label.setTextColor(
+                    Color.WHITE
+            );
+
+
+            label.setTypeface(
+                    null,
+                    Typeface.BOLD
+            );
+
+
+            label.setPadding(
+                    dp(10),
+                    dp(5),
+                    dp(10),
+                    dp(5)
+            );
+
+
+            GradientDrawable background =
+                    new GradientDrawable();
+
+
+            background.setColor(
+                    Color.rgb(
+                            67,
+                            160,
+                            71
+                    )
+            );
+
+
+            background.setCornerRadius(
+                    dp(20)
+            );
+
+
+            label.setBackground(
+                    background
+            );
+
+
+            row.addView(
+                    label
+            );
+
+        }
+
+
+        // =====================================================
+        // KLIK CABANG
+        // =====================================================
+
+        row.setClickable(
+                true
+        );
+
+
+        row.setFocusable(
+                true
+        );
+
+
+        row.setBackgroundResource(
+                android.R.drawable.list_selector_background
+        );
+
+
+        row.setOnClickListener(
+                v -> selectBranch(
+                        branch.restaurantId,
+                        branch.id
+                )
+        );
+
+
+        container.addView(
+                row
+        );
+
+    }
+
+
+    // =========================================================
+    // MENU RESTORAN
+    // =========================================================
+
+    private void showRestaurantMenu(
+            View anchor,
+            Restaurant restaurant
+    ) {
+
+        PopupMenu popup =
+                new PopupMenu(
+                        RestaurantActivity.this,
+                        anchor
+                );
+
+
+        popup.getMenu().add(
+                "Edit Restoran"
+        );
+
+
+        popup.getMenu().add(
+                "Kelola Cabang"
+        );
+
+
+        popup.getMenu().add(
+                "Hapus Restoran"
+        );
+
+
+        popup.setOnMenuItemClickListener(
+                item -> {
+
+                    String title =
+                            item.getTitle()
+                                    .toString();
+
+
+                    // =========================================
+                    // EDIT
+                    // =========================================
+
+                    if (title.equals(
+                            "Edit Restoran"
+                    )) {
+
+                        Intent intent =
+                                new Intent(
+                                        RestaurantActivity.this,
+                                        EditRestaurantActivity.class
+                                );
+
+
+                        intent.putExtra(
+                                "restaurant_id",
+                                restaurant.id
+                        );
+
+
+                        startActivity(
+                                intent
+                        );
+
+
+                        return true;
+                    }
+
+
+                    // =========================================
+                    // KELOLA CABANG
+                    // =========================================
+
+                    if (title.equals(
+                            "Kelola Cabang"
+                    )) {
+
+                        Intent intent =
+                                new Intent(
+                                        RestaurantActivity.this,
+                                        BranchActivity.class
+                                );
+
+
+                        intent.putExtra(
+                                "restaurant_id",
+                                restaurant.id
+                        );
+
+
+                        startActivity(
+                                intent
+                        );
+
+
+                        return true;
+                    }
+
+
+                    // =========================================
+                    // HAPUS RESTORAN
+                    // =========================================
+
+                    if (title.equals(
+                            "Hapus Restoran"
+                    )) {
+
+                        confirmDeleteRestaurant(
+                                restaurant
+                        );
+
+
+                        return true;
+                    }
+
+
+                    return false;
+
+                }
+        );
+
+
+        popup.show();
+
+    }
+
+
+    // =========================================================
+    // KONFIRMASI HAPUS
+    // =========================================================
+
+    private void confirmDeleteRestaurant(
+            Restaurant restaurant
+    ) {
+
+        new AlertDialog.Builder(
+                RestaurantActivity.this
+        )
+                .setTitle(
+                        "Hapus Restoran?"
+                )
+                .setMessage(
+                        "Restoran \"" +
+                                restaurant.name +
+                                "\" dan seluruh cabangnya akan dihapus."
+                )
+                .setNegativeButton(
+                        "Batal",
+                        null
+                )
+                .setPositiveButton(
+                        "Hapus",
+                        (dialog, which) -> {
+
+                            deleteRestaurant(
+                                    restaurant
+                            );
+
+                        }
+                )
+                .show();
+
+    }
+
+
+    // =========================================================
+    // DELETE
+    // =========================================================
+
+    private void deleteRestaurant(
+            Restaurant restaurant
+    ) {
+
+        executor.execute(() -> {
+
+            // Hapus cabang terlebih dahulu
+
+            db.branchDao()
+                    .deleteByRestaurant(
+                            restaurant.id
+                    );
+
+
+            // Kemudian restoran
+
+            db.restaurantDao()
+                    .delete(
+                            restaurant
+                    );
+
+
+            runOnUiThread(() -> {
+
+                Toast.makeText(
+                        RestaurantActivity.this,
+                        "Restoran berhasil dihapus",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+
+                loadRestaurants();
+
+            });
+
+        });
+
+    }
+
+
+    // =========================================================
+    // PILIH CABANG
+    // =========================================================
+
+    private void selectBranch(
+            long restaurantId,
+            long branchId
+    ) {
+
+        /*
+         * Nanti di sini kita simpan
+         * restoran + cabang aktif.
+         *
+         * Contoh:
+         *
+         * restaurantId = 1
+         * branchId     = 2
+         *
+         * Dashboard kemudian menggunakan
+         * branchId tersebut untuk:
+         *
+         * - Produk
+         * - Order
+         * - Stok
+         * - Kasir
+         * - Laporan
+         */
+
+
+        Toast.makeText(
+                this,
+                "Cabang dipilih: " + branchId,
+                Toast.LENGTH_SHORT
+        ).show();
+
+    }
+
+
+    // =========================================================
+    // DP
+    // =========================================================
+
+    private int dp(int value) {
+
+        return (int) (
+                value *
+                        getResources()
+                                .getDisplayMetrics()
+                                .density
+        );
+
+    }
+
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+
+        executor.shutdown();
+
     }
 
 }

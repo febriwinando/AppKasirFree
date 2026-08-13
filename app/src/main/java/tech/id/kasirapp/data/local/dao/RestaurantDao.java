@@ -1,6 +1,7 @@
 package tech.id.kasirapp.data.local.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -34,6 +35,9 @@ public interface RestaurantDao {
     List<Restaurant> getActiveRestaurants(
             String ownerId
     );
+
+    @Delete
+    void delete(Restaurant restaurant);
 
 
 }
