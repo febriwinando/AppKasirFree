@@ -3,6 +3,7 @@ package tech.id.kasirapp.data.local.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 import java.util.List;
 import tech.id.kasirapp.data.local.entity.Branch;
@@ -45,4 +46,19 @@ public interface BranchDao {
 
     @Query("SELECT * FROM branches WHERE restaurantId = :restaurantId")
     List<Branch> getByRestaurantId(long restaurantId);
+    @Query("UPDATE branches SET isMain = 0 WHERE restaurantId = :restaurantId")
+    void resetMainBranch(long restaurantId);
+
+    @Query("UPDATE branches SET isMain = 1 WHERE id = :branchId")
+
+    void setMainBranch(long branchId);
+    @Transaction
+    default void changeMainBranch(
+            long restaurantId,
+            long branchId
+    ) {
+
+        resetMainBranch(restaurantId);
+        setMainBranch(branchId);
+    }
 }

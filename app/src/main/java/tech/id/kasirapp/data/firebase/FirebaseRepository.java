@@ -115,4 +115,29 @@ public class FirebaseRepository {
 
     }
 
+    public void deleteBranch(
+            String firebaseId,
+            OnCompleteListener listener
+    ) {
+
+        FirebaseFirestore db =
+                FirebaseFirestore.getInstance();
+
+        db.collection("branches")
+                .document(firebaseId)
+                .delete()
+                .addOnSuccessListener(unused -> {
+
+                    listener.success();
+
+                })
+                .addOnFailureListener(e -> {
+
+                    listener.failed(
+                            e.getMessage()
+                    );
+
+                });
+    }
+
 }

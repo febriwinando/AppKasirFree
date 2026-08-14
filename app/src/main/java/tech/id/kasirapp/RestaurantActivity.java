@@ -20,11 +20,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import tech.id.kasirapp.data.firebase.FirebaseRepository;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.Branch;
@@ -1043,6 +1045,10 @@ public class RestaurantActivity extends AppCompatActivity {
                 )
         );
 
+        setupBranchLongClick(
+                row,
+                branch
+        );
 
         container.addView(
                 row
@@ -1269,35 +1275,303 @@ public class RestaurantActivity extends AppCompatActivity {
             long branchId
     ) {
 
-        /*
-         * Nanti di sini kita simpan
-         * restoran + cabang aktif.
-         *
-         * Contoh:
-         *
-         * restaurantId = 1
-         * branchId     = 2
-         *
-         * Dashboard kemudian menggunakan
-         * branchId tersebut untuk:
-         *
-         * - Produk
-         * - Order
-         * - Stok
-         * - Kasir
-         * - Laporan
-         */
+        Intent intent = new Intent(
+                RestaurantActivity.this,
+                EditBranchActivity.class
+        );
 
+        intent.putExtra(
+                "restaurant_id",
+                restaurantId
+        );
 
-        Toast.makeText(
-                this,
-                "Cabang dipilih: " + branchId,
-                Toast.LENGTH_SHORT
-        ).show();
+        intent.putExtra(
+                "branch_id",
+                branchId
+        );
 
+        startActivity(intent);
     }
 
+    private void setupBranchLongClick(
+            View branchView,
+            Branch branch
+    ) {
 
+        branchView.setOnLongClickListener(v -> {
+
+            showBranchMenu(
+                    branchView,
+                    branch
+            );
+
+            return true;
+        });
+    }
+
+    private void showBranchMenu(
+            View anchor,
+            Branch branch
+    ) {
+
+        PopupMenu popup = new PopupMenu(
+                RestaurantActivity.this,
+                anchor
+        );
+
+        popup.getMenu().add(
+                "Edit Cabang"
+        );
+
+        popup.getMenu().add(
+                "Hapus Cabang"
+        );
+        // Hanya tampilkan jika bukan cabang utama
+
+        if (!branch.isMain) {
+            popup.getMenu().add("Jadikan Cabang Utama");
+        }
+
+        popup.setOnMenuItemClickListener(item -> {
+
+            String title =
+                    item.getTitle().toString();
+
+            // =========================================
+            // EDIT CABANG
+            // =========================================
+
+            if (title.equals("Edit Cabang")) {
+
+                Intent intent = new Intent(
+                        RestaurantActivity.this,
+                        EditBranchActivity.class
+                );
+
+                intent.putExtra(
+                        "branch_id",
+                        branch.id
+                );
+
+                intent.putExtra(
+                        "restaurant_id",
+                        branch.restaurantId
+                );
+
+                startActivity(intent);
+
+                return true;
+            }
+
+            // =========================================
+
+            // JADIKAN UTAMA
+
+            // =========================================
+
+            if (title.equals("Jadikan Cabang Utama")) {
+
+                confirmChangeMainBranch(branch);
+
+                return true;
+
+            }
+            // =========================================
+            // HAPUS CABANG
+            // =========================================
+
+            if (title.equals("Hapus Cabang")) {
+
+                confirmDeleteBranch(branch);
+
+                return true;
+            }
+
+            return false;
+        });
+
+        popup.show();
+    }
+
+    private void confirmChangeMainBranch(Branch branch) {
+
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Jadikan Cabang Utama?")
+                .setMessage(
+                        "Cabang \"" +
+                                branch.name +
+                                "\" akan menjadi cabang utama.\n\n" +
+                                "Cabang utama saat ini akan otomatis menjadi cabang biasa."
+                )
+                .setNegativeButton(
+                        "Batal",
+                        null
+                )
+                .setPositiveButton(
+                        "Jadikan Utama",
+                        (dialog, which) -> {
+
+                            changeMainBranch(branch);
+
+                        }
+                )
+                .show();
+    }
+
+    private void changeMainBranch(Branch branch) {
+
+        executor.execute(() -> {
+
+            try {
+
+                // Pastikan cabang masih ada
+                Branch currentBranch =
+                        db.branchDao()
+                                .getById(branch.id);
+
+                if (currentBranch == null) {
+
+                    runOnUiThread(() -> {
+
+                        Toast.makeText(
+                                RestaurantActivity.this,
+                                "Cabang tidak ditemukan",
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+                    });
+
+                    return;
+                }
+
+                // Ganti cabang utama di Room
+                db.branchDao()
+                        .changeMainBranch(
+                                branch.restaurantId,
+                                branch.id
+                        );
+
+
+                runOnUiThread(() -> {
+
+                    Toast.makeText(
+                            RestaurantActivity.this,
+                            "\"" + branch.name +
+                                    "\" sekarang menjadi cabang utama",
+                            Toast.LENGTH_SHORT
+                    ).show();
+
+                    // Refresh tampilan
+                    loadRestaurants();
+
+                });
+
+            } catch (Exception e) {
+
+                runOnUiThread(() -> {
+
+                    Toast.makeText(
+                            RestaurantActivity.this,
+                            "Gagal mengganti cabang utama: " +
+                                    e.getMessage(),
+                            Toast.LENGTH_LONG
+                    ).show();
+
+                });
+
+            }
+
+        });
+    }
+    private void confirmDeleteBranch(Branch branch) {
+
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Hapus Cabang?")
+                .setMessage(
+                        "Yakin ingin menghapus cabang \"" +
+                                branch.name +
+                                "\"?"
+                )
+                .setNegativeButton(
+                        "Batal",
+                        null
+                )
+                .setPositiveButton(
+                        "Hapus",
+                        (dialog, which) -> {
+
+                            deleteBranch(branch);
+
+                        }
+                )
+                .show();
+    }
+    private void deleteBranch(Branch branch) {
+
+        // =========================================
+        // CABANG UTAMA
+        // =========================================
+
+        if (branch.isMain) {
+
+            Toast.makeText(
+                    this,
+                    "Cabang utama tidak dapat dihapus.",
+                    Toast.LENGTH_LONG
+            ).show();
+
+            return;
+        }
+
+        FirebaseRepository firebase =
+                new FirebaseRepository();
+
+        firebase.deleteBranch(
+                branch.firebaseId,
+
+                new FirebaseRepository.OnCompleteListener() {
+
+                    @Override
+                    public void success() {
+
+                        executor.execute(() -> {
+
+                            db.branchDao()
+                                    .deleteById(branch.id);
+
+                            runOnUiThread(() -> {
+
+                                Toast.makeText(
+                                        RestaurantActivity.this,
+                                        "Cabang berhasil dihapus",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+
+                                loadRestaurants();
+
+                            });
+
+                        });
+
+                    }
+
+                    @Override
+                    public void failed(String error) {
+
+                        runOnUiThread(() -> {
+
+                            Toast.makeText(
+                                    RestaurantActivity.this,
+                                    "Gagal menghapus cabang: " + error,
+                                    Toast.LENGTH_LONG
+                            ).show();
+
+                        });
+
+                    }
+                }
+        );
+    }
     // =========================================================
     // DP
     // =========================================================
