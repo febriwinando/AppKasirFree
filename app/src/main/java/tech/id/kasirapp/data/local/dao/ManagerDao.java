@@ -31,4 +31,9 @@ public interface ManagerDao {
 
     @Update
     void update(Manager manager);
+
+
+
+    @Query("DELETE FROM managers WHERE branchId = :branchId")
+    void deleteByBranchId(long branchId);
 }

@@ -23,8 +23,6 @@ public class EditRestaurantActivity extends AppCompatActivity {
     private TextInputEditText edtPemilik;
     private TextInputEditText edtTelepon;
     private TextInputEditText edtEmail;
-    private TextInputEditText edtAlamat;
-
     private MaterialButton btnSimpan;
 
     private AppDatabase db;
@@ -94,9 +92,6 @@ public class EditRestaurantActivity extends AppCompatActivity {
         edtEmail =
                 findViewById(R.id.edtEmail);
 
-        edtAlamat =
-                findViewById(R.id.edtAlamat);
-
         btnSimpan =
                 findViewById(R.id.btnSimpan);
     }
@@ -154,11 +149,6 @@ public class EditRestaurantActivity extends AppCompatActivity {
                 edtEmail.setText(
                         restaurant.email
                 );
-
-                edtAlamat.setText(
-                        restaurant.address
-                );
-
             });
 
         });
@@ -191,11 +181,6 @@ public class EditRestaurantActivity extends AppCompatActivity {
                         .toString()
                         .trim();
 
-        String alamat =
-                edtAlamat
-                        .getText()
-                        .toString()
-                        .trim();
 
 
         // Validasi
@@ -248,10 +233,6 @@ public class EditRestaurantActivity extends AppCompatActivity {
             restaurant.phone = telepon;
 
             restaurant.email = email;
-
-            restaurant.address = alamat;
-
-
             // Data berubah sehingga perlu
             // disinkronkan kembali
 
@@ -283,7 +264,6 @@ public class EditRestaurantActivity extends AppCompatActivity {
                 restaurant.ownerName,
                 restaurant.phone,
                 restaurant.email,
-                restaurant.address,
                 restaurant.ownerId,
                 restaurant.isActive,
                 new FirebaseRepository.OnCompleteListener() {

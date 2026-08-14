@@ -15,7 +15,6 @@ public class Restaurant {
     public String ownerName;
     public String phone;
     public String email;
-    public String address;
     public long createdAt;
     public boolean isActive;
     /*

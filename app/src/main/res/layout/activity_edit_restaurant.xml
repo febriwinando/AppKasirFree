@@ -147,30 +147,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-
-            <!-- Alamat -->
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:hint="Alamat"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusTopStart="12dp"
-                app:boxCornerRadiusTopEnd="12dp"
-                app:boxCornerRadiusBottomStart="12dp"
-                app:boxCornerRadiusBottomEnd="12dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtAlamat"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:gravity="top"
-                    android:inputType="textCapSentences|textMultiLine" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
             <!-- Tombol Simpan -->
 
             <com.google.android.material.button.MaterialButton

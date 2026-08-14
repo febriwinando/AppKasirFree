@@ -18,7 +18,6 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
     TextInputEditText edtPemilik;
     TextInputEditText edtTelepon;
     TextInputEditText edtEmail;
-    TextInputEditText edtAlamat;
     MaterialButton btnLanjutCabang;
     AppSession session;
     @Override
@@ -36,7 +35,6 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
         edtPemilik = findViewById(R.id.edtPemilik);
         edtTelepon = findViewById(R.id.edtTelepon);
         edtEmail = findViewById(R.id.edtEmail);
-        edtAlamat = findViewById(R.id.edtAlamat);
         btnLanjutCabang = findViewById(R.id.btnLanjutCabang);
 
         btnLanjutCabang.setOnClickListener(v -> {
@@ -83,21 +81,10 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
                             .getText()
                             .toString();
 
-
-
             restaurant.email =
                     edtEmail
                             .getText()
                             .toString();
-
-
-
-            restaurant.address =
-                    edtAlamat
-                            .getText()
-                            .toString();
-
-
 
             restaurant.createdAt =
                     System.currentTimeMillis();
@@ -128,7 +115,6 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
                     restaurant.ownerName,
                     restaurant.phone,
                     restaurant.email,
-                    restaurant.address,
                     restaurant.ownerId = session.ownerId,
                     restaurant.isActive = true,
                     new FirebaseRepository.OnCompleteListener(){

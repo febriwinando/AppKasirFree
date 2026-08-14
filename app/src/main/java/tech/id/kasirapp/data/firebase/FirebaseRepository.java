@@ -19,7 +19,6 @@ public class FirebaseRepository {
             String owner,
             String phone,
             String email,
-            String address,
             long ownerId,
             boolean isActive,
             OnCompleteListener listener
@@ -49,10 +48,6 @@ public class FirebaseRepository {
                 email
         );
 
-        data.put(
-                "address",
-                address
-        );
 
         data.put(
                 "createdAt",
@@ -226,6 +221,27 @@ public class FirebaseRepository {
         db.collection("managers")
                 .document(firebaseId)
                 .update(data)
+                .addOnSuccessListener(
+                        unused -> listener.success()
+                )
+                .addOnFailureListener(
+                        e -> listener.failed(
+                                e.getMessage()
+                        )
+                );
+    }
+
+    public void deleteManager(
+            String firebaseId,
+            OnCompleteListener listener
+    ) {
+
+        FirebaseFirestore db =
+                FirebaseFirestore.getInstance();
+
+        db.collection("managers")
+                .document(firebaseId)
+                .delete()
                 .addOnSuccessListener(
                         unused -> listener.success()
                 )

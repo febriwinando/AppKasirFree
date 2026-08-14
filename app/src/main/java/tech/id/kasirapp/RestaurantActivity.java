@@ -21,6 +21,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -371,36 +372,10 @@ public class RestaurantActivity extends AppCompatActivity {
         );
 
 
-        TextView tvAddress =
-                new TextView(this);
 
 
-        tvAddress.setText(
-                restaurant.address == null
-                        ? ""
-                        : restaurant.address
-        );
-
-        tvAddress.setTextColor(
-                Color.rgb(
-                        117,
-                        117,
-                        117
-                )
-        );
 
 
-        tvAddress.setTextSize(
-                13
-        );
-
-
-        tvAddress.setPadding(
-                0,
-                dp(3),
-                0,
-                0
-        );
 
 
         info.addView(
@@ -408,9 +383,6 @@ public class RestaurantActivity extends AppCompatActivity {
         );
 
 
-        info.addView(
-                tvAddress
-        );
 
 
         header.addView(
@@ -1610,11 +1582,74 @@ public class RestaurantActivity extends AppCompatActivity {
                 )
                 .show();
     }
-    private void deleteBranch(Branch branch) {
+//    private void deleteBranch(Branch branch) {
+//
+//        // =========================================
+//        // CABANG UTAMA
+//        // =========================================
+//
+//        if (branch.isMain) {
+//
+//            Toast.makeText(
+//                    this,
+//                    "Cabang utama tidak dapat dihapus.",
+//                    Toast.LENGTH_LONG
+//            ).show();
+//
+//            return;
+//        }
+//
+//        FirebaseRepository firebase =
+//                new FirebaseRepository();
+//
+//        firebase.deleteBranch(
+//                branch.firebaseId,
+//
+//                new FirebaseRepository.OnCompleteListener() {
+//
+//                    @Override
+//                    public void success() {
+//
+//                        executor.execute(() -> {
+//
+//                            db.branchDao()
+//                                    .deleteById(branch.id);
+//
+//                            runOnUiThread(() -> {
+//
+//                                Toast.makeText(
+//                                        RestaurantActivity.this,
+//                                        "Cabang berhasil dihapus",
+//                                        Toast.LENGTH_SHORT
+//                                ).show();
+//
+//                                loadRestaurants();
+//
+//                            });
+//
+//                        });
+//
+//                    }
+//
+//                    @Override
+//                    public void failed(String error) {
+//
+//                        runOnUiThread(() -> {
+//
+//                            Toast.makeText(
+//                                    RestaurantActivity.this,
+//                                    "Gagal menghapus cabang: " + error,
+//                                    Toast.LENGTH_LONG
+//                            ).show();
+//
+//                        });
+//
+//                    }
+//                }
+//        );
+//    }
 
-        // =========================================
-        // CABANG UTAMA
-        // =========================================
+    private void deleteBranch(Branch branch) {
 
         if (branch.isMain) {
 
@@ -1627,54 +1662,134 @@ public class RestaurantActivity extends AppCompatActivity {
             return;
         }
 
+        AppDatabase db =
+                DatabaseClient.getDatabase(this);
+
         FirebaseRepository firebase =
                 new FirebaseRepository();
 
-        firebase.deleteBranch(
-                branch.firebaseId,
+        executor.execute(() -> {
 
-                new FirebaseRepository.OnCompleteListener() {
+            // =====================================================
+            // CARI MANAGER CABANG
+            // =====================================================
 
-                    @Override
-                    public void success() {
+            Manager manager =
+                    db.managerDao()
+                            .getByBranchId(
+                                    branch.id
+                            );
 
-                        executor.execute(() -> {
+            runOnUiThread(() -> {
 
-                            db.branchDao()
-                                    .deleteById(branch.id);
+                // =================================================
+                // JIKA ADA MANAGER
+                // =================================================
 
-                            runOnUiThread(() -> {
+                if (manager != null) {
 
-                                Toast.makeText(
-                                        RestaurantActivity.this,
-                                        "Cabang berhasil dihapus",
-                                        Toast.LENGTH_SHORT
-                                ).show();
+                    firebase.deleteManager(
+                            manager.firebaseId,
+                            new FirebaseRepository.OnCompleteListener() {
 
-                                loadRestaurants();
+                                @Override
+                                public void success() {
 
-                            });
+                                    deleteBranchLocal(
+                                            db,
+                                            branch
+                                    );
+                                }
 
-                        });
+                                @Override
+                                public void failed(
+                                        String error
+                                ) {
 
-                    }
+                                    Toast.makeText(
+                                            RestaurantActivity.this,
+                                            "Gagal menghapus Manager: " + error,
+                                            Toast.LENGTH_LONG
+                                    ).show();
+                                }
+                            }
+                    );
 
-                    @Override
-                    public void failed(String error) {
+                } else {
 
-                        runOnUiThread(() -> {
+                    // Tidak ada manager,
+                    // langsung hapus cabang
 
-                            Toast.makeText(
-                                    RestaurantActivity.this,
-                                    "Gagal menghapus cabang: " + error,
-                                    Toast.LENGTH_LONG
-                            ).show();
-
-                        });
-
-                    }
+                    deleteBranchLocal(
+                            db,
+                            branch
+                    );
                 }
-        );
+
+            });
+
+        });
+    }
+
+    public void deleteManager(
+            String firebaseId,
+            FirebaseRepository.OnCompleteListener listener
+    ) {
+
+        FirebaseFirestore db =
+                FirebaseFirestore.getInstance();
+
+        db.collection("managers")
+                .document(firebaseId)
+                .delete()
+                .addOnSuccessListener(
+                        unused -> listener.success()
+                )
+                .addOnFailureListener(
+                        e -> listener.failed(
+                                e.getMessage()
+                        )
+                );
+    }
+
+    private void deleteBranchLocal(
+            AppDatabase db,
+            Branch branch
+    ) {
+
+        executor.execute(() -> {
+
+            // =====================================================
+            // HAPUS MANAGER DARI ROOM
+            // =====================================================
+
+            db.managerDao()
+                    .deleteByBranchId(
+                            branch.id
+                    );
+
+            // =====================================================
+            // HAPUS CABANG DARI ROOM
+            // =====================================================
+
+            db.branchDao()
+                    .deleteById(
+                            branch.id
+                    );
+
+            runOnUiThread(() -> {
+
+                Toast.makeText(
+                        RestaurantActivity.this,
+                        "Cabang dan Manager berhasil dihapus",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                loadRestaurants();
+
+            });
+
+        });
     }
     // =========================================================
     // DP
