@@ -11,7 +11,7 @@
         android:id="@+id/imgLogo"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/restaurant"
+        android:src="@drawable/restaurantputih"
         android:contentDescription="Logo KasirAPP"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@+id/tvAppName"
