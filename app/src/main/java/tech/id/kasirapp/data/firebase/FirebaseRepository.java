@@ -1,4 +1,5 @@
 package tech.id.kasirapp.data.firebase;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -138,6 +139,101 @@ public class FirebaseRepository {
                     );
 
                 });
+    }
+    public void saveManager(
+            String firebaseId,
+            String branchFirebaseId,
+            String name,
+            String username,
+            String password,
+            String phone,
+            OnCompleteListener listener
+    ) {
+
+        Map<String, Object> data =
+                new HashMap<>();
+
+        data.put("id", firebaseId);
+        data.put("branch_id", branchFirebaseId);
+        data.put("name", name);
+        data.put("username", username);
+        data.put("password", password);
+        data.put("phone", phone);
+
+        data.put(
+                "created_at",
+                FieldValue.serverTimestamp()
+        );
+
+        firestore.collection("managers")
+                .document(firebaseId)
+                .set(data)
+                .addOnSuccessListener(unused -> {
+
+                    listener.success();
+
+                })
+                .addOnFailureListener(e -> {
+
+                    listener.failed(
+                            e.getMessage()
+                    );
+
+                });
+    }
+
+    public void updateManager(
+            String firebaseId,
+            long branchId,
+            String name,
+            String username,
+            String password,
+            String phone,
+            OnCompleteListener listener
+    ) {
+
+        FirebaseFirestore db =
+                FirebaseFirestore.getInstance();
+
+        Map<String, Object> data =
+                new HashMap<>();
+
+        data.put(
+                "branchId",
+                branchId
+        );
+
+        data.put(
+                "name",
+                name
+        );
+
+        data.put(
+                "username",
+                username
+        );
+
+        data.put(
+                "password",
+                password
+        );
+
+        data.put(
+                "phone",
+                phone
+        );
+
+        db.collection("managers")
+                .document(firebaseId)
+                .update(data)
+                .addOnSuccessListener(
+                        unused -> listener.success()
+                )
+                .addOnFailureListener(
+                        e -> listener.failed(
+                                e.getMessage()
+                        )
+                );
     }
 
 }

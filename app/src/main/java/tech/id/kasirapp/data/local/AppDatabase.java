@@ -9,11 +9,13 @@ import tech.id.kasirapp.data.local.entity.*;
         Restaurant.class,
         Branch.class,
         Owner.class,
-        AppSession.class},
+        AppSession.class,
+        Manager.class},
         version=1)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract RestaurantDao restaurantDao();
     public abstract BranchDao branchDao();
     public abstract OwnerDao ownerDao();
     public abstract SessionDao sessionDao();
+    public abstract ManagerDao managerDao();
 }

@@ -30,6 +30,7 @@ import tech.id.kasirapp.data.firebase.FirebaseRepository;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.Branch;
+import tech.id.kasirapp.data.local.entity.Manager;
 import tech.id.kasirapp.data.local.entity.Restaurant;
 
 public class RestaurantActivity extends AppCompatActivity {
@@ -1319,78 +1320,181 @@ public class RestaurantActivity extends AppCompatActivity {
                 anchor
         );
 
-        popup.getMenu().add(
-                "Edit Cabang"
-        );
-
-        popup.getMenu().add(
-                "Hapus Cabang"
-        );
-        // Hanya tampilkan jika bukan cabang utama
+        popup.getMenu().add("Edit Cabang");
 
         if (!branch.isMain) {
             popup.getMenu().add("Jadikan Cabang Utama");
         }
 
-        popup.setOnMenuItemClickListener(item -> {
+        popup.getMenu().add("Hapus Cabang");
 
-            String title =
-                    item.getTitle().toString();
+        // =====================================================
+        // CEK MANAGER CABANG
+        // =====================================================
 
-            // =========================================
-            // EDIT CABANG
-            // =========================================
+        executor.execute(() -> {
 
-            if (title.equals("Edit Cabang")) {
+            Manager manager =
+                    db.managerDao()
+                            .getByBranchId(branch.id);
 
-                Intent intent = new Intent(
-                        RestaurantActivity.this,
-                        EditBranchActivity.class
-                );
+            runOnUiThread(() -> {
 
-                intent.putExtra(
-                        "branch_id",
-                        branch.id
-                );
+                if (manager == null) {
 
-                intent.putExtra(
-                        "restaurant_id",
-                        branch.restaurantId
-                );
+                    // Belum memiliki manager
+                    popup.getMenu().add(
+                            "Tambah Manager Cabang"
+                    );
 
-                startActivity(intent);
+                } else {
 
-                return true;
-            }
+                    // Sudah memiliki manager
+                    popup.getMenu().add(
+                            "Edit Manager Cabang"
+                    );
+                }
 
-            // =========================================
+                // =================================================
+                // MENU CLICK
+                // =================================================
 
-            // JADIKAN UTAMA
+                popup.setOnMenuItemClickListener(item -> {
 
-            // =========================================
+                    String title =
+                            item.getTitle().toString();
 
-            if (title.equals("Jadikan Cabang Utama")) {
 
-                confirmChangeMainBranch(branch);
+                    // =================================================
+                    // EDIT CABANG
+                    // =================================================
 
-                return true;
+                    if (title.equals("Edit Cabang")) {
 
-            }
-            // =========================================
-            // HAPUS CABANG
-            // =========================================
+                        Intent intent = new Intent(
+                                RestaurantActivity.this,
+                                EditBranchActivity.class
+                        );
 
-            if (title.equals("Hapus Cabang")) {
+                        intent.putExtra(
+                                "branch_id",
+                                branch.id
+                        );
 
-                confirmDeleteBranch(branch);
+                        intent.putExtra(
+                                "restaurant_id",
+                                branch.restaurantId
+                        );
 
-                return true;
-            }
+                        startActivity(intent);
 
-            return false;
+                        return true;
+                    }
+
+
+                    // =================================================
+                    // JADIKAN CABANG UTAMA
+                    // =================================================
+
+                    if (title.equals(
+                            "Jadikan Cabang Utama"
+                    )) {
+
+                        confirmChangeMainBranch(
+                                branch
+                        );
+
+                        return true;
+                    }
+
+
+                    // =================================================
+                    // HAPUS CABANG
+                    // =================================================
+
+                    if (title.equals(
+                            "Hapus Cabang"
+                    )) {
+
+                        confirmDeleteBranch(
+                                branch
+                        );
+
+                        return true;
+                    }
+
+
+                    // =================================================
+                    // TAMBAH MANAGER
+                    // =================================================
+
+                    if (title.equals(
+                            "Tambah Manager Cabang"
+                    )) {
+
+                        Intent intent = new Intent(
+                                RestaurantActivity.this,
+                                RegisterManagerActivity.class
+                        );
+
+                        intent.putExtra(
+                                "restaurant_id",
+                                branch.restaurantId
+                        );
+
+                        intent.putExtra(
+                                "branch_id",
+                                branch.id
+                        );
+
+                        startActivity(intent);
+
+                        return true;
+                    }
+
+
+                    // =================================================
+                    // EDIT MANAGER
+                    // =================================================
+
+                    if (title.equals(
+                            "Edit Manager Cabang"
+                    )) {
+
+                        Intent intent = new Intent(
+                                RestaurantActivity.this,
+                                EditManagerActivity.class
+                        );
+
+                        intent.putExtra(
+                                "restaurant_id",
+                                branch.restaurantId
+                        );
+
+                        intent.putExtra(
+                                "branch_id",
+                                branch.id
+                        );
+
+                        intent.putExtra(
+                                "manager_id",
+                                manager.id
+                        );
+
+                        startActivity(intent);
+
+                        return true;
+                    }
+
+
+                    return false;
+                });
+
+                popup.show();
+
+            });
+
         });
-
-        popup.show();
     }
 
     private void confirmChangeMainBranch(Branch branch) {
