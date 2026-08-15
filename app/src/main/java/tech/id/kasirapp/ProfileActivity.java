@@ -4,18 +4,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import tech.id.kasirapp.data.local.AppDatabase;
+import tech.id.kasirapp.data.local.DatabaseClient;
 
 
 public class ProfileActivity extends AppCompatActivity {
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     private TextView tvAvatar;
     private TextView tvOwnerName;
@@ -27,11 +33,14 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvRestaurantName;
     private TextView tvBranchName;
     MaterialCardView cardRestaurant;
-    @Override
+    private AppDatabase db;
+    MaterialButton btnLogout;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        db = DatabaseClient.getDatabase(this);
 
         initView();
         setupToolbar();
@@ -50,7 +59,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvRestaurantName = findViewById(R.id.tvRestaurantName);
         tvBranchName = findViewById(R.id.tvBranchName);
         cardRestaurant = findViewById(R.id.cardRestaurant);
-
+        btnLogout = findViewById(R.id.btnLogout);
 
         cardRestaurant.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,8 +69,12 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
-
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
     }
 
     private void setupToolbar() {
@@ -69,11 +82,9 @@ public class ProfileActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> {
             finish();
         });
-
     }
 
     private void loadProfile() {
-
         // Sementara data dummy
         // Nanti diganti dengan data dari Room
         String name = "Nama Pemilik";
@@ -88,10 +99,57 @@ public class ProfileActivity extends AppCompatActivity {
         tvAvatar.setText(
                 name.substring(0, 1).toUpperCase()
         );
-
         tvRestaurantName.setText("Nama Restoran");
         tvBranchName.setText("Cabang Utama");
-
     }
 
+    private void logout() {
+
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Keluar dari akun?")
+                .setMessage(
+                        "Anda akan keluar dari akun ini pada perangkat."
+                )
+                .setNegativeButton(
+                        "Batal",
+                        null
+                )
+                .setPositiveButton(
+                        "Keluar",
+                        (dialog, which) -> {
+
+                            executor.execute(() -> {
+
+                                // Hanya hapus session
+                                db.sessionDao().logout();
+
+                                runOnUiThread(() -> {
+
+                                    Toast.makeText(
+                                            ProfileActivity.this,
+                                            "Berhasil keluar",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+
+                                    Intent intent =
+                                            new Intent(
+                                                    ProfileActivity.this,
+                                                    LoginActivity.class
+                                            );
+
+                                    intent.setFlags(
+                                            Intent.FLAG_ACTIVITY_NEW_TASK |
+                                                    Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    );
+
+                                    startActivity(intent);
+
+                                });
+
+                            });
+
+                        }
+                )
+                .show();
+    }
 }

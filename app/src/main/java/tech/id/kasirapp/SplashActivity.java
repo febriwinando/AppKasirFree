@@ -30,44 +30,193 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void checkSession() {
+
         executor.execute(() -> {
-            AppSession session = DatabaseClient
-                    .getDatabase(SplashActivity.this)
-                    .sessionDao()
-                    .getSession();
+
+            AppSession session =
+                    DatabaseClient
+                            .getDatabase(SplashActivity.this)
+                            .sessionDao()
+                            .getSession();
 
             runOnUiThread(() -> {
-                if (session != null && session.isLoggedIn) {
-                    // Sudah login
-                    Intent intent = new Intent(
-                            SplashActivity.this,
-                            DashboardOwnerActivity.class
 
-                    );
+                // =========================================
+                // BELUM LOGIN
+                // =========================================
+
+                if (session == null || !session.isLoggedIn) {
+
+                    Intent intent =
+                            new Intent(
+                                    SplashActivity.this,
+                                    RegisterOwnerActivity.class
+                            );
+
+                    startActivity(intent);
+
+                    finish();
+
+                    return;
+                }
+
+
+                // =========================================
+                // SUDAH LOGIN
+                // =========================================
+
+                Intent intent;
+
+
+                // =========================================
+                // OWNER
+                // =========================================
+
+                if ("OWNER".equals(session.role)) {
+
+                    intent =
+                            new Intent(
+                                    SplashActivity.this,
+                                    DashboardOwnerActivity.class
+                            );
+
                     intent.putExtra(
                             "owner_id",
                             session.ownerId
                     );
 
-                    startActivity(intent);
-
-                } else {
-
-                    // Belum login
-                    Intent intent = new Intent(
-                            SplashActivity.this,
-                            RegisterOwnerActivity.class
+                    intent.putExtra(
+                            "restaurant_id",
+                            session.restaurantId
                     );
-                    startActivity(intent);
+
+                    intent.putExtra(
+                            "branch_id",
+                            session.branchId
+                    );
 
                 }
-                // Splash tidak boleh kembali lagi
+
+
+                // =========================================
+                // MANAGER
+                // =========================================
+
+                else if ("MANAGER".equals(session.role)) {
+
+                    intent =
+                            new Intent(
+                                    SplashActivity.this,
+                                    DashboardManagerActivity.class
+                            );
+
+                    intent.putExtra(
+                            "owner_id",
+                            session.ownerId
+                    );
+
+                    intent.putExtra(
+                            "restaurant_id",
+                            session.restaurantId
+                    );
+
+                    intent.putExtra(
+                            "branch_id",
+                            session.branchId
+                    );
+
+                }
+
+
+                // =========================================
+                // CASHIER
+                // =========================================
+
+                else if ("CASHIER".equals(session.role)) {
+
+                    intent =
+                            new Intent(
+                                    SplashActivity.this,
+                                    DashboardCashierActivity.class
+                            );
+
+                    intent.putExtra(
+                            "branch_id",
+                            session.branchId
+                    );
+
+                }
+
+
+                // =========================================
+                // WAITER
+                // =========================================
+
+                else if ("WAITER".equals(session.role)) {
+
+                    intent =
+                            new Intent(
+                                    SplashActivity.this,
+                                    DashboardWaiterActivity.class
+                            );
+
+                    intent.putExtra(
+                            "branch_id",
+                            session.branchId
+                    );
+
+                }
+
+
+                // =========================================
+                // KITCHEN
+                // =========================================
+
+                else if ("KITCHEN".equals(session.role)) {
+
+                    intent =
+                            new Intent(
+                                    SplashActivity.this,
+                                    DashboardKitchenActivity.class
+                            );
+
+                    intent.putExtra(
+                            "branch_id",
+                            session.branchId
+                    );
+
+                }
+
+
+                // =========================================
+                // ROLE TIDAK DIKENAL
+                // =========================================
+
+                else {
+
+                    // Session tidak valid
+                    DatabaseClient
+                            .getDatabase(SplashActivity.this)
+                            .sessionDao()
+                            .logout();
+
+                    intent =
+                            new Intent(
+                                    SplashActivity.this,
+                                    RegisterOwnerActivity.class
+                            );
+
+                }
+
+
+                startActivity(intent);
+
+                // Splash tidak boleh kembali
                 finish();
 
             });
 
         });
-
     }
 
     @Override

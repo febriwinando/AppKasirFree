@@ -12,9 +12,10 @@ public interface SessionDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(AppSession session);
+
     @Query("SELECT * FROM app_session WHERE id = 1")
     AppSession getSession();
+
     @Query("DELETE FROM app_session")
     void logout();
-
 }
