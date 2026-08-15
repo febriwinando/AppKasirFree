@@ -105,6 +105,16 @@
                     android:background="@drawable/bg_button"
                     app:cornerRadius="16dp"/>
 
+                <TextView
+                    android:id="@+id/txtRegistrasi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="18dp"
+                    android:text="Belum punya akun restoran? Buat baru"
+                    android:textColor="@color/gray"
+                    android:textStyle="bold"/>
+
                 <ProgressBar
                     android:id="@+id/progress"
                     android:layout_width="wrap_content"

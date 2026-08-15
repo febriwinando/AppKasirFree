@@ -9,20 +9,17 @@ public class AppSession {
     @PrimaryKey
     public int id = 1;
 
-    // Owner
-    public long ownerId;
+    public long userId;
 
     public String uuid;
 
-    // Login
-    public boolean isLoggedIn;
+    public String role;
 
-    // Restoran aktif
+    public long ownerId;
+
     public long restaurantId;
 
-    // Cabang aktif
     public long branchId;
 
-    // Role pengguna
-    public String role;
+    public boolean isLoggedIn;
 }
