@@ -252,4 +252,108 @@ public class FirebaseRepository {
                 );
     }
 
+    public void saveWaiter(
+            String firebaseId,
+            long branchId,
+            String name,
+            String username,
+            String password,
+            String phone,
+            OnCompleteListener listener
+    ) {
+
+        FirebaseFirestore db =
+                FirebaseFirestore.getInstance();
+
+        Map<String, Object> data =
+                new HashMap<>();
+
+        data.put("branchId", branchId);
+        data.put("name", name);
+        data.put("username", username);
+        data.put("password", password);
+        data.put("phone", phone);
+
+        db.collection("waiters")
+                .document(firebaseId)
+                .set(data)
+                .addOnSuccessListener(
+                        unused -> listener.success()
+                )
+                .addOnFailureListener(
+                        e -> listener.failed(
+                                e.getMessage()
+                        )
+                );
+    }
+
+    public void saveCashier(
+            String firebaseId,
+            long branchId,
+            String name,
+            String username,
+            String password,
+            String phone,
+            OnCompleteListener listener
+    ) {
+
+        FirebaseFirestore db =
+                FirebaseFirestore.getInstance();
+
+        Map<String, Object> data =
+                new HashMap<>();
+
+        data.put("branchId", branchId);
+        data.put("name", name);
+        data.put("username", username);
+        data.put("password", password);
+        data.put("phone", phone);
+
+        db.collection("cashiers")
+                .document(firebaseId)
+                .set(data)
+                .addOnSuccessListener(
+                        unused -> listener.success()
+                )
+                .addOnFailureListener(
+                        e -> listener.failed(
+                                e.getMessage()
+                        )
+                );
+    }
+    public void saveKitchenStaff(
+            String firebaseId,
+            long branchId,
+            String name,
+            String username,
+            String password,
+            String phone,
+            OnCompleteListener listener
+    ) {
+
+        FirebaseFirestore db =
+                FirebaseFirestore.getInstance();
+
+        Map<String, Object> data =
+                new HashMap<>();
+
+        data.put("branchId", branchId);
+        data.put("name", name);
+        data.put("username", username);
+        data.put("password", password);
+        data.put("phone", phone);
+
+        db.collection("kitchen_staff")
+                .document(firebaseId)
+                .set(data)
+                .addOnSuccessListener(
+                        unused -> listener.success()
+                )
+                .addOnFailureListener(
+                        e -> listener.failed(
+                                e.getMessage()
+                        )
+                );
+    }
+
 }
