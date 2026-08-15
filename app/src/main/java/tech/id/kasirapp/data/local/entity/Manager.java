@@ -11,16 +11,17 @@ import androidx.room.Entity;
 
 import androidx.room.PrimaryKey;
 
-
 @Entity(tableName = "managers")
-
 public class Manager {
 
     @PrimaryKey(autoGenerate = true)
-
     public long id;
 
+    // ID dokumen Firebase
     public String firebaseId;
+
+    // ID Firebase cabang
+    public String branchFirebaseId;
 
     public long branchId;
 
@@ -33,11 +34,4 @@ public class Manager {
     public String phone;
 
     public int syncStatus;
-
-    // 0 = belum sync
-
-    // 1 = berhasil sync
-
-    // 2 = gagal sync
-
 }

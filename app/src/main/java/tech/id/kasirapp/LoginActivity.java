@@ -395,7 +395,6 @@ public class LoginActivity extends AppCompatActivity {
         String passwordHash =
                 doc.getString("password");
 
-
         if (!verifikasiPassword(
                 password,
                 passwordHash
@@ -408,47 +407,35 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-
-        long userId =
-                getLong(doc, "id");
-
-
-        String uuid =
-                doc.getId();
-
-
         AppSession session =
                 new AppSession();
 
         session.id = 1;
 
         session.userId =
-                userId;
+                getLongSafe(doc, "id");
 
         session.uuid =
-                uuid;
+                doc.getId();
 
         session.role =
                 "OWNER";
 
         session.ownerId =
-                userId;
+                getLongSafe(doc, "id");
 
-        session.restaurantId =
-                0;
+        session.restaurantId = 0;
 
-        session.branchId =
-                0;
+        session.branchId = 0;
 
-        session.isLoggedIn =
-                true;
-
+        session.isLoggedIn = true;
 
         simpanSession(
                 session,
                 DashboardOwnerActivity.class
         );
     }
+
     private void prosesLoginManager(
             DocumentSnapshot doc,
             String password
@@ -458,10 +445,15 @@ public class LoginActivity extends AppCompatActivity {
                 doc.getString("password");
 
 
-        if (!verifikasiPassword(
-                password,
-                passwordHash
-        )) {
+        // =========================================
+        // CEK PASSWORD
+        // =========================================
+
+        if (passwordHash == null ||
+                !verifikasiPassword(
+                        password,
+                        passwordHash
+                )) {
 
             loginGagal(
                     "Username atau password salah"
@@ -471,39 +463,93 @@ public class LoginActivity extends AppCompatActivity {
         }
 
 
+        // =========================================
+        // BUAT SESSION
+        // =========================================
+
         AppSession session =
                 new AppSession();
 
         session.id = 1;
 
+
+        // =========================================
+        // ID USER
+        // =========================================
+
         session.userId =
-                getLong(doc, "id");
+                getLongSafe(
+                        doc,
+                        "id"
+                );
+
+
+        // =========================================
+        // ID FIREBASE
+        // =========================================
 
         session.uuid =
                 doc.getId();
 
+
+        // =========================================
+        // ROLE
+        // =========================================
+
         session.role =
                 "MANAGER";
 
+
+        // =========================================
+        // OWNER
+        // =========================================
+
         session.ownerId =
-                getLong(doc, "ownerId");
+                getLongSafe(
+                        doc,
+                        "ownerId"
+                );
+
+
+        // =========================================
+        // RESTAURANT
+        // =========================================
 
         session.restaurantId =
-                getLong(doc, "restaurantId");
+                getLongSafe(
+                        doc,
+                        "restaurantId"
+                );
+
+
+        // =========================================
+        // BRANCH
+        // =========================================
 
         session.branchId =
-                getLong(doc, "branchId");
+                getLongSafe(
+                        doc,
+                        "branchId"
+                );
+
+
+        // =========================================
+        // STATUS LOGIN
+        // =========================================
 
         session.isLoggedIn =
                 true;
 
+
+        // =========================================
+        // SIMPAN SESSION
+        // =========================================
 
         simpanSession(
                 session,
                 DashboardManagerActivity.class
         );
     }
-
     private void prosesLoginWaiter(
             DocumentSnapshot doc,
             String password
@@ -527,23 +573,24 @@ public class LoginActivity extends AppCompatActivity {
 
         session.id = 1;
 
-        session.userId =
-                getLong(doc, "id");
 
         session.uuid =
                 doc.getId();
 
-        session.role =
-                "WAITER";
+        session.userId =
+                getLongSafe(doc, "id");
 
         session.ownerId =
-                getLong(doc, "ownerId");
+                getLongSafe(doc, "ownerId");
 
         session.restaurantId =
-                getLong(doc, "restaurantId");
+                getLongSafe(doc, "restaurantId");
 
         session.branchId =
-                getLong(doc, "branchId");
+                getLongSafe(doc, "branchId");
+
+        session.role =
+                "WAITER";
 
         session.isLoggedIn =
                 true;
@@ -575,26 +622,26 @@ public class LoginActivity extends AppCompatActivity {
 
         AppSession session =
                 new AppSession();
-
         session.id = 1;
 
         session.userId =
-                getLong(doc, "id");
+                getLongSafe(doc, "id");
+
+        session.ownerId =
+                getLongSafe(doc, "ownerId");
+
+        session.restaurantId =
+                getLongSafe(doc, "restaurantId");
+
+        session.branchId =
+                getLongSafe(doc, "branchId");
+
 
         session.uuid =
                 doc.getId();
 
         session.role =
                 "KASIR";
-
-        session.ownerId =
-                getLong(doc, "ownerId");
-
-        session.restaurantId =
-                getLong(doc, "restaurantId");
-
-        session.branchId =
-                getLong(doc, "branchId");
 
         session.isLoggedIn =
                 true;
@@ -630,22 +677,22 @@ public class LoginActivity extends AppCompatActivity {
         session.id = 1;
 
         session.userId =
-                getLong(doc, "id");
+                getLongSafe(doc, "id");
+
+        session.ownerId =
+                getLongSafe(doc, "ownerId");
+
+        session.restaurantId =
+                getLongSafe(doc, "restaurantId");
+
+        session.branchId =
+                getLongSafe(doc, "branchId");
 
         session.uuid =
                 doc.getId();
 
         session.role =
                 "DAPUR";
-
-        session.ownerId =
-                getLong(doc, "ownerId");
-
-        session.restaurantId =
-                getLong(doc, "restaurantId");
-
-        session.branchId =
-                getLong(doc, "branchId");
 
         session.isLoggedIn =
                 true;
@@ -753,16 +800,39 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private long getLong(
+    private long getLongSafe(
             DocumentSnapshot doc,
             String field
     ) {
 
-        Long value = doc.getLong(field);
+        Object value =
+                doc.get(field);
 
-        return value != null
-                ? value
-                : 0;
+        if (value == null) {
+            return 0;
+        }
+
+        if (value instanceof Number) {
+
+            return ((Number) value).longValue();
+
+        }
+
+        if (value instanceof String) {
+
+            try {
+
+                return Long.parseLong(
+                        (String) value
+                );
+
+            } catch (NumberFormatException e) {
+
+                return 0;
+            }
+        }
+
+        return 0;
     }
 
     @Override

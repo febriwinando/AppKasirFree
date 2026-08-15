@@ -62,7 +62,7 @@ public class RegisterOwnerActivity extends AppCompatActivity {
         }
 
         Owner owner = new Owner();
-        owner.uuid = UUID.randomUUID().toString();
+        owner.firebaseId = UUID.randomUUID().toString();
         owner.name = nama;
         owner.username = username;
         owner.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());
@@ -103,7 +103,7 @@ public class RegisterOwnerActivity extends AppCompatActivity {
 
                     AppSession session = new AppSession();
                     session.ownerId = owner.id;
-                    session.uuid = owner.uuid;
+                    session.uuid = owner.firebaseId;
                     session.isLoggedIn = true;
 
                     DatabaseClient

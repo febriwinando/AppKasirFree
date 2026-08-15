@@ -21,5 +21,11 @@ public class AppSession {
 
     public long branchId;
 
+    public String ownerFirebaseId;
+
+    public String restaurantFirebaseId;
+
+    public String branchFirebaseId;
+
     public boolean isLoggedIn;
 }

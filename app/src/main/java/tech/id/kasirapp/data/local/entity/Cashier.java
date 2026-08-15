@@ -10,13 +10,13 @@ public class Cashier {
     @PrimaryKey(autoGenerate = true)
     public long id;
 
-    // ID dokumen Firebase
     public String firebaseId;
 
-    // Cabang tempat kasir bekerja
+    // ID Firebase cabang
+    public String branchFirebaseId;
+
     public long branchId;
 
-    // Identitas
     public String name;
 
     public String username;
@@ -24,11 +24,6 @@ public class Cashier {
     public String password;
 
     public String phone;
-
-    // Status sinkronisasi
-    // 0 = belum sync
-    // 1 = berhasil sync
-    // 2 = gagal sync
 
     public int syncStatus;
 }
