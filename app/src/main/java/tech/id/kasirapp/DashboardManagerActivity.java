@@ -406,7 +406,7 @@ public class DashboardManagerActivity extends AppCompatActivity {
             Intent intent =
                     new Intent(
                             this,
-                            EditBranchActivity.class
+                            BranchSettingsActivity.class
                     );
 
             intent.putExtra(
