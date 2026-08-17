@@ -138,6 +138,7 @@ public class FirebaseRepository {
     public void saveManager(
             String firebaseId,
             String branchFirebaseId,
+            long branchId,
             String name,
             String username,
             String password,
@@ -150,6 +151,7 @@ public class FirebaseRepository {
 
         data.put("id", firebaseId);
         data.put("branch_id", branchFirebaseId);
+        data.put("branchId", branchId);
         data.put("name", name);
         data.put("username", username);
         data.put("password", password);

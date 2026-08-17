@@ -256,6 +256,7 @@ public class RegisterManagerActivity extends AppCompatActivity {
             firebase.saveManager(
                     firebaseId,
                     branch.firebaseId,
+                    branchId,
                     nama,
                     username,
                     passwordHash,
