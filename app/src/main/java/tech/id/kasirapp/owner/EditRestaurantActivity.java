@@ -1,4 +1,4 @@
-package tech.id.kasirapp;
+package tech.id.kasirapp.owner;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -9,6 +9,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import tech.id.kasirapp.R;
 import tech.id.kasirapp.data.firebase.FirebaseRepository;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;

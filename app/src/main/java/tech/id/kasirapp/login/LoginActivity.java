@@ -1,4 +1,4 @@
-package tech.id.kasirapp;
+package tech.id.kasirapp.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import tech.id.kasirapp.R;
 import tech.id.kasirapp.dashboard.DashboardCashierActivity;
 import tech.id.kasirapp.dashboard.DashboardKitchenActivity;
 import tech.id.kasirapp.dashboard.DashboardManagerActivity;

@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KasirAPP">
         <activity
-            android:name=".SplashActivity"
+            android:name=".login.SplashActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -31,13 +31,8 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".LoginActivity"
+            android:name=".login.LoginActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -61,11 +56,11 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".RestaurantActivity"
+            android:name=".owner.RestaurantActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".EditRestaurantActivity"
+            android:name=".owner.EditRestaurantActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -73,7 +68,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".EditBranchActivity"
+            android:name=".owner.EditBranchActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -81,7 +76,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".EditManagerActivity"
+            android:name=".owner.EditManagerActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -113,7 +108,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".CashierActivity"
+            android:name=".chasier.CashierActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -133,7 +128,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".owner.BranchSettingsActivity"
+            android:name=".manager.BranchSettingsActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>

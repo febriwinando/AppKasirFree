@@ -1,4 +1,4 @@
-package tech.id.kasirapp;
+package tech.id.kasirapp.owner;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import tech.id.kasirapp.BranchActivity;
+import tech.id.kasirapp.R;
 import tech.id.kasirapp.data.firebase.FirebaseRepository;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;

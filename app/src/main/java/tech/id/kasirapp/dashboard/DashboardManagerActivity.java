@@ -13,11 +13,11 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import tech.id.kasirapp.owner.BranchSettingsActivity;
-import tech.id.kasirapp.CashierActivity;
+import tech.id.kasirapp.manager.BranchSettingsActivity;
+import tech.id.kasirapp.chasier.CashierActivity;
 import tech.id.kasirapp.EmployeeActivity;
 import tech.id.kasirapp.kitchenstaf.KitchenActivity;
-import tech.id.kasirapp.LoginActivity;
+import tech.id.kasirapp.login.LoginActivity;
 import tech.id.kasirapp.OrderActivity;
 import tech.id.kasirapp.product.ProductActivity;
 import tech.id.kasirapp.R;
