@@ -112,6 +112,130 @@ public class FirebaseRepository {
 
     }
 
+    public void updateBranch(
+            String firebaseId,
+
+            String name,
+            String address,
+            String phone,
+
+            String openTime,
+            String closeTime,
+
+            boolean isMain,
+
+            double tax,
+            double serviceCharge,
+
+            boolean dineIn,
+            boolean takeAway,
+            boolean delivery,
+
+            boolean sendToKitchen,
+            boolean automaticStock,
+            boolean allowNegativeStock,
+
+            OnCompleteListener listener
+    ) {
+
+        Map<String, Object> data =
+                new HashMap<>();
+
+
+        data.put(
+                "name",
+                name
+        );
+
+        data.put(
+                "address",
+                address
+        );
+
+        data.put(
+                "phone",
+                phone
+        );
+
+        data.put(
+                "openTime",
+                openTime
+        );
+
+        data.put(
+                "closeTime",
+                closeTime
+        );
+
+        data.put(
+                "isMain",
+                isMain
+        );
+
+
+        // Pajak & service
+
+        data.put(
+                "tax",
+                tax
+        );
+
+        data.put(
+                "serviceCharge",
+                serviceCharge
+        );
+
+
+        // Metode penjualan
+
+        data.put(
+                "dineIn",
+                dineIn
+        );
+
+        data.put(
+                "takeAway",
+                takeAway
+        );
+
+        data.put(
+                "delivery",
+                delivery
+        );
+
+
+        // Operasional
+
+        data.put(
+                "sendToKitchen",
+                sendToKitchen
+        );
+
+        data.put(
+                "automaticStock",
+                automaticStock
+        );
+
+        data.put(
+                "allowNegativeStock",
+                allowNegativeStock
+        );
+
+
+        firestore
+                .collection("branches")
+                .document(firebaseId)
+                .update(data)
+                .addOnSuccessListener(
+                        unused -> listener.success()
+                )
+                .addOnFailureListener(
+                        e -> listener.failed(
+                                e.getMessage()
+                        )
+                );
+    }
+
     public void deleteBranch(
             String firebaseId,
             OnCompleteListener listener

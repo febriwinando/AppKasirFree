@@ -82,6 +82,7 @@ public class EditBranchActivity extends AppCompatActivity {
 
         btnSimpan =
                 findViewById(R.id.btnSimpan);
+
     }
 
     private void loadBranch() {

@@ -10,6 +10,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputEditText;
 
+import tech.id.kasirapp.data.firebase.FirebaseRepository;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.AppSession;
@@ -68,47 +69,23 @@ public class BranchSettingsActivity extends AppCompatActivity {
 
     private void initView() {
 
-        edtNamaCabang =
-                findViewById(R.id.edtNamaCabang);
+        edtNamaCabang = findViewById(R.id.edtNamaCabang);
+        edtAlamat = findViewById(R.id.edtAlamat);
+        edtTelepon = findViewById(R.id.edtTelepon);
+        edtJamBuka = findViewById(R.id.edtJamBuka);
+        edtJamTutup = findViewById(R.id.edtJamTutup);
+        edtPajak = findViewById(R.id.edtPajak);
+        edtServiceCharge = findViewById(R.id.edtServiceCharge);
+        switchDineIn = findViewById(R.id.switchDineIn);
+        switchTakeAway = findViewById(R.id.switchTakeAway);
+        switchDelivery = findViewById(R.id.switchDelivery);
+        switchKirimDapur = findViewById(R.id.switchKirimDapur);
+        switchStokOtomatis = findViewById(R.id.switchStokOtomatis);
+        switchStokNegatif = findViewById(R.id.switchStokNegatif);
 
-        edtAlamat =
-                findViewById(R.id.edtAlamat);
+        btnSimpan = findViewById(R.id.btnSimpan);
 
-        edtTelepon =
-                findViewById(R.id.edtTelepon);
 
-        edtJamBuka =
-                findViewById(R.id.edtJamBuka);
-
-        edtJamTutup =
-                findViewById(R.id.edtJamTutup);
-
-        edtPajak =
-                findViewById(R.id.edtPajak);
-
-        edtServiceCharge =
-                findViewById(R.id.edtServiceCharge);
-
-        switchDineIn =
-                findViewById(R.id.switchDineIn);
-
-        switchTakeAway =
-                findViewById(R.id.switchTakeAway);
-
-        switchDelivery =
-                findViewById(R.id.switchDelivery);
-
-        switchKirimDapur =
-                findViewById(R.id.switchKirimDapur);
-
-        switchStokOtomatis =
-                findViewById(R.id.switchStokOtomatis);
-
-        switchStokNegatif =
-                findViewById(R.id.switchStokNegatif);
-
-        btnSimpan =
-                findViewById(R.id.btnSimpan);
     }
 
     private void loadBranch() {
@@ -247,6 +224,11 @@ public class BranchSettingsActivity extends AppCompatActivity {
                         .toString()
                         .trim();
 
+
+        // =========================================================
+        // VALIDASI
+        // =========================================================
+
         if (nama.isEmpty()) {
 
             edtNamaCabang.setError(
@@ -258,14 +240,18 @@ public class BranchSettingsActivity extends AppCompatActivity {
             return;
         }
 
+
         if (jamBuka.isEmpty()) {
 
             edtJamBuka.setError(
                     "Jam buka wajib diisi"
             );
 
+            edtJamBuka.requestFocus();
+
             return;
         }
+
 
         if (jamTutup.isEmpty()) {
 
@@ -273,27 +259,178 @@ public class BranchSettingsActivity extends AppCompatActivity {
                     "Jam tutup wajib diisi"
             );
 
+            edtJamTutup.requestFocus();
+
             return;
         }
 
+
+        // =========================================================
+        // PAJAK
+        // =========================================================
+
+        double pajak = 0;
+
+        String pajakText =
+                edtPajak
+                        .getText()
+                        .toString()
+                        .trim();
+
+        if (!pajakText.isEmpty()) {
+
+            try {
+
+                pajak =
+                        Double.parseDouble(
+                                pajakText
+                        );
+
+            } catch (NumberFormatException e) {
+
+                edtPajak.setError(
+                        "Nilai pajak tidak valid"
+                );
+
+                edtPajak.requestFocus();
+
+                return;
+            }
+        }
+
+
+        // =========================================================
+        // SERVICE CHARGE
+        // =========================================================
+
+        double serviceCharge = 0;
+
+        String serviceText =
+                edtServiceCharge
+                        .getText()
+                        .toString()
+                        .trim();
+
+        if (!serviceText.isEmpty()) {
+
+            try {
+
+                serviceCharge =
+                        Double.parseDouble(
+                                serviceText
+                        );
+
+            } catch (NumberFormatException e) {
+
+                edtServiceCharge.setError(
+                        "Nilai service charge tidak valid"
+                );
+
+                edtServiceCharge.requestFocus();
+
+                return;
+            }
+        }
+
+
+        // =========================================================
+        // BATASI NILAI PERSENTASE
+        // =========================================================
+
+        if (pajak < 0 || pajak > 100) {
+
+            edtPajak.setError(
+                    "Pajak harus antara 0 sampai 100%"
+            );
+
+            edtPajak.requestFocus();
+
+            return;
+        }
+
+
+        if (serviceCharge < 0 ||
+                serviceCharge > 100) {
+
+            edtServiceCharge.setError(
+                    "Service charge harus antara 0 sampai 100%"
+            );
+
+            edtServiceCharge.requestFocus();
+
+            return;
+        }
+
+
+        // =========================================================
+        // AMBIL DATA SWITCH
+        // =========================================================
+
+        boolean dineIn =
+                switchDineIn.isChecked();
+
+        boolean takeAway =
+                switchTakeAway.isChecked();
+
+        boolean delivery =
+                switchDelivery.isChecked();
+
+
+        boolean sendToKitchen =
+                switchKirimDapur.isChecked();
+
+        boolean automaticStock =
+                switchStokOtomatis.isChecked();
+
+        boolean allowNegativeStock =
+                switchStokNegatif.isChecked();
+
+
+        // =========================================================
+        // NONAKTIFKAN TOMBOL
+        // =========================================================
+
+        btnSimpan.setEnabled(false);
+
+
+        // =========================================================
+        // PROSES
+        // =========================================================
+
+        double finalPajak = pajak;
+        double finalServiceCharge = serviceCharge;
         executor.execute(() -> {
 
             Branch branch =
                     db.branchDao()
                             .getById(branchId);
 
+
+            // =====================================================
+            // CEK CABANG
+            // =====================================================
+
             if (branch == null) {
 
-                runOnUiThread(() ->
-                        Toast.makeText(
-                                this,
-                                "Cabang tidak ditemukan",
-                                Toast.LENGTH_SHORT
-                        ).show()
-                );
+                runOnUiThread(() -> {
+
+                    btnSimpan.setEnabled(true);
+
+                    Toast.makeText(
+                            this,
+                            "Cabang tidak ditemukan",
+                            Toast.LENGTH_SHORT
+                    ).show();
+
+                });
 
                 return;
             }
+
+
+            // =====================================================
+            // UPDATE OBJECT BRANCH
+            // =====================================================
 
             branch.name =
                     nama;
@@ -310,31 +447,150 @@ public class BranchSettingsActivity extends AppCompatActivity {
             branch.closeTime =
                     jamTutup;
 
-            /*
-             * Update Room.
-             *
-             * Pastikan BranchDao mempunyai
-             * method update().
-             */
 
-            db.branchDao()
-                    .update(branch);
+            // =====================================================
+            // UPDATE PENGATURAN
+            // =====================================================
 
-            runOnUiThread(() -> {
+            branch.tax =
+                    finalPajak;
 
-                Toast.makeText(
-                        this,
-                        "Pengaturan cabang berhasil disimpan",
-                        Toast.LENGTH_SHORT
-                ).show();
+            branch.serviceCharge =
+                    finalServiceCharge;
 
-                finish();
 
-            });
+            // =====================================================
+            // METODE PENJUALAN
+            // =====================================================
+
+            branch.dineIn =
+                    dineIn;
+
+            branch.takeAway =
+                    takeAway;
+
+            branch.delivery =
+                    delivery;
+
+
+            // =====================================================
+            // OPERASIONAL
+            // =====================================================
+
+            branch.sendToKitchen =
+                    sendToKitchen;
+
+            branch.automaticStock =
+                    automaticStock;
+
+            branch.allowNegativeStock =
+                    allowNegativeStock;
+
+
+            // =====================================================
+            // UPDATE FIREBASE
+            // =====================================================
+
+            FirebaseRepository firebase =
+                    new FirebaseRepository();
+
+
+            firebase.updateBranch(
+
+                    branch.firebaseId,
+
+                    branch.name,
+                    branch.address,
+                    branch.phone,
+
+                    branch.openTime,
+                    branch.closeTime,
+
+                    branch.isMain,
+
+                    branch.tax,
+                    branch.serviceCharge,
+
+                    branch.dineIn,
+                    branch.takeAway,
+                    branch.delivery,
+
+                    branch.sendToKitchen,
+                    branch.automaticStock,
+                    branch.allowNegativeStock,
+
+                    new FirebaseRepository.OnCompleteListener() {
+
+                        @Override
+                        public void success() {
+
+                            // =====================================
+                            // FIREBASE BERHASIL
+                            // =====================================
+
+                            branch.syncStatus = 1;
+
+
+                            db.branchDao()
+                                    .update(branch);
+
+
+                            runOnUiThread(() -> {
+
+                                btnSimpan.setEnabled(true);
+
+                                Toast.makeText(
+                                        BranchSettingsActivity.this,
+                                        "Pengaturan cabang berhasil disimpan",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+
+                                finish();
+
+                            });
+                        }
+
+
+                        @Override
+                        public void failed(
+                                String error
+                        ) {
+
+                            // =====================================
+                            // FIREBASE GAGAL
+                            // =====================================
+
+                            /*
+                             * Tetap simpan perubahan
+                             * ke Room.
+                             */
+
+                            branch.syncStatus = 2;
+
+
+                            db.branchDao()
+                                    .update(branch);
+
+
+                            runOnUiThread(() -> {
+
+                                btnSimpan.setEnabled(true);
+
+                                Toast.makeText(
+                                        BranchSettingsActivity.this,
+                                        "Disimpan di perangkat. Sinkronisasi ke server gagal.",
+                                        Toast.LENGTH_LONG
+                                ).show();
+
+                                finish();
+
+                            });
+                        }
+                    }
+            );
 
         });
     }
-
     @Override
     protected void onDestroy() {
 

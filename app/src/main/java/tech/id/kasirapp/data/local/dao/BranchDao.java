@@ -61,4 +61,14 @@ public interface BranchDao {
         resetMainBranch(restaurantId);
         setMainBranch(branchId);
     }
+
+    @Query("SELECT * FROM branches " +
+            "WHERE firebaseId = :firebaseId " +
+            "LIMIT 1"
+    )
+
+    Branch getByFirebaseId(String firebaseId);
+
+
+
 }

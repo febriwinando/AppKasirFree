@@ -444,7 +444,6 @@ public class LoginActivity extends AppCompatActivity {
         String passwordHash =
                 doc.getString("password");
 
-
         // =========================================
         // CEK PASSWORD
         // =========================================
