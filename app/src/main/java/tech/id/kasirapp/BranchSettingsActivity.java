@@ -171,21 +171,19 @@ public class BranchSettingsActivity extends AppCompatActivity {
                  * BranchSettings entity.
                  */
 
-                edtPajak.setText("0");
+                edtPajak.setText(
+                        branch.tax == 0.00
+                                ? "0"
+                                : String.valueOf(branch.tax)
+                );
 
                 edtServiceCharge.setText("0");
-
-                switchDineIn.setChecked(true);
-
-                switchTakeAway.setChecked(true);
-
-                switchDelivery.setChecked(false);
-
-                switchKirimDapur.setChecked(true);
-
-                switchStokOtomatis.setChecked(true);
-
-                switchStokNegatif.setChecked(false);
+                switchDineIn.setChecked(branch.dineIn);
+                switchTakeAway.setChecked(branch.takeAway);
+                switchDelivery.setChecked(branch.delivery);
+                switchKirimDapur.setChecked(branch.sendToKitchen);
+                switchStokOtomatis.setChecked(branch.automaticStock);
+                switchStokNegatif.setChecked(branch.allowNegativeStock);
 
             });
 
