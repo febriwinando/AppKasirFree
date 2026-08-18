@@ -5,15 +5,18 @@ import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import tech.id.kasirapp.dashboard.DashboardCashierActivity;
+import tech.id.kasirapp.dashboard.DashboardKitchenActivity;
+import tech.id.kasirapp.dashboard.DashboardManagerActivity;
+import tech.id.kasirapp.dashboard.DashboardOwnerActivity;
+import tech.id.kasirapp.dashboard.DashboardWaiterActivity;
 import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.AppSession;
+import tech.id.kasirapp.register.RegisterOwnerActivity;
 
 
 public class SplashActivity extends AppCompatActivity {

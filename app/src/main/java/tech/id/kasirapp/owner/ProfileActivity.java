@@ -1,4 +1,4 @@
-package tech.id.kasirapp;
+package tech.id.kasirapp.owner;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import tech.id.kasirapp.LoginActivity;
+import tech.id.kasirapp.R;
+import tech.id.kasirapp.RestaurantActivity;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
 

@@ -1,4 +1,4 @@
-package tech.id.kasirapp;
+package tech.id.kasirapp.register;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -13,6 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import tech.id.kasirapp.R;
 import tech.id.kasirapp.data.firebase.FirebaseRepository;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;

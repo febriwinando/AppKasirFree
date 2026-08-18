@@ -1,8 +1,7 @@
-package tech.id.kasirapp;
+package tech.id.kasirapp.dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +13,17 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import tech.id.kasirapp.owner.BranchSettingsActivity;
+import tech.id.kasirapp.CashierActivity;
+import tech.id.kasirapp.EmployeeActivity;
+import tech.id.kasirapp.kitchenstaf.KitchenActivity;
+import tech.id.kasirapp.LoginActivity;
+import tech.id.kasirapp.OrderActivity;
+import tech.id.kasirapp.product.ProductActivity;
+import tech.id.kasirapp.R;
+import tech.id.kasirapp.ReportActivity;
+import tech.id.kasirapp.StockActivity;
+import tech.id.kasirapp.WaiterActivity;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.AppSession;

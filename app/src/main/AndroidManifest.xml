@@ -41,23 +41,23 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".DashboardOwnerActivity"
+            android:name=".dashboard.DashboardOwnerActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".RegisterBranchActivity"
+            android:name=".register.RegisterBranchActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".RegisterRestaurantActivity"
+            android:name=".register.RegisterRestaurantActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".RegisterOwnerActivity"
+            android:name=".register.RegisterOwnerActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".owner.ProfileActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -77,7 +77,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".RegisterManagerActivity"
+            android:name=".register.RegisterManagerActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -85,19 +85,19 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".DashboardKitchenActivity"
+            android:name=".dashboard.DashboardKitchenActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".DashboardWaiterActivity"
+            android:name=".dashboard.DashboardWaiterActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".DashboardCashierActivity"
+            android:name=".dashboard.DashboardCashierActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".DashboardManagerActivity"
+            android:name=".dashboard.DashboardManagerActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -105,7 +105,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ProductActivity"
+            android:name=".product.ProductActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -121,7 +121,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".KitchenActivity"
+            android:name=".kitchenstaf.KitchenActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -133,7 +133,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".BranchSettingsActivity"
+            android:name=".owner.BranchSettingsActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>

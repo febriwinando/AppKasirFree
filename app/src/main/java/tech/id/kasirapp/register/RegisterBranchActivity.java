@@ -1,7 +1,6 @@
-package tech.id.kasirapp;
+package tech.id.kasirapp.register;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -17,6 +16,7 @@ import com.google.android.material.timepicker.TimeFormat;
 
 import java.util.UUID;
 
+import tech.id.kasirapp.R;
 import tech.id.kasirapp.data.firebase.FirebaseRepository;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;

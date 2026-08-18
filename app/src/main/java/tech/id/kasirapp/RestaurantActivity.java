@@ -1,6 +1,5 @@
 package tech.id.kasirapp;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -33,6 +32,9 @@ import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.Branch;
 import tech.id.kasirapp.data.local.entity.Manager;
 import tech.id.kasirapp.data.local.entity.Restaurant;
+import tech.id.kasirapp.register.RegisterBranchActivity;
+import tech.id.kasirapp.register.RegisterManagerActivity;
+import tech.id.kasirapp.register.RegisterRestaurantActivity;
 
 public class RestaurantActivity extends AppCompatActivity {
 
