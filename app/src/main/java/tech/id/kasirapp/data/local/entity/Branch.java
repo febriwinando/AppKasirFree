@@ -41,6 +41,8 @@ public class Branch {
     // Contoh: 5.0 = 5%
     public double serviceCharge;
 
+    // Jumlah meja pada cabang
+    public int jumlahMeja;
 
     // =========================================================
     // METODE PENJUALAN

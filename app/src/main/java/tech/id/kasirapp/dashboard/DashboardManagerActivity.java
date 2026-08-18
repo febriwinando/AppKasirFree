@@ -178,6 +178,7 @@ public class DashboardManagerActivity extends AppCompatActivity {
             branchId =
                     session.branchId;
 
+
             loadBranchData();
 
         });
@@ -229,6 +230,9 @@ public class DashboardManagerActivity extends AppCompatActivity {
                                 ? ""
                                 : branch.address
                 );
+
+                Toast.makeText(this,"Branch: "+branchId, Toast.LENGTH_LONG).show();
+
 
                 loadManagerName();
 

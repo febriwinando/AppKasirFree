@@ -190,6 +190,28 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Jumlah Meja"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="Jumlah Meja">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtJumlahMeja"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
         <!-- ================================================= -->
         <!-- TIPE PESANAN -->
         <!-- ================================================= -->

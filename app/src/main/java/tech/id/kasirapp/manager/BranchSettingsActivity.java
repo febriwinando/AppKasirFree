@@ -26,7 +26,7 @@ public class BranchSettingsActivity extends AppCompatActivity {
     private TextInputEditText edtTelepon;
     private TextInputEditText edtJamBuka;
     private TextInputEditText edtJamTutup;
-
+    private TextInputEditText edtJumlahMeja;
     private TextInputEditText edtPajak;
     private TextInputEditText edtServiceCharge;
 
@@ -82,6 +82,7 @@ public class BranchSettingsActivity extends AppCompatActivity {
         switchKirimDapur = findViewById(R.id.switchKirimDapur);
         switchStokOtomatis = findViewById(R.id.switchStokOtomatis);
         switchStokNegatif = findViewById(R.id.switchStokNegatif);
+        edtJumlahMeja = findViewById(R.id.edtJumlahMeja);
 
         btnSimpan = findViewById(R.id.btnSimpan);
 
@@ -145,6 +146,10 @@ public class BranchSettingsActivity extends AppCompatActivity {
                                 ? ""
                                 : branch.address
                 );
+
+                edtJumlahMeja.setText(branch.jumlahMeja == 0
+                        ? "0"
+                        : String.valueOf(branch.jumlahMeja));
 
                 edtTelepon.setText(
                         branch.phone == null
@@ -251,6 +256,7 @@ public class BranchSettingsActivity extends AppCompatActivity {
         }
 
 
+
         if (jamTutup.isEmpty()) {
 
             edtJamTutup.setError(
@@ -262,6 +268,56 @@ public class BranchSettingsActivity extends AppCompatActivity {
             return;
         }
 
+        int jumlahMeja = 0;
+
+        String jumlahMejaText =
+                edtJumlahMeja
+                        .getText()
+                        .toString()
+                        .trim();
+
+        if (!jumlahMejaText.isEmpty()) {
+
+            try {
+
+                jumlahMeja =
+                        Integer.parseInt(
+                                jumlahMejaText
+                        );
+
+            } catch (NumberFormatException e) {
+
+                edtJumlahMeja.setError(
+                        "Jumlah meja tidak valid"
+                );
+
+                edtJumlahMeja.requestFocus();
+
+                return;
+            }
+        }
+
+        if (jumlahMeja < 0) {
+
+            edtJumlahMeja.setError(
+                    "Jumlah meja tidak boleh kurang dari 0"
+            );
+
+            edtJumlahMeja.requestFocus();
+
+            return;
+        }
+
+        if (jumlahMeja < 1) {
+
+            edtJumlahMeja.setError(
+                    "Jumlah meja minimal 1"
+            );
+
+            edtJumlahMeja.requestFocus();
+
+            return;
+        }
 
         // =========================================================
         // PAJAK
@@ -397,6 +453,7 @@ public class BranchSettingsActivity extends AppCompatActivity {
 
         double finalPajak = pajak;
         double finalServiceCharge = serviceCharge;
+        int finalJumlahMeja = jumlahMeja;
         executor.execute(() -> {
 
             Branch branch =
@@ -456,7 +513,8 @@ public class BranchSettingsActivity extends AppCompatActivity {
             branch.serviceCharge =
                     finalServiceCharge;
 
-
+            branch.jumlahMeja =
+                    finalJumlahMeja;
             // =====================================================
             // METODE PENJUALAN
             // =====================================================
@@ -508,7 +566,7 @@ public class BranchSettingsActivity extends AppCompatActivity {
 
                     branch.tax,
                     branch.serviceCharge,
-
+                    branch.jumlahMeja,
                     branch.dineIn,
                     branch.takeAway,
                     branch.delivery,

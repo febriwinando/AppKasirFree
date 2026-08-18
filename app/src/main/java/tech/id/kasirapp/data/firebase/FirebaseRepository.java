@@ -126,7 +126,7 @@ public class FirebaseRepository {
 
             double tax,
             double serviceCharge,
-
+            int jumlahMeja,
             boolean dineIn,
             boolean takeAway,
             boolean delivery,
@@ -161,6 +161,8 @@ public class FirebaseRepository {
                 "openTime",
                 openTime
         );
+
+        data.put("jumlahMeja", jumlahMeja);
 
         data.put(
                 "closeTime",

@@ -2,6 +2,7 @@ package tech.id.kasirapp.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -529,7 +530,7 @@ public class LoginActivity extends AppCompatActivity {
                         "branchId"
                 );
 
-
+        Log.d("Session Lgoin", String.valueOf(session.branchId));
         // =========================================
         // STATUS LOGIN
         // =========================================
@@ -544,6 +545,7 @@ public class LoginActivity extends AppCompatActivity {
                 DashboardManagerActivity.class
         );
     }
+
     private void prosesLoginWaiter(
             DocumentSnapshot doc,
             String password
@@ -553,11 +555,9 @@ public class LoginActivity extends AppCompatActivity {
                 password,
                 doc.getString("password")
         )) {
-
             loginGagal(
                     "Username atau password salah"
             );
-
             return;
         }
 
