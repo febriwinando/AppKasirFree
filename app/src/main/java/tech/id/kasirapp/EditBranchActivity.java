@@ -343,23 +343,15 @@ public class EditBranchActivity extends AppCompatActivity {
                 new FirebaseRepository();
 
         firebase.saveBranch(
-
                 branch.firebaseId,
-
                 restaurant.firebaseId,
-
                 branch.name,
-
+                branch.restaurantId,
                 branch.address,
-
                 branch.phone,
-
                 branch.openTime,
-
                 branch.closeTime,
-
                 branch.isMain,
-
                 new FirebaseRepository.OnCompleteListener() {
 
                     @Override

@@ -292,7 +292,7 @@ public class RegisterBranchActivity extends AppCompatActivity {
                 firebaseId,
                 restaurant.firebaseId,
                 branch.name,
-
+                branch.restaurantId,
                 branch.address,
 
                 branch.phone,

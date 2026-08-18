@@ -488,33 +488,25 @@ public class LoginActivity extends AppCompatActivity {
         // ID FIREBASE
         // =========================================
 
-        session.uuid =
-                doc.getId();
-
+        session.uuid = doc.getId();
 
         // =========================================
         // ROLE
         // =========================================
-
-        session.role =
-                "MANAGER";
+        session.role = "MANAGER";
 
 
         // =========================================
         // OWNER
         // =========================================
-
-        session.ownerId =
-                getLongSafe(
+        session.ownerId = getLongSafe(
                         doc,
-                        "ownerId"
-                );
+                        "ownerId");
 
 
         // =========================================
         // RESTAURANT
         // =========================================
-
         session.restaurantId =
                 getLongSafe(
                         doc,
@@ -525,7 +517,6 @@ public class LoginActivity extends AppCompatActivity {
         // =========================================
         // BRANCH
         // =========================================
-
         session.branchId =
                 getLongSafe(
                         doc,
@@ -536,15 +527,12 @@ public class LoginActivity extends AppCompatActivity {
         // =========================================
         // STATUS LOGIN
         // =========================================
-
         session.isLoggedIn =
                 true;
-
 
         // =========================================
         // SIMPAN SESSION
         // =========================================
-
         simpanSession(
                 session,
                 DashboardManagerActivity.class

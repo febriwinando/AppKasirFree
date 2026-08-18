@@ -10,6 +10,7 @@ public class Branch {
     public long id;
 
     public String firebaseId;
+    public long restaurantFirebaseId;
     public long restaurantId;
     public String name;
     public String address;

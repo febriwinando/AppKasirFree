@@ -82,6 +82,7 @@ public class FirebaseRepository {
             String firebaseId,
             String restaurantFirebaseId,
             String name,
+            long restaurantId,
             String address,
             String phone,
             String openTime,
