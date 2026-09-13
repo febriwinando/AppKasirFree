@@ -4,6 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import androidx.activity.EdgeToEdge;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -45,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
 
         setContentView(
@@ -59,6 +65,13 @@ public class LoginActivity extends AppCompatActivity {
         progress = findViewById(R.id.progress);
         txtRegistrasi = findViewById(R.id.txtRegistrasi);
 
+        // Menangani Insets agar form tidak tertutup keyboard (Edge-to-Edge)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.containerLogin), (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+            v.setPadding(0, 0, 0, insets.bottom);
+            return WindowInsetsCompat.CONSUMED;
+        });
+
         txtRegistrasi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +83,10 @@ public class LoginActivity extends AppCompatActivity {
 
         db =
                 DatabaseClient.getDatabase(this);
+
+        // Menerapkan Animasi
+        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+        findViewById(R.id.cardLogin).startAnimation(slideUp);
 
 
         btnLogin.setOnClickListener(v -> {
