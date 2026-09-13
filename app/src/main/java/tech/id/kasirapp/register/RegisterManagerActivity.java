@@ -2,6 +2,7 @@ package tech.id.kasirapp.register;
 
 import android.os.Bundle;
 import android.widget.Toast;
+import tech.id.kasirapp.util.StatusHelper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -103,12 +104,12 @@ public class RegisterManagerActivity extends AppCompatActivity {
                             .getByBranchId(branchId);
             runOnUiThread(() -> {
                 if (manager != null) {
-                    Toast.makeText(
+                    StatusHelper.showError(
                             this,
+                            "Kesalahan",
                             "Cabang ini sudah memiliki Manager",
-                            Toast.LENGTH_LONG
-                    ).show();
-                    finish();
+                            () -> finish()
+                    );
                 }
 
             });
@@ -187,11 +188,12 @@ public class RegisterManagerActivity extends AppCompatActivity {
             if (branch == null) {
 
                 runOnUiThread(() ->
-                        Toast.makeText(
+                        StatusHelper.showError(
                                 this,
+                                "Kesalahan",
                                 "Cabang tidak ditemukan",
-                                Toast.LENGTH_SHORT
-                        ).show()
+                                null
+                        )
                 );
 
                 return;
@@ -204,11 +206,12 @@ public class RegisterManagerActivity extends AppCompatActivity {
             if (existing != null) {
 
                 runOnUiThread(() ->
-                        Toast.makeText(
+                        StatusHelper.showError(
                                 this,
+                                "Kesalahan",
                                 "Cabang ini sudah memiliki Manager",
-                                Toast.LENGTH_LONG
-                        ).show()
+                                null
+                        )
                 );
 
                 return;
@@ -275,13 +278,7 @@ public class RegisterManagerActivity extends AppCompatActivity {
 
                             runOnUiThread(() -> {
 
-                                Toast.makeText(
-                                        RegisterManagerActivity.this,
-                                        "Manager berhasil dibuat",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-
-                                finish();
+                                StatusHelper.showSuccess(RegisterManagerActivity.this, "Berhasil", "Manager berhasil dibuat", () -> finish());
 
                             });
                         }
@@ -299,13 +296,7 @@ public class RegisterManagerActivity extends AppCompatActivity {
 
                             runOnUiThread(() -> {
 
-                                Toast.makeText(
-                                        RegisterManagerActivity.this,
-                                        "Manager disimpan lokal, sinkronisasi gagal",
-                                        Toast.LENGTH_LONG
-                                ).show();
-
-                                finish();
+                                StatusHelper.showError(RegisterManagerActivity.this, "Gagal", "Manager disimpan lokal, sinkronisasi gagal", () -> finish());
 
                             });
                         }

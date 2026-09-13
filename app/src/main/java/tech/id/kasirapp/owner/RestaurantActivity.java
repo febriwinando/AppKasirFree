@@ -13,7 +13,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -37,6 +36,7 @@ import tech.id.kasirapp.data.local.entity.Restaurant;
 import tech.id.kasirapp.register.RegisterBranchActivity;
 import tech.id.kasirapp.register.RegisterManagerActivity;
 import tech.id.kasirapp.register.RegisterRestaurantActivity;
+import tech.id.kasirapp.util.StatusHelper;
 
 public class RestaurantActivity extends AppCompatActivity {
 
@@ -1168,34 +1168,12 @@ public class RestaurantActivity extends AppCompatActivity {
     private void confirmDeleteRestaurant(
             Restaurant restaurant
     ) {
-
-        new AlertDialog.Builder(
-                RestaurantActivity.this
-        )
-                .setTitle(
-                        "Hapus Restoran?"
-                )
-                .setMessage(
-                        "Restoran \"" +
-                                restaurant.name +
-                                "\" dan seluruh cabangnya akan dihapus."
-                )
-                .setNegativeButton(
-                        "Batal",
-                        null
-                )
-                .setPositiveButton(
-                        "Hapus",
-                        (dialog, which) -> {
-
-                            deleteRestaurant(
-                                    restaurant
-                            );
-
-                        }
-                )
-                .show();
-
+        StatusHelper.showConfirm(
+                this,
+                "Hapus Restoran?",
+                "Restoran \"" + restaurant.name + "\" dan seluruh cabangnya akan dihapus permanen.",
+                () -> deleteRestaurant(restaurant)
+        );
     }
 
 
@@ -1226,16 +1204,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
 
             runOnUiThread(() -> {
-
-                Toast.makeText(
-                        RestaurantActivity.this,
-                        "Restoran berhasil dihapus",
-                        Toast.LENGTH_SHORT
-                ).show();
-
-
-                loadRestaurants();
-
+                StatusHelper.showSuccess(this, "Berhasil", "Restoran berhasil dihapus", () -> loadRestaurants());
             });
 
         });
@@ -1564,27 +1533,12 @@ public class RestaurantActivity extends AppCompatActivity {
         });
     }
     private void confirmDeleteBranch(Branch branch) {
-
-        new MaterialAlertDialogBuilder(this)
-                .setTitle("Hapus Cabang?")
-                .setMessage(
-                        "Yakin ingin menghapus cabang \"" +
-                                branch.name +
-                                "\"?"
-                )
-                .setNegativeButton(
-                        "Batal",
-                        null
-                )
-                .setPositiveButton(
-                        "Hapus",
-                        (dialog, which) -> {
-
-                            deleteBranch(branch);
-
-                        }
-                )
-                .show();
+        StatusHelper.showConfirm(
+                this,
+                "Hapus Cabang?",
+                "Yakin ingin menghapus cabang \"" + branch.name + "\"?",
+                () -> deleteBranch(branch)
+        );
     }
 //    private void deleteBranch(Branch branch) {
 //
@@ -1656,13 +1610,7 @@ public class RestaurantActivity extends AppCompatActivity {
     private void deleteBranch(Branch branch) {
 
         if (branch.isMain) {
-
-            Toast.makeText(
-                    this,
-                    "Cabang utama tidak dapat dihapus.",
-                    Toast.LENGTH_LONG
-            ).show();
-
+            StatusHelper.showError(this, "Gagal", "Cabang utama tidak dapat dihapus.", null);
             return;
         }
 
@@ -1709,12 +1657,12 @@ public class RestaurantActivity extends AppCompatActivity {
                                 public void failed(
                                         String error
                                 ) {
-
-                                    Toast.makeText(
+                                    runOnUiThread(() -> StatusHelper.showError(
                                             RestaurantActivity.this,
+                                            "Gagal",
                                             "Gagal menghapus Manager: " + error,
-                                            Toast.LENGTH_LONG
-                                    ).show();
+                                            null
+                                    ));
                                 }
                             }
                     );
@@ -1782,15 +1730,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     );
 
             runOnUiThread(() -> {
-
-                Toast.makeText(
-                        RestaurantActivity.this,
-                        "Cabang dan Manager berhasil dihapus",
-                        Toast.LENGTH_SHORT
-                ).show();
-
-                loadRestaurants();
-
+                StatusHelper.showSuccess(this, "Berhasil", "Cabang dan Manager berhasil dihapus", () -> loadRestaurants());
             });
 
         });

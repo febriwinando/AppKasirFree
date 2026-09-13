@@ -8,7 +8,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.widget.TextView;
-import android.widget.Toast;
+import tech.id.kasirapp.util.StatusHelper;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -121,16 +121,14 @@ public class RegisterOwnerActivity extends AppCompatActivity {
                                     .insert(session);
 
                             runOnUiThread(() -> {
-                                Toast.makeText(RegisterOwnerActivity.this,
-                                        "Registrasi berhasil",
-                                        Toast.LENGTH_SHORT).show();
-
-                                Intent intent = new Intent(
-                                        RegisterOwnerActivity.this,
-                                        DashboardOwnerActivity.class);
-                                intent.putExtra("owner_id", owner.id);
-                                startActivity(intent);
-                                finish();
+                                StatusHelper.showSuccess(RegisterOwnerActivity.this, "Registrasi Berhasil", "Akun Owner Anda telah berhasil didaftarkan.", () -> {
+                                    Intent intent = new Intent(
+                                            RegisterOwnerActivity.this,
+                                            DashboardOwnerActivity.class);
+                                    intent.putExtra("owner_id", owner.id);
+                                    startActivity(intent);
+                                    finish();
+                                });
                             });
                         }
 
@@ -142,9 +140,7 @@ public class RegisterOwnerActivity extends AppCompatActivity {
                                     .update(owner);
 
                             runOnUiThread(() -> {
-                                Toast.makeText(RegisterOwnerActivity.this,
-                                        "Data lokal berhasil disimpan, namun gagal sinkron ke Firebase: " + error,
-                                        Toast.LENGTH_LONG).show();
+                                StatusHelper.showError(RegisterOwnerActivity.this, "Registrasi Gagal", "Data lokal berhasil disimpan, namun gagal sinkron ke Firebase: " + error, null);
                             });
                         }
                     }

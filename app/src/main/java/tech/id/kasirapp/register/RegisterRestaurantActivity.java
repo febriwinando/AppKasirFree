@@ -3,7 +3,7 @@ package tech.id.kasirapp.register;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
+import tech.id.kasirapp.util.StatusHelper;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -153,10 +153,7 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
                                     );
 
                             runOnUiThread(() -> {
-                                Toast.makeText(RegisterRestaurantActivity.this,
-                                        "Restoran berhasil disimpan",
-                                        Toast.LENGTH_SHORT).show();
-                                finish();
+                                StatusHelper.showSuccess(RegisterRestaurantActivity.this, "Berhasil", "Restoran berhasil disimpan", () -> finish());
                             });
                         }
 
@@ -165,10 +162,7 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
                                 String error
                         ){
                             runOnUiThread(() -> {
-                                Toast.makeText(RegisterRestaurantActivity.this,
-                                        "Restoran disimpan lokal, sinkronisasi gagal",
-                                        Toast.LENGTH_LONG).show();
-                                finish();
+                                StatusHelper.showError(RegisterRestaurantActivity.this, "Gagal", "Restoran disimpan lokal, sinkronisasi gagal", () -> finish());
                             });
                         }
 

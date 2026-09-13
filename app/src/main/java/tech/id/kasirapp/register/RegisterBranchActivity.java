@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
-import android.widget.Toast;
+import tech.id.kasirapp.util.StatusHelper;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -226,11 +226,12 @@ public class RegisterBranchActivity extends AppCompatActivity {
                     db.restaurantDao().getById(restaurantId);
 
             if (restaurant == null) {
-                runOnUiThread(() -> Toast.makeText(
+                runOnUiThread(() -> StatusHelper.showError(
                         this,
+                        "Kesalahan",
                         "Data restoran tidak ditemukan",
-                        Toast.LENGTH_SHORT
-                ).show());
+                        null
+                ));
                 return;
             }
 
@@ -272,12 +273,7 @@ public class RegisterBranchActivity extends AppCompatActivity {
                             new Thread(() -> {
                                 db.branchDao().updateSyncStatus(id, 1);
                                 runOnUiThread(() -> {
-                                    Toast.makeText(
-                                            RegisterBranchActivity.this,
-                                            isMain ? "Cabang utama berhasil dibuat" : "Cabang berhasil ditambahkan",
-                                            Toast.LENGTH_SHORT
-                                    ).show();
-                                    finish();
+                                    StatusHelper.showSuccess(RegisterBranchActivity.this, "Berhasil", isMain ? "Cabang utama berhasil dibuat" : "Cabang berhasil ditambahkan", () -> finish());
                                 });
                             }).start();
                         }
@@ -287,12 +283,7 @@ public class RegisterBranchActivity extends AppCompatActivity {
                             new Thread(() -> {
                                 db.branchDao().updateSyncStatus(id, 2);
                                 runOnUiThread(() -> {
-                                    Toast.makeText(
-                                            RegisterBranchActivity.this,
-                                            "Cabang disimpan lokal, sinkronisasi gagal",
-                                            Toast.LENGTH_LONG
-                                    ).show();
-                                    finish();
+                                    StatusHelper.showError(RegisterBranchActivity.this, "Gagal", "Cabang disimpan lokal, sinkronisasi gagal", () -> finish());
                                 });
                             }).start();
                         }
