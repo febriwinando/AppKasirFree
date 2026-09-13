@@ -3,6 +3,7 @@ package tech.id.kasirapp.register;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,6 +64,8 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
         findViewById(R.id.imgHeader).startAnimation(fadeIn);
         findViewById(R.id.tvHeaderTitle).startAnimation(fadeIn);
         findViewById(R.id.tvHeaderSubtitle).startAnimation(fadeIn);
+
+        loadOwnerData(db);
 
         btnLanjutCabang.setOnClickListener(v -> {
             if(
@@ -148,18 +151,25 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
                                             restaurantId,
                                             1
                                     );
-                            bukaCabang(
-                                    restaurantId
-                            );
+
+                            runOnUiThread(() -> {
+                                Toast.makeText(RegisterRestaurantActivity.this,
+                                        "Restoran berhasil disimpan",
+                                        Toast.LENGTH_SHORT).show();
+                                finish();
+                            });
                         }
 
                         @Override
                         public void failed(
                                 String error
                         ){
-                            bukaCabang(
-                                    restaurantId
-                            );
+                            runOnUiThread(() -> {
+                                Toast.makeText(RegisterRestaurantActivity.this,
+                                        "Restoran disimpan lokal, sinkronisasi gagal",
+                                        Toast.LENGTH_LONG).show();
+                                finish();
+                            });
                         }
 
                     }
@@ -182,25 +192,6 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
                 });
             }
         }).start();
-    }
-
-    private void bukaCabang(long id){
-        Intent intent =
-                new Intent(
-                        this,
-                        RegisterBranchActivity.class
-                );
-
-
-        intent.putExtra(
-                "restaurant_id",
-                id
-        );
-
-
-        startActivity(intent);
-
-
     }
 
 }
