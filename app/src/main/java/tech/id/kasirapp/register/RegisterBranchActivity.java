@@ -3,9 +3,16 @@ package tech.id.kasirapp.register;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 
 import com.google.android.material.button.MaterialButton;
@@ -14,6 +21,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 
+import java.util.Locale;
 import java.util.UUID;
 
 import tech.id.kasirapp.R;
@@ -34,16 +42,19 @@ public class RegisterBranchActivity extends AppCompatActivity {
     TextInputEditText edtJamTutup;
 
     MaterialButton btnSimpan;
-    String namaRestoran;
-    String pemilik;
-    private MaterialCardView cardCabangUtama;
+    TextView tvNamaRestoranHeader, tvNamaOwnerHeader;
+    View cardCabangUtama;
+    
+    private long restaurantId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_branch);
 
-        namaRestoran = getIntent().getStringExtra("nama_restoran");
-        pemilik = getIntent().getStringExtra("pemilik");
+        restaurantId = getIntent().getLongExtra("restaurant_id", 0);
+
         edtNamaCabang = findViewById(R.id.edtNamaCabang);
         edtAlamatCabang = findViewById(R.id.edtAlamatCabang);
         edtTeleponCabang = findViewById(R.id.edtTeleponCabang);
@@ -51,6 +62,18 @@ public class RegisterBranchActivity extends AppCompatActivity {
         edtJamTutup = findViewById(R.id.edtJamTutup);
         btnSimpan = findViewById(R.id.btnSimpan);
         cardCabangUtama = findViewById(R.id.cardCabangUtama);
+
+        tvNamaRestoranHeader = findViewById(R.id.tvNamaRestoranHeader);
+        tvNamaOwnerHeader = findViewById(R.id.tvNamaOwnerHeader);
+
+        // Keyboard Handling
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.containerRegisterBranch), (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+            v.setPadding(0, 0, 0, insets.bottom);
+            return WindowInsetsCompat.CONSUMED;
+        });
+
+        loadRestaurantInfo();
         checkMainBranch();
 
         btnSimpan.setOnClickListener(v -> {
@@ -131,7 +154,7 @@ public class RegisterBranchActivity extends AppCompatActivity {
         picker.addOnPositiveButtonClickListener(v -> {
 
             String waktu = String.format(
-                    java.util.Locale.getDefault(),
+                    Locale.getDefault(),
                     "%02d:%02d",
                     picker.getHour(),
                     picker.getMinute()
@@ -148,14 +171,30 @@ public class RegisterBranchActivity extends AppCompatActivity {
         );
     }
 
+    private void loadRestaurantInfo() {
+        AppDatabase db = DatabaseClient.getDatabase(this);
+        new Thread(() -> {
+            Restaurant restaurant = db.restaurantDao().getById(restaurantId);
+            runOnUiThread(() -> {
+                if (restaurant != null) {
+                    tvNamaRestoranHeader.setText(restaurant.name);
+                    tvNamaOwnerHeader.setText("Pemilik: " + restaurant.ownerName);
+
+                    // Menerapkan Animasi setelah data dimuat
+                    Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+                    Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+
+                    findViewById(R.id.cardForm).startAnimation(slideUp);
+                    findViewById(R.id.cardInfo).startAnimation(slideUp);
+                    findViewById(R.id.imgHeader).startAnimation(fadeIn);
+                    findViewById(R.id.tvHeaderTitle).startAnimation(fadeIn);
+                    findViewById(R.id.tvHeaderSubtitle).startAnimation(fadeIn);
+                }
+            });
+        }).start();
+    }
+
     private void checkMainBranch() {
-
-        long restaurantId =
-                getIntent().getLongExtra(
-                        "restaurant_id",
-                        0
-                );
-
         AppDatabase db =
                 DatabaseClient.getDatabase(this);
 
@@ -168,19 +207,9 @@ public class RegisterBranchActivity extends AppCompatActivity {
             runOnUiThread(() -> {
 
                 if (jumlahCabangUtama > 0) {
-
-                    // Sudah ada cabang utama
-                    cardCabangUtama.setVisibility(
-                            View.GONE
-                    );
-
+                    cardCabangUtama.setVisibility(View.GONE);
                 } else {
-
-                    // Belum ada cabang utama
-                    cardCabangUtama.setVisibility(
-                            View.VISIBLE
-                    );
-
+                    cardCabangUtama.setVisibility(View.VISIBLE);
                 }
 
             });
@@ -192,166 +221,84 @@ public class RegisterBranchActivity extends AppCompatActivity {
         AppDatabase db =
                 DatabaseClient.getDatabase(this);
 
-        long restaurantId =
-                getIntent().getLongExtra(
-                        "restaurant_id",
-                        0
-                );
+        new Thread(() -> {
+            Restaurant restaurant =
+                    db.restaurantDao().getById(restaurantId);
 
-        Restaurant restaurant =
-                db.restaurantDao().getById(restaurantId);
+            if (restaurant == null) {
+                runOnUiThread(() -> Toast.makeText(
+                        this,
+                        "Data restoran tidak ditemukan",
+                        Toast.LENGTH_SHORT
+                ).show());
+                return;
+            }
 
-        if (restaurant == null) {
+            int jumlahCabangUtama =
+                    db.branchDao()
+                            .countMainBranch(restaurantId);
 
-            Toast.makeText(
-                    this,
-                    "Data restoran tidak ditemukan",
-                    Toast.LENGTH_SHORT
-            ).show();
+            boolean isMain = jumlahCabangUtama == 0;
 
-            return;
-        }
+            Branch branch = new Branch();
+            branch.restaurantId = restaurantId;
+            branch.name = edtNamaCabang.getText().toString().trim();
+            branch.address = edtAlamatCabang.getText().toString().trim();
+            branch.phone = edtTeleponCabang.getText().toString().trim();
+            branch.openTime = edtJamBuka.getText().toString().trim();
+            branch.closeTime = edtJamTutup.getText().toString().trim();
+            branch.isMain = isMain;
+            branch.syncStatus = 0;
 
-        /*
-         * Cek apakah restoran sudah memiliki
-         * cabang utama.
-         */
-        int jumlahCabangUtama =
-                db.branchDao()
-                        .countMainBranch(restaurantId);
+            String firebaseId = UUID.randomUUID().toString();
+            branch.firebaseId = firebaseId;
 
-        /*
-         * Jika belum ada cabang utama,
-         * cabang ini menjadi cabang utama.
-         *
-         * Jika sudah ada,
-         * cabang ini bukan cabang utama.
-         */
-        boolean isMain = jumlahCabangUtama == 0;
+            long id = db.branchDao().insert(branch);
 
+            FirebaseRepository firebase = new FirebaseRepository();
+            firebase.saveBranch(
+                    firebaseId,
+                    restaurant.firebaseId,
+                    branch.name,
+                    branch.restaurantId,
+                    branch.address,
+                    branch.phone,
+                    branch.openTime,
+                    branch.closeTime,
+                    branch.isMain,
+                    new FirebaseRepository.OnCompleteListener() {
+                        @Override
+                        public void success() {
+                            new Thread(() -> {
+                                db.branchDao().updateSyncStatus(id, 1);
+                                runOnUiThread(() -> {
+                                    Toast.makeText(
+                                            RegisterBranchActivity.this,
+                                            isMain ? "Cabang utama berhasil dibuat" : "Cabang berhasil ditambahkan",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+                                    finish();
+                                });
+                            }).start();
+                        }
 
-        Branch branch = new Branch();
-
-        branch.restaurantId = restaurantId;
-
-        branch.name =
-                edtNamaCabang
-                        .getText()
-                        .toString()
-                        .trim();
-
-        branch.address =
-                edtAlamatCabang
-                        .getText()
-                        .toString()
-                        .trim();
-
-        branch.phone =
-                edtTeleponCabang
-                        .getText()
-                        .toString()
-                        .trim();
-
-        branch.openTime =
-                edtJamBuka
-                        .getText()
-                        .toString()
-                        .trim();
-
-        branch.closeTime =
-                edtJamTutup
-                        .getText()
-                        .toString()
-                        .trim();
-
-        branch.isMain = isMain;
-
-        branch.syncStatus = 0;
-
-        String firebaseId =
-                UUID.randomUUID().toString();
-
-        branch.firebaseId = firebaseId;
-
-
-        /*
-         * Simpan ke Room
-         */
-        long id =
-                db.branchDao()
-                        .insert(branch);
-
-
-        /*
-         * Simpan ke Firebase
-         */
-        FirebaseRepository firebase =
-                new FirebaseRepository();
-
-        firebase.saveBranch(
-                firebaseId,
-                restaurant.firebaseId,
-                branch.name,
-                branch.restaurantId,
-                branch.address,
-
-                branch.phone,
-
-                branch.openTime,
-
-                branch.closeTime,
-
-                branch.isMain,
-
-                new FirebaseRepository.OnCompleteListener() {
-
-                    @Override
-                    public void success() {
-
-                        db.branchDao()
-                                .updateSyncStatus(
-                                        id,
-                                        1
-                                );
-
-                        runOnUiThread(() -> {
-
-                            Toast.makeText(
-                                    RegisterBranchActivity.this,
-                                    isMain
-                                            ? "Cabang utama berhasil dibuat"
-                                            : "Cabang berhasil ditambahkan",
-                                    Toast.LENGTH_SHORT
-                            ).show();
-
-                            finish();
-
-                        });
+                        @Override
+                        public void failed(String error) {
+                            new Thread(() -> {
+                                db.branchDao().updateSyncStatus(id, 2);
+                                runOnUiThread(() -> {
+                                    Toast.makeText(
+                                            RegisterBranchActivity.this,
+                                            "Cabang disimpan lokal, sinkronisasi gagal",
+                                            Toast.LENGTH_LONG
+                                    ).show();
+                                    finish();
+                                });
+                            }).start();
+                        }
                     }
-
-                    @Override
-                    public void failed(String error) {
-
-                        db.branchDao()
-                                .updateSyncStatus(
-                                        id,
-                                        2
-                                );
-
-                        runOnUiThread(() -> {
-
-                            Toast.makeText(
-                                    RegisterBranchActivity.this,
-                                    "Cabang disimpan lokal, sinkronisasi gagal",
-                                    Toast.LENGTH_LONG
-                            ).show();
-
-                            finish();
-
-                        });
-                    }
-                }
-        );
+            );
+        }).start();
     }
 //
 //    private void simpanData(){

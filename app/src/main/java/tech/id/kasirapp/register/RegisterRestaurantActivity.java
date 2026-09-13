@@ -1,16 +1,27 @@
 package tech.id.kasirapp.register;
 
 import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
 import android.content.Intent;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.button.MaterialButton;
+
+import java.util.UUID;
 
 import tech.id.kasirapp.R;
 import tech.id.kasirapp.data.firebase.FirebaseRepository;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.AppSession;
+import tech.id.kasirapp.data.local.entity.Owner;
 import tech.id.kasirapp.data.local.entity.Restaurant;
 
 
@@ -23,20 +34,35 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
     AppSession session;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_restaurant);
 
-        session = DatabaseClient
-                .getDatabase(RegisterRestaurantActivity.this)
-                .sessionDao()
-                .getSession();
+        AppDatabase db = DatabaseClient.getDatabase(this);
+
+        session = db.sessionDao().getSession();
 
         edtNamaRestoran = findViewById(R.id.edtNamaRestoran);
         edtPemilik = findViewById(R.id.edtPemilik);
         edtTelepon = findViewById(R.id.edtTelepon);
         edtEmail = findViewById(R.id.edtEmail);
         btnLanjutCabang = findViewById(R.id.btnLanjutCabang);
+
+        // Keyboard Handling
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.containerRegisterRestaurant), (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+            v.setPadding(0, 0, 0, insets.bottom);
+            return WindowInsetsCompat.CONSUMED;
+        });
+
+        // Menerapkan Animasi
+        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+
+        findViewById(R.id.cardForm).startAnimation(slideUp);
+        findViewById(R.id.imgHeader).startAnimation(fadeIn);
+        findViewById(R.id.tvHeaderTitle).startAnimation(fadeIn);
+        findViewById(R.id.tvHeaderSubtitle).startAnimation(fadeIn);
 
         btnLanjutCabang.setOnClickListener(v -> {
             if(
@@ -49,12 +75,6 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
                 return;
 
             }
-
-
-
-            AppDatabase db =
-                    DatabaseClient
-                            .getDatabase(this);
 
 
 
@@ -95,7 +115,7 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
     /*
         buat ID Firebase
     */
-            String firebaseId = java.util.UUID.randomUUID().toString();
+            String firebaseId = UUID.randomUUID().toString();
             restaurant.firebaseId = firebaseId;
             restaurant.syncStatus = 0;
 
@@ -147,6 +167,21 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
 
         });
 
+    }
+
+    private void loadOwnerData(AppDatabase db) {
+        new Thread(() -> {
+            if (session != null) {
+                Owner owner = db.ownerDao().getById(session.ownerId);
+                runOnUiThread(() -> {
+                    if (owner != null) {
+                        edtPemilik.setText(owner.name);
+                        edtEmail.setText(owner.email);
+                        edtTelepon.setText(owner.phone);
+                    }
+                });
+            }
+        }).start();
     }
 
     private void bukaCabang(long id){
