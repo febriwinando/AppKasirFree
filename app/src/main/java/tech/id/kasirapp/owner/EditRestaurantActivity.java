@@ -8,6 +8,9 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
@@ -72,6 +75,14 @@ public class EditRestaurantActivity extends AppCompatActivity {
         setupToolbar();
 
         loadRestaurant();
+
+        // Keyboard Handling
+        View scrollView = findViewById(R.id.scrollView);
+        ViewCompat.setOnApplyWindowInsetsListener(scrollView, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+            v.setPadding(0, 0, 0, insets.bottom);
+            return windowInsets;
+        });
 
         // Menerapkan Animasi
         Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);

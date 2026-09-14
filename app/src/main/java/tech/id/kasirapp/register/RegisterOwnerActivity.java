@@ -206,10 +206,11 @@ public class RegisterOwnerActivity extends AppCompatActivity {
         setupToolbar();
 
         // Menangani Insets agar form tidak tertutup keyboard (Edge-to-Edge)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.containerRegister), (v, windowInsets) -> {
+        View scrollView = findViewById(R.id.scrollView);
+        ViewCompat.setOnApplyWindowInsetsListener(scrollView, (v, windowInsets) -> {
             Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            v.setPadding(dpToPx(24), dpToPx(32), dpToPx(24), insets.bottom);
-            return WindowInsetsCompat.CONSUMED;
+            v.setPadding(0, 0, 0, insets.bottom);
+            return windowInsets;
         });
 
         // Menerapkan Animasi Future Google

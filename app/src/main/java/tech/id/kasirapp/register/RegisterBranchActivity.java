@@ -70,10 +70,11 @@ public class RegisterBranchActivity extends AppCompatActivity {
         setupToolbar();
 
         // Keyboard Handling
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.containerRegisterBranch), (v, windowInsets) -> {
+        View scrollView = findViewById(R.id.scrollView);
+        ViewCompat.setOnApplyWindowInsetsListener(scrollView, (v, windowInsets) -> {
             Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            v.setPadding(dpToPx(24), dpToPx(32), dpToPx(24), insets.bottom);
-            return WindowInsetsCompat.CONSUMED;
+            v.setPadding(0, 0, 0, insets.bottom);
+            return windowInsets;
         });
 
         loadRestaurantInfo();
