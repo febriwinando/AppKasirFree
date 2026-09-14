@@ -68,25 +68,37 @@ public class LoginActivity extends AppCompatActivity {
         // Menangani Insets agar form tidak tertutup keyboard (Edge-to-Edge)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.containerLogin), (v, windowInsets) -> {
             Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            v.setPadding(0, 0, 0, insets.bottom);
+            v.setPadding(0, insets.top, 0, insets.bottom);
             return WindowInsetsCompat.CONSUMED;
         });
 
-        txtRegistrasi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, RegisterOwnerActivity.class));
-            }
-        });
+        // Menerapkan Animasi Future Google
+        Animation entrance = AnimationUtils.loadAnimation(this, R.anim.anim_liquid_entrance);
+        
+        View cardLogin = findViewById(R.id.cardLogin);
+        if (cardLogin != null) cardLogin.startAnimation(entrance);
+
+        View logoContainer = findViewById(R.id.logoContainer);
+        if (logoContainer != null) logoContainer.startAnimation(entrance);
+
+        View tvAppTitle = findViewById(R.id.tvAppTitle);
+        if (tvAppTitle != null) tvAppTitle.startAnimation(entrance);
+
+        if (txtRegistrasi != null) txtRegistrasi.startAnimation(entrance);
+
+        if (txtRegistrasi != null) {
+            txtRegistrasi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(LoginActivity.this, RegisterOwnerActivity.class));
+                }
+            });
+        }
 
         firestore = FirebaseFirestore.getInstance();
 
         db =
                 DatabaseClient.getDatabase(this);
-
-        // Menerapkan Animasi
-        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
-        findViewById(R.id.cardLogin).startAnimation(slideUp);
 
 
         btnLogin.setOnClickListener(v -> {

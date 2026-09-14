@@ -1,121 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@drawable/bg_liquid_purple_gradient">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit Cabang Restoran"
-            android:textColor="@color/black"
-            android:textSize="26sp"
-            android:textStyle="bold"/>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="@color/white"
+            app:title="Edit Outlet"
+            app:titleTextColor="@color/white"
+            android:background="@android:color/transparent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Ubah informasi cabang restoran"
-            android:textColor="@color/gray"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/containerEditBranch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="48dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:hint="Nama Cabang">
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp"
+            android:paddingTop="32dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtNamaCabang"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            <TextView
+                style="@style/TextAppearance.Future.HeadlineLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Operational Node"
+                android:textColor="@color/white" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                style="@style/TextAppearance.Future.BodyLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Update the configuration of this business sector."
+                android:textColor="#E1BEE7" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Alamat Cabang">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtAlamatCabang"
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.Card"
+                android:id="@+id/cardForm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="top"
-                android:minLines="3"/>
+                android:layout_marginTop="32dp"
+                app:cardCornerRadius="32dp"
+                app:cardElevation="0dp">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Nomor Telepon">
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:startIconDrawable="@drawable/ic_store"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:hint="Branch Designation">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtNamaCabang"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:inputType="textCapWords"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtTeleponCabang"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:startIconDrawable="@drawable/ic_edit"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:hint="Geographic Address">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtAlamatCabang"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:minLines="2"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:startIconDrawable="@drawable/ic_phone"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:hint="Contact Protocol">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtTeleponCabang"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:inputType="phone"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Jam Buka"
-            app:endIconMode="custom"
-            app:endIconDrawable="@drawable/ic_access_time">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtJamBuka"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:clickable="true"
-                android:inputType="none"/>
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            app:startIconDrawable="@drawable/ic_access_time"
+                            app:startIconTint="@color/white"
+                            app:hintTextColor="@color/white"
+                            app:boxStrokeColor="@color/white"
+                            android:hint="Opening">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtJamBuka"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:focusable="false"
+                                android:clickable="true"
+                                android:inputType="none"/>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            app:startIconDrawable="@drawable/ic_access_time"
+                            app:startIconTint="@color/white"
+                            app:hintTextColor="@color/white"
+                            app:boxStrokeColor="@color/white"
+                            android:hint="Closing">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtJamTutup"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:focusable="false"
+                                android:clickable="true"
+                                android:inputType="none"/>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Jam Tutup"
-            app:endIconMode="custom"
-            app:endIconDrawable="@drawable/ic_access_time">
+                    </LinearLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtJamTutup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:clickable="true"
-                android:inputType="none"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSimpan"
+                        style="@style/Widget.App.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="32dp"
+                        android:text="Commit Updates"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.Future.LabelLarge"
+                        android:textColor="@color/white"
+                        app:cornerRadius="20dp"/>
 
-        </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSimpan"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="30dp"
-            android:text="SIMPAN PERUBAHAN"
-            android:textStyle="bold"
-            android:backgroundTint="@color/primary"
-            app:cornerRadius="16dp"/>
+            </com.google.android.material.card.MaterialCardView>
 
-    </LinearLayout>
+        </LinearLayout>
 
-</ScrollView>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

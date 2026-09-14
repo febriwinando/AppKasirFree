@@ -1,326 +1,277 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@drawable/bg_liquid_purple_gradient">
 
-    <!-- HEADER -->
-    <LinearLayout
-        android:id="@+id/header"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:orientation="vertical"
-        android:background="@color/primary"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp">
 
-        <TextView
-            android:text="Halo, Budi"
-            android:textColor="@android:color/white"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Overview"
+            app:titleCentered="true"
+            app:titleTextColor="@color/white"
+            android:background="@android:color/transparent"/>
 
-        <TextView
-            android:text="Kopi Nusantara"
-            android:textColor="@android:color/white"
-            android:textSize="15sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <TextView
-            android:text="Semua Cabang"
-            android:textColor="#DDEEFF"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-
-    </LinearLayout>
-
-
-
-
-
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/header"
-        app:layout_constraintBottom_toTopOf="@id/bottomNav">
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="16dp">
 
-            <!-- STATISTIC GRID -->
+            <!-- Executive Greeting -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="24dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.App.Card"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp">
+                    <ImageView
+                        android:id="@+id/imgAvatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_person"
+                        android:padding="12dp"
+                        app:tint="@color/white"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tvGreeting"
+                        style="@style/TextAppearance.App.LabelLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Welcome Back"
+                        android:textColor="#B39DDB"
+                        android:textAllCaps="true" />
+                    <TextView
+                        android:id="@+id/tvRestaurantName"
+                        style="@style/TextAppearance.App.TitleLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Kasir App"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_notification"
+                    app:tint="@color/white"/>
+
+            </LinearLayout>
+
+            <!-- Refined Summary Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSummary"
+                style="@style/Widget.App.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <TextView
+                        style="@style/TextAppearance.App.LabelLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Net Sales"
+                        android:textColor="#B39DDB"
+                        android:textAllCaps="true" />
+
+                    <TextView
+                        android:id="@+id/txtOmzet"
+                        style="@style/TextAppearance.App.HeadlineLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Rp 25.453.00"
+                        android:textColor="@color/white" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_transaction"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/txtTransaksi"
+                            style="@style/TextAppearance.App.BodyLarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="245 Transactions Today"
+                            android:textColor="#E1BEE7" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Professional Action Grid -->
+            <TextView
+                style="@style/TextAppearance.App.LabelLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Quick Management"
+                android:textColor="#B39DDB"
+                android:textAllCaps="true" />
 
             <GridLayout
+                android:id="@+id/gridStats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:columnCount="2"
-                android:useDefaultMargins="true"
-                >
+                android:layout_marginTop="12dp">
 
                 <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.App.Card"
                     android:layout_width="0dp"
-                    android:layout_height="130dp"
+                    android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
-                    app:cardCornerRadius="20dp">
-
-                    <LinearLayout
-                        android:padding="15dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="💰 Omzet"
-                            android:textSize="16sp"
-                            android:textColor="@color/gray"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/txtOmzet"
-                            android:text="Rp 8.450.000"
-                            android:textStyle="bold"
-                            android:textSize="22sp"
-                            android:textColor="@color/primary"/>
+                    android:layout_margin="6dp"
+                    app:cardElevation="0dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="20dp" android:gravity="center">
+                        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_transaction" app:tint="@color/white"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:text="Sales" android:textColor="@color/white" android:textStyle="bold"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.App.Card"
                     android:layout_width="0dp"
-                    android:layout_height="130dp"
+                    android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
-                    app:cardCornerRadius="20dp">
-
-
-                    <LinearLayout
-                        android:padding="15dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="🛒 Transaksi"
-                            android:textSize="16sp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/txtTransaksi"
-                            android:text="245"
-                            android:textSize="22sp"
-                            android:textStyle="bold"/>
-
-
+                    android:layout_margin="6dp"
+                    app:cardElevation="0dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="20dp" android:gravity="center">
+                        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_omzet" app:tint="@color/white"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:text="Income" android:textColor="@color/white" android:textStyle="bold"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
-
-
-
 
                 <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.App.Card"
                     android:layout_width="0dp"
-                    android:layout_height="130dp"
+                    android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
-                    app:cardCornerRadius="20dp">
-
-
-                    <LinearLayout
-                        android:padding="15dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="📦 Produk"
-                            android:textSize="16sp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="780 item"
-                            android:textSize="22sp"
-                            android:textStyle="bold"/>
-
+                    android:layout_margin="6dp"
+                    app:cardElevation="0dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="20dp" android:gravity="center">
+                        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_product" app:tint="@color/white"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:text="Stock" android:textColor="@color/white" android:textStyle="bold"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
-
-
-
-
 
                 <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.App.Card"
                     android:layout_width="0dp"
-                    android:layout_height="130dp"
+                    android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
-                    app:cardCornerRadius="20dp">
-
-
-                    <LinearLayout
-                        android:padding="15dp"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="📈 Profit"
-                            android:textSize="16sp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Rp 3.200.000"
-                            android:textSize="22sp"
-                            android:textStyle="bold"/>
-
-
+                    android:layout_margin="6dp"
+                    app:cardElevation="0dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="20dp" android:gravity="center">
+                        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_more_vert" app:tint="@color/white"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:text="Apps" android:textColor="@color/white" android:textStyle="bold"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
+
             </GridLayout>
 
-            <!-- GRAFIK -->
+            <!-- Precision Insight Card -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardChart"
+                style="@style/Widget.App.Card"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:layout_marginTop="15dp"
-                app:cardCornerRadius="20dp">
-
+                android:layout_height="200dp"
+                android:layout_marginTop="24dp"
+                app:cardElevation="0dp">
 
                 <LinearLayout
-                    android:padding="15dp"
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-
-                    <TextView
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Grafik Penjualan 7 Hari"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
-
+                        android:indeterminate="true"
+                        app:indicatorColor="@color/white"
+                        app:trackColor="#33FFFFFF"
+                        app:trackThickness="4dp" />
 
                     <TextView
+                        style="@style/TextAppearance.App.BodyLarge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="60dp"
-                        android:text="📊 Chart"
-                        android:textSize="40sp"/>
+                        android:layout_marginTop="16dp"
+                        android:text="Analyzing System Performance"
+                        android:textColor="#E1BEE7" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- CABANG -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                app:cardCornerRadius="20dp">
-
-
-
-                <LinearLayout
-                    android:padding="15dp"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🏆 Cabang Terbaik"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cabang Sudirman"
-                        android:textSize="16sp"
-                        android:layout_marginTop="10dp"/>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Rp 15.000.000"
-                        android:textColor="@color/green"/>
-
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-
-
-
-
-            <!-- MENU TERLARIS -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                app:cardCornerRadius="20dp">
-
-
-                <LinearLayout
-                    android:padding="15dp"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🔥 Menu Terlaris"
-                        android:textSize="18sp"
-                        android:textStyle="bold"/>
-
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1. Kopi Susu - 320 terjual"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2. Nasi Goreng - 210 terjual"/>
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
+        style="@style/Widget.Material3.BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/menu_dashboard"/>
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bg_liquid_glass"
+        app:backgroundTint="@null"
+        app:elevation="12dp"
+        app:menu="@menu/menu_dashboard"
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
+        app:itemRippleColor="#26FFB300"
+        app:labelVisibilityMode="labeled" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

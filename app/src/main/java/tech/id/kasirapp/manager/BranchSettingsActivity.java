@@ -1,10 +1,15 @@
 package tech.id.kasirapp.manager;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputEditText;
@@ -15,6 +20,7 @@ import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.AppSession;
 import tech.id.kasirapp.data.local.entity.Branch;
+import tech.id.kasirapp.util.StatusHelper;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -30,13 +36,8 @@ public class BranchSettingsActivity extends AppCompatActivity {
     private TextInputEditText edtPajak;
     private TextInputEditText edtServiceCharge;
 
-    private MaterialSwitch switchDineIn;
-    private MaterialSwitch switchTakeAway;
-    private MaterialSwitch switchDelivery;
-
     private MaterialSwitch switchKirimDapur;
     private MaterialSwitch switchStokOtomatis;
-    private MaterialSwitch switchStokNegatif;
 
     private MaterialButton btnSimpan;
 
@@ -49,7 +50,7 @@ public class BranchSettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
 
         setContentView(
@@ -60,7 +61,14 @@ public class BranchSettingsActivity extends AppCompatActivity {
 
         initView();
 
+        setupToolbar();
+
         loadBranch();
+
+        // Menerapkan Animasi
+        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+        View container = findViewById(R.id.containerBranchSettings);
+        if (container != null) container.startAnimation(slideUp);
 
         btnSimpan.setOnClickListener(
                 v -> simpanPengaturan()
@@ -74,19 +82,22 @@ public class BranchSettingsActivity extends AppCompatActivity {
         edtTelepon = findViewById(R.id.edtTelepon);
         edtJamBuka = findViewById(R.id.edtJamBuka);
         edtJamTutup = findViewById(R.id.edtJamTutup);
+        edtJumlahMeja = findViewById(R.id.edtJumlahMeja);
         edtPajak = findViewById(R.id.edtPajak);
         edtServiceCharge = findViewById(R.id.edtServiceCharge);
-        switchDineIn = findViewById(R.id.switchDineIn);
-        switchTakeAway = findViewById(R.id.switchTakeAway);
-        switchDelivery = findViewById(R.id.switchDelivery);
         switchKirimDapur = findViewById(R.id.switchKirimDapur);
         switchStokOtomatis = findViewById(R.id.switchStokOtomatis);
-        switchStokNegatif = findViewById(R.id.switchStokNegatif);
-        edtJumlahMeja = findViewById(R.id.edtJumlahMeja);
 
         btnSimpan = findViewById(R.id.btnSimpan);
 
 
+    }
+
+    private void setupToolbar() {
+        View toolbar = findViewById(R.id.toolbar);
+        if (toolbar instanceof MaterialToolbar) {
+            ((MaterialToolbar) toolbar).setNavigationOnClickListener(v -> finish());
+        }
     }
 
     private void loadBranch() {
@@ -169,12 +180,7 @@ public class BranchSettingsActivity extends AppCompatActivity {
                                 : branch.closeTime
                 );
 
-                /*
-                 * Untuk sementara nilai default.
-                 *
-                 * Nanti mengambil dari
-                 * BranchSettings entity.
-                 */
+                edtJumlahMeja.setText(String.valueOf(branch.jumlahMeja));
 
                 edtPajak.setText(
                         branch.tax == 0.00
@@ -183,12 +189,8 @@ public class BranchSettingsActivity extends AppCompatActivity {
                 );
 
                 edtServiceCharge.setText("0");
-                switchDineIn.setChecked(branch.dineIn);
-                switchTakeAway.setChecked(branch.takeAway);
-                switchDelivery.setChecked(branch.delivery);
                 switchKirimDapur.setChecked(branch.sendToKitchen);
                 switchStokOtomatis.setChecked(branch.automaticStock);
-                switchStokNegatif.setChecked(branch.allowNegativeStock);
 
             });
 
@@ -268,176 +270,15 @@ public class BranchSettingsActivity extends AppCompatActivity {
             return;
         }
 
-        int jumlahMeja = 0;
-
-        String jumlahMejaText =
-                edtJumlahMeja
-                        .getText()
-                        .toString()
-                        .trim();
-
-        if (!jumlahMejaText.isEmpty()) {
-
-            try {
-
-                jumlahMeja =
-                        Integer.parseInt(
-                                jumlahMejaText
-                        );
-
-            } catch (NumberFormatException e) {
-
-                edtJumlahMeja.setError(
-                        "Jumlah meja tidak valid"
-                );
-
-                edtJumlahMeja.requestFocus();
-
-                return;
-            }
-        }
-
-        if (jumlahMeja < 0) {
-
-            edtJumlahMeja.setError(
-                    "Jumlah meja tidak boleh kurang dari 0"
-            );
-
-            edtJumlahMeja.requestFocus();
-
-            return;
-        }
-
-        if (jumlahMeja < 1) {
-
-            edtJumlahMeja.setError(
-                    "Jumlah meja minimal 1"
-            );
-
-            edtJumlahMeja.requestFocus();
-
-            return;
-        }
-
-        // =========================================================
-        // PAJAK
-        // =========================================================
-
-        double pajak = 0;
-
-        String pajakText =
-                edtPajak
-                        .getText()
-                        .toString()
-                        .trim();
-
-        if (!pajakText.isEmpty()) {
-
-            try {
-
-                pajak =
-                        Double.parseDouble(
-                                pajakText
-                        );
-
-            } catch (NumberFormatException e) {
-
-                edtPajak.setError(
-                        "Nilai pajak tidak valid"
-                );
-
-                edtPajak.requestFocus();
-
-                return;
-            }
-        }
-
-
-        // =========================================================
-        // SERVICE CHARGE
-        // =========================================================
-
-        double serviceCharge = 0;
-
-        String serviceText =
-                edtServiceCharge
-                        .getText()
-                        .toString()
-                        .trim();
-
-        if (!serviceText.isEmpty()) {
-
-            try {
-
-                serviceCharge =
-                        Double.parseDouble(
-                                serviceText
-                        );
-
-            } catch (NumberFormatException e) {
-
-                edtServiceCharge.setError(
-                        "Nilai service charge tidak valid"
-                );
-
-                edtServiceCharge.requestFocus();
-
-                return;
-            }
-        }
-
-
-        // =========================================================
-        // BATASI NILAI PERSENTASE
-        // =========================================================
-
-        if (pajak < 0 || pajak > 100) {
-
-            edtPajak.setError(
-                    "Pajak harus antara 0 sampai 100%"
-            );
-
-            edtPajak.requestFocus();
-
-            return;
-        }
-
-
-        if (serviceCharge < 0 ||
-                serviceCharge > 100) {
-
-            edtServiceCharge.setError(
-                    "Service charge harus antara 0 sampai 100%"
-            );
-
-            edtServiceCharge.requestFocus();
-
-            return;
-        }
-
-
         // =========================================================
         // AMBIL DATA SWITCH
         // =========================================================
-
-        boolean dineIn =
-                switchDineIn.isChecked();
-
-        boolean takeAway =
-                switchTakeAway.isChecked();
-
-        boolean delivery =
-                switchDelivery.isChecked();
-
 
         boolean sendToKitchen =
                 switchKirimDapur.isChecked();
 
         boolean automaticStock =
                 switchStokOtomatis.isChecked();
-
-        boolean allowNegativeStock =
-                switchStokNegatif.isChecked();
 
 
         // =========================================================
@@ -450,6 +291,21 @@ public class BranchSettingsActivity extends AppCompatActivity {
         // =========================================================
         // PROSES
         // =========================================================
+
+        double pajak = 0;
+        try {
+            pajak = Double.parseDouble(edtPajak.getText().toString().trim());
+        } catch (Exception ignored) {}
+
+        double serviceCharge = 0;
+        try {
+            serviceCharge = Double.parseDouble(edtServiceCharge.getText().toString().trim());
+        } catch (Exception ignored) {}
+
+        int jumlahMeja = 0;
+        try {
+            jumlahMeja = Integer.parseInt(edtJumlahMeja.getText().toString().trim());
+        } catch (Exception ignored) {}
 
         double finalPajak = pajak;
         double finalServiceCharge = serviceCharge;
@@ -471,11 +327,12 @@ public class BranchSettingsActivity extends AppCompatActivity {
 
                     btnSimpan.setEnabled(true);
 
-                    Toast.makeText(
+                    StatusHelper.showError(
                             this,
+                            "Gagal",
                             "Cabang tidak ditemukan",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                            null
+                    );
 
                 });
 
@@ -515,18 +372,6 @@ public class BranchSettingsActivity extends AppCompatActivity {
 
             branch.jumlahMeja =
                     finalJumlahMeja;
-            // =====================================================
-            // METODE PENJUALAN
-            // =====================================================
-
-            branch.dineIn =
-                    dineIn;
-
-            branch.takeAway =
-                    takeAway;
-
-            branch.delivery =
-                    delivery;
 
 
             // =====================================================
@@ -539,13 +384,15 @@ public class BranchSettingsActivity extends AppCompatActivity {
             branch.automaticStock =
                     automaticStock;
 
-            branch.allowNegativeStock =
-                    allowNegativeStock;
-
 
             // =====================================================
             // UPDATE FIREBASE
             // =====================================================
+
+            runOnUiThread(() -> {
+                btnSimpan.setEnabled(false);
+                StatusHelper.showLoading(this, "Commiting system protocols...");
+            });
 
             FirebaseRepository firebase =
                     new FirebaseRepository();
@@ -594,14 +441,8 @@ public class BranchSettingsActivity extends AppCompatActivity {
                             runOnUiThread(() -> {
 
                                 btnSimpan.setEnabled(true);
-
-                                Toast.makeText(
-                                        BranchSettingsActivity.this,
-                                        "Pengaturan cabang berhasil disimpan",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-
-                                finish();
+                                StatusHelper.hideLoading();
+                                StatusHelper.showSuccess(BranchSettingsActivity.this, "Berhasil", "Pengaturan cabang berhasil disimpan", () -> finish());
 
                             });
                         }
@@ -631,14 +472,8 @@ public class BranchSettingsActivity extends AppCompatActivity {
                             runOnUiThread(() -> {
 
                                 btnSimpan.setEnabled(true);
-
-                                Toast.makeText(
-                                        BranchSettingsActivity.this,
-                                        "Disimpan di perangkat. Sinkronisasi ke server gagal.",
-                                        Toast.LENGTH_LONG
-                                ).show();
-
-                                finish();
+                                StatusHelper.hideLoading();
+                                StatusHelper.showError(BranchSettingsActivity.this, "Gagal", "Disimpan di perangkat. Sinkronisasi ke server gagal.", () -> finish());
 
                             });
                         }

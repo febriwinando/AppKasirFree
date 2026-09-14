@@ -1,171 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:fitsSystemWindows="true"
-    android:background="@color/background">
+    android:background="@drawable/bg_liquid_purple_gradient">
 
-    <LinearLayout
-        android:id="@+id/containerRegisterRestaurant"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp">
 
-        <!-- HEADER -->
-        <LinearLayout
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:background="@drawable/bg_gradient"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="24dp">
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="@color/white"
+            app:title="Business Registration"
+            app:titleTextColor="@color/white"
+            android:background="@android:color/transparent" />
 
-            <ImageView
-                android:id="@+id/imgHeader"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/restaurantputih"
-                app:tint="@color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-            <TextView
-                android:id="@+id/tvHeaderTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Data Restoran"
-                android:textColor="@color/white"
-                android:textSize="28sp"
-                android:fontFamily="sans-serif-medium"
-                android:textStyle="bold"/>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="48dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <TextView
-                android:id="@+id/tvHeaderSubtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Identitas utama bisnis kuliner Anda"
-                android:textColor="@color/white"
-                android:alpha="0.9"/>
-
-        </LinearLayout>
-
-        <!-- CARD FORM -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardForm"
+        <LinearLayout
+            android:id="@+id/containerRegisterRestaurant"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="-40dp"
-            android:layout_marginBottom="24dp"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="8dp"
-            app:cardBackgroundColor="@color/white">
+            android:orientation="vertical"
+            android:paddingHorizontal="8dp"
+            android:paddingTop="32dp">
 
-            <LinearLayout
+            <!-- Hidden IDs for compatibility -->
+            <View android:id="@+id/imgHeader" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone"/>
+            <View android:id="@+id/tvHeaderTitle" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone"/>
+            <View android:id="@+id/tvHeaderSubtitle" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone"/>
+
+            <TextView
+                style="@style/TextAppearance.Future.HeadlineLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Business"
+                android:textColor="@color/white" />
+
+            <TextView
+                style="@style/TextAppearance.Future.BodyLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Register your restaurant identity."
+                android:textColor="#E1BEE7" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.Card"
+                android:id="@+id/cardForm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="24dp">
+                android:layout_marginTop="32dp"
+                app:cardCornerRadius="32dp"
+                app:cardElevation="0dp">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nama Restoran / Usaha"
-                    app:startIconDrawable="@drawable/ic_store"
-                    app:startIconTint="@color/primary"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp">
+                    android:orientation="vertical"
+                    android:padding="5dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtNamaRestoran"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textCapWords"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                        app:startIconDrawable="@drawable/ic_store"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:hint="Business Name">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtNamaRestoran"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:inputType="textCapWords"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="Nama Pemilik"
-                    app:startIconDrawable="@drawable/ic_person"
-                    app:startIconTint="@color/primary"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtPemilik"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_marginTop="16dp"
+                        app:startIconDrawable="@drawable/ic_person"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:hint="Owner Representative">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtPemilik"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:inputType="textPersonName"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="Nomor WhatsApp Restoran"
-                    app:startIconDrawable="@drawable/ic_phone"
-                    app:startIconTint="@color/primary"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtTelepon"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="phone"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_marginTop="16dp"
+                        app:startIconDrawable="@drawable/ic_phone"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:hint="Business Phone">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtTelepon"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:inputType="phone"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="Email Restoran"
-                    app:startIconDrawable="@drawable/ic_email"
-                    app:startIconTint="@color/primary"
-                    app:boxCornerRadiusTopStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusBottomEnd="12dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtEmail"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_marginTop="16dp"
+                        app:startIconDrawable="@drawable/ic_email"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:hint="Business Email">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:inputType="textEmailAddress"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnLanjutCabang"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="32dp"
-                    android:text="SIMPAN RESTORAN"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    app:backgroundTint="@color/primary"
-                    app:cornerRadius="16dp"
-                    app:elevation="4dp"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnLanjutCabang"
+                        style="@style/Widget.App.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="32dp"
+                        android:text="Continue to Outlets"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.Future.LabelLarge"
+                        android:textColor="@color/white"
+                        app:cornerRadius="20dp" />
 
-            </LinearLayout>
+                </LinearLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
-    </LinearLayout>
-
-</androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

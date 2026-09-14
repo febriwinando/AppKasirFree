@@ -1,8 +1,12 @@
 package tech.id.kasirapp.owner;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -14,6 +18,7 @@ import tech.id.kasirapp.data.firebase.FirebaseRepository;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.Restaurant;
+import tech.id.kasirapp.util.StatusHelper;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -36,7 +41,7 @@ public class EditRestaurantActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_edit_restaurant);
@@ -67,6 +72,11 @@ public class EditRestaurantActivity extends AppCompatActivity {
         setupToolbar();
 
         loadRestaurant();
+
+        // Menerapkan Animasi
+        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+        View cardForm = findViewById(R.id.cardForm);
+        if (cardForm != null) cardForm.startAnimation(slideUp);
 
         btnSimpan.setOnClickListener(v -> {
 
@@ -246,6 +256,7 @@ public class EditRestaurantActivity extends AppCompatActivity {
             runOnUiThread(() -> {
 
                 syncFirebase(restaurant);
+                StatusHelper.showLoading(this, "Updating business identity...");
 
             });
 
@@ -283,14 +294,8 @@ public class EditRestaurantActivity extends AppCompatActivity {
                             runOnUiThread(() -> {
 
                                 btnSimpan.setEnabled(true);
-
-                                Toast.makeText(
-                                        EditRestaurantActivity.this,
-                                        "Restoran berhasil diperbarui",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-
-                                finish();
+                                StatusHelper.hideLoading();
+                                StatusHelper.showSuccess(EditRestaurantActivity.this, "Berhasil", "Restoran berhasil diperbarui", () -> finish());
 
                             });
 
@@ -312,14 +317,8 @@ public class EditRestaurantActivity extends AppCompatActivity {
                             runOnUiThread(() -> {
 
                                 btnSimpan.setEnabled(true);
-
-                                Toast.makeText(
-                                        EditRestaurantActivity.this,
-                                        "Tersimpan di perangkat, tetapi gagal sinkron ke server",
-                                        Toast.LENGTH_LONG
-                                ).show();
-
-                                finish();
+                                StatusHelper.hideLoading();
+                                StatusHelper.showError(EditRestaurantActivity.this, "Gagal", "Tersimpan di perangkat, tetapi gagal sinkron ke server", () -> finish());
 
                             });
 

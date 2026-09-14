@@ -1,178 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@drawable/bg_liquid_purple_gradient">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit Manager Cabang"
-            android:textColor="@color/black"
-            android:textSize="26sp"
-            android:textStyle="bold"/>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="@color/white"
+            app:title="Edit Manager"
+            app:titleTextColor="@color/white"
+            android:background="@android:color/transparent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Perbarui informasi Manager Cabang"
-            android:textColor="@color/gray"
-            android:textSize="14sp"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="48dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- NAMA -->
-
-        <com.google.android.material.textfield.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:hint="Nama Manager">
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp"
+            android:paddingTop="32dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtNamaManager"
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.Card"
+                android:id="@+id/cardForm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"/>
+                app:cardCornerRadius="32dp"
+                app:cardElevation="0dp">
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <!-- USERNAME -->
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Username">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtUsername"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <!-- PASSWORD -->
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Password Baru"
-            app:endIconMode="password_toggle">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Kosongkan jika password tidak ingin diubah."
-            android:textColor="@color/gray"
-            android:textSize="12sp"/>
-
-
-        <!-- KONFIRMASI PASSWORD -->
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Konfirmasi Password Baru"
-            app:endIconMode="password_toggle">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtKonfirmasiPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <!-- TELEPON -->
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Nomor Telepon">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtTelepon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <!-- INFO -->
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            app:cardCornerRadius="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Keamanan Manager"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="Password lama tidak ditampilkan. Isi Password Baru hanya jika ingin menggantinya."
-                    android:textColor="@color/gray"
-                    android:textSize="13sp"/>
+                    android:orientation="vertical"
+                    android:padding="5dp">
 
-            </LinearLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:startIconDrawable="@drawable/ic_person"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:hint="Manager Name">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtNamaManager"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:inputType="textPersonName"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:startIconDrawable="@drawable/ic_person"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:hint="Username">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtUsername"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:startIconDrawable="@drawable/ic_phone"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:hint="Phone Number">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtTelepon"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:inputType="phone"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- BUTTON -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:startIconDrawable="@drawable/ic_lock"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        app:endIconMode="password_toggle"
+                        app:endIconTint="@color/white"
+                        android:hint="New Password (Optional)">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:inputType="textPassword"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSimpan"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="30dp"
-            android:text="SIMPAN PERUBAHAN"
-            android:textStyle="bold"
-            android:backgroundTint="@color/primary"
-            app:cornerRadius="16dp"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:startIconDrawable="@drawable/ic_lock"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        app:endIconMode="password_toggle"
+                        app:endIconTint="@color/white"
+                        android:hint="Confirm Password">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtKonfirmasiPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:inputType="textPassword"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-    </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSimpan"
+                        style="@style/Widget.App.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="32dp"
+                        android:text="Commit Changes"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.Future.LabelLarge"
+                        android:textColor="@color/white"
+                        app:cornerRadius="20dp"/>
 
-</ScrollView>
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

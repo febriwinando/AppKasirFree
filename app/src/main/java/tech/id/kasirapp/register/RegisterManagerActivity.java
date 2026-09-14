@@ -1,11 +1,16 @@
 package tech.id.kasirapp.register;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 import tech.id.kasirapp.util.StatusHelper;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -40,7 +45,7 @@ public class RegisterManagerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
 
         setContentView(
@@ -62,6 +67,13 @@ public class RegisterManagerActivity extends AppCompatActivity {
         btnSimpan.setOnClickListener(
                 v -> simpanManager()
         );
+
+        setupToolbar();
+
+        // Menerapkan Animasi
+        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+        View cardForm = findViewById(R.id.cardForm);
+        if (cardForm != null) cardForm.startAnimation(slideUp);
     }
 
     private void initView() {
@@ -254,6 +266,8 @@ public class RegisterManagerActivity extends AppCompatActivity {
                     db.managerDao()
                             .insert(manager);
 
+            runOnUiThread(() -> StatusHelper.showLoading(this, "Authorizing management credentials..."));
+
             FirebaseRepository firebase =
                     new FirebaseRepository();
 
@@ -277,7 +291,7 @@ public class RegisterManagerActivity extends AppCompatActivity {
                                     );
 
                             runOnUiThread(() -> {
-
+                                StatusHelper.hideLoading();
                                 StatusHelper.showSuccess(RegisterManagerActivity.this, "Berhasil", "Manager berhasil dibuat", () -> finish());
 
                             });
@@ -295,7 +309,7 @@ public class RegisterManagerActivity extends AppCompatActivity {
                                     );
 
                             runOnUiThread(() -> {
-
+                                StatusHelper.hideLoading();
                                 StatusHelper.showError(RegisterManagerActivity.this, "Gagal", "Manager disimpan lokal, sinkronisasi gagal", () -> finish());
 
                             });
@@ -304,6 +318,13 @@ public class RegisterManagerActivity extends AppCompatActivity {
             );
 
         });
+    }
+
+    private void setupToolbar() {
+        View toolbar = findViewById(R.id.toolbar);
+        if (toolbar instanceof MaterialToolbar) {
+            ((MaterialToolbar) toolbar).setNavigationOnClickListener(v -> finish());
+        }
     }
 
     @Override

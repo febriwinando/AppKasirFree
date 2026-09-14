@@ -1,35 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F7F7">
+    android:background="@drawable/bg_liquid_purple_gradient">
 
-    <!-- Toolbar -->
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/white"
-        android:elevation="2dp"
-        app:title="Restoran &amp; Cabang"
-        app:titleTextColor="#212121"
-        app:navigationIcon="@drawable/ic_arrow_back"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp">
 
-    <!-- Scroll -->
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="@color/white"
+            app:title="Business Outlets"
+            app:titleCentered="true"
+            app:titleTextColor="@color/white"
+            android:background="@android:color/transparent" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,52 +40,43 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Header -->
             <TextView
+                style="@style/TextAppearance.Future.HeadlineLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Restoran Saya"
-                android:textColor="#212121"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:text="My Ecosystem"
+                android:textColor="@color/white" />
 
             <TextView
+                style="@style/TextAppearance.Future.BodyLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Kelola restoran dan cabang Anda"
-                android:textColor="#757575"
-                android:textSize="14sp" />
+                android:layout_marginTop="8dp"
+                android:text="Manage and monitor all your digital storefronts."
+                android:textColor="#E1BEE7" />
 
-            <!--
-                SEMUA CARD RESTORAN AKAN
-                DIBUAT DI SINI DARI ROOM
-            -->
             <LinearLayout
                 android:id="@+id/restaurantContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="32dp"
                 android:orientation="vertical" />
 
-            <!-- Tambah Restoran -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnAddRestaurant"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="24dp"
-                android:text="+  Tambah Restoran"
-                android:textColor="#F9A825"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:backgroundTint="@android:color/white"
-                app:cornerRadius="12dp"
-                app:strokeColor="#F9A825"
-                app:strokeWidth="1dp" />
-
         </LinearLayout>
-
     </androidx.core.widget.NestedScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btnAddRestaurant"
+        style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="24dp"
+        android:text="New Business"
+        android:textColor="@color/on_primary"
+        android:textAppearance="@style/TextAppearance.Future.LabelLarge"
+        app:backgroundTint="@color/primary"
+        app:icon="@drawable/ic_edit"
+        app:iconTint="@color/on_primary" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

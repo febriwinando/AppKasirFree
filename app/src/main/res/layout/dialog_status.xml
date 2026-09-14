@@ -1,46 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.App.Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="32dp">
+    app:cardCornerRadius="32dp"
+    app:cardElevation="0dp">
 
-    <ImageView
-        android:id="@+id/imgStatus"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_success" />
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Berhasil"
-        android:textColor="@color/black"
-        android:textSize="22sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="Data berhasil disimpan ke sistem."
-        android:textColor="@color/gray"
-        android:textSize="16sp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnAction"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="32dp"
-        android:text="OK"
-        android:textColor="@color/black"
-        app:backgroundTint="@color/primary"
-        app:cornerRadius="16dp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:gravity="center">
 
-</LinearLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardIconStatus"
+            style="@style/Widget.App.Card"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp">
+            <ImageView
+                android:id="@+id/imgStatus"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_success"
+                app:tint="@color/white" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/TextAppearance.Future.TitleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Action Success"
+            android:textAlignment="center"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/tvMessage"
+            style="@style/TextAppearance.Future.BodyLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Your data has been successfully updated."
+            android:textAlignment="center"
+            android:textColor="#E1BEE7" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAction"
+            style="@style/Widget.App.Button"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="32dp"
+            android:text="Continue"
+            android:textAllCaps="false"
+            android:textAppearance="@style/TextAppearance.Future.LabelLarge"
+            android:textColor="@color/white"
+            app:cornerRadius="20dp" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

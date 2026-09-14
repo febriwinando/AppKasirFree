@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
@@ -66,10 +67,12 @@ public class RegisterBranchActivity extends AppCompatActivity {
         tvNamaRestoranHeader = findViewById(R.id.tvNamaRestoranHeader);
         tvNamaOwnerHeader = findViewById(R.id.tvNamaOwnerHeader);
 
+        setupToolbar();
+
         // Keyboard Handling
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.containerRegisterBranch), (v, windowInsets) -> {
             Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            v.setPadding(0, 0, 0, insets.bottom);
+            v.setPadding(dpToPx(24), dpToPx(32), dpToPx(24), insets.bottom);
             return WindowInsetsCompat.CONSUMED;
         });
 
@@ -111,6 +114,13 @@ public class RegisterBranchActivity extends AppCompatActivity {
         edtJamTutup.setOnClickListener(v -> {
             showTimePicker(false);
         });
+    }
+
+    private void setupToolbar() {
+        View toolbar = findViewById(R.id.toolbar);
+        if (toolbar instanceof MaterialToolbar) {
+            ((MaterialToolbar) toolbar).setNavigationOnClickListener(v -> finish());
+        }
     }
 
     private void showTimePicker(boolean jamBuka) {
@@ -184,11 +194,20 @@ public class RegisterBranchActivity extends AppCompatActivity {
                     Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
                     Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
 
-                    findViewById(R.id.cardForm).startAnimation(slideUp);
-                    findViewById(R.id.cardInfo).startAnimation(slideUp);
-                    findViewById(R.id.imgHeader).startAnimation(fadeIn);
-                    findViewById(R.id.tvHeaderTitle).startAnimation(fadeIn);
-                    findViewById(R.id.tvHeaderSubtitle).startAnimation(fadeIn);
+                    View cardForm = findViewById(R.id.cardForm);
+                    if (cardForm != null) cardForm.startAnimation(slideUp);
+
+                    View cardInfo = findViewById(R.id.cardInfo);
+                    if (cardInfo != null) cardInfo.startAnimation(slideUp);
+
+                    View imgHeader = findViewById(R.id.imgHeader);
+                    if (imgHeader != null) imgHeader.startAnimation(fadeIn);
+
+                    View tvHeaderTitle = findViewById(R.id.tvHeaderTitle);
+                    if (tvHeaderTitle != null) tvHeaderTitle.startAnimation(fadeIn);
+
+                    View tvHeaderSubtitle = findViewById(R.id.tvHeaderSubtitle);
+                    if (tvHeaderSubtitle != null) tvHeaderSubtitle.startAnimation(fadeIn);
                 }
             });
         }).start();
@@ -256,6 +275,8 @@ public class RegisterBranchActivity extends AppCompatActivity {
 
             long id = db.branchDao().insert(branch);
 
+            runOnUiThread(() -> StatusHelper.showLoading(this, "Linking operational branch..."));
+
             FirebaseRepository firebase = new FirebaseRepository();
             firebase.saveBranch(
                     firebaseId,
@@ -273,6 +294,7 @@ public class RegisterBranchActivity extends AppCompatActivity {
                             new Thread(() -> {
                                 db.branchDao().updateSyncStatus(id, 1);
                                 runOnUiThread(() -> {
+                                    StatusHelper.hideLoading();
                                     StatusHelper.showSuccess(RegisterBranchActivity.this, "Berhasil", isMain ? "Cabang utama berhasil dibuat" : "Cabang berhasil ditambahkan", () -> finish());
                                 });
                             }).start();
@@ -283,6 +305,7 @@ public class RegisterBranchActivity extends AppCompatActivity {
                             new Thread(() -> {
                                 db.branchDao().updateSyncStatus(id, 2);
                                 runOnUiThread(() -> {
+                                    StatusHelper.hideLoading();
                                     StatusHelper.showError(RegisterBranchActivity.this, "Gagal", "Cabang disimpan lokal, sinkronisasi gagal", () -> finish());
                                 });
                             }).start();
@@ -386,4 +409,8 @@ public class RegisterBranchActivity extends AppCompatActivity {
 //
 //
 //    }
+    private int dpToPx(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round((float) dp * density);
+    }
 }

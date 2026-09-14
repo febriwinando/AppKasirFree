@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Deep Glass Shadow/Inner Glow -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#1A000000" />
+            <corners android:radius="28dp" />
+        </shape>
+    </item>
+
+    <!-- Frosted Surface with Gradient for Depth -->
+    <item android:bottom="2dp" android:left="1dp" android:right="1dp" android:top="1dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="135"
+                android:endColor="#1AFFFFFF"
+                android:startColor="#4DFFFFFF"
+                android:type="linear" />
+            <corners android:radius="28dp" />
+        </shape>
+    </item>
+
+    <!-- High-Light Reflection Edge (The "Glass" Stroke) -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <corners android:radius="28dp" />
+            <stroke
+                android:width="1.5dp"
+                android:color="#80FFFFFF" />
+        </shape>
+    </item>
+</layer-list>

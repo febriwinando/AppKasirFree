@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="800"
-    android:interpolator="@android:anim/decelerate_interpolator">
+    android:interpolator="@android:anim/overshoot_interpolator">
     <translate
-        android:fromYDelta="50%p"
-        android:toYDelta="0" />
+        android:fromYDelta="30%p"
+        android:toYDelta="0"
+        android:duration="600" />
     <alpha
         android:fromAlpha="0.0"
-        android:toAlpha="1.0" />
+        android:toAlpha="1.0"
+        android:duration="600" />
 </set>

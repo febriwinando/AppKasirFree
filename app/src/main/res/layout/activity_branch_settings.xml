@@ -1,354 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@drawable/bg_liquid_purple_gradient">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp">
 
-        <!-- HEADER -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pengaturan Cabang"
-            android:textColor="@color/black"
-            android:textSize="26sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Atur konfigurasi operasional cabang"
-            android:textColor="@color/gray"
-            android:textSize="14sp"/>
-
-
-        <!-- ================================================= -->
-        <!-- INFORMASI CABANG -->
-        <!-- ================================================= -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="Informasi Cabang"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
-
-
-        <com.google.android.material.textfield.TextInputLayout
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Nama Cabang">
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="@color/white"
+            app:title="System Configuration"
+            app:titleTextColor="@color/white"
+            android:background="@android:color/transparent" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtNamaCabang"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapWords"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:hint="Alamat">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtAlamat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:minLines="3"
-                android:inputType="textMultiLine"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:hint="Nomor Telepon">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtTelepon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <!-- JAM OPERASIONAL -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Jam Operasional"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold"/>
-
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/containerBranchSettings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="48dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp"
+            android:paddingTop="32dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="0dp"
+            <TextView
+                style="@style/TextAppearance.Future.LabelLarge"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="6dp"
-                android:hint="Buka">
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Operational Identity"
+                android:textColor="#B39DDB"
+                android:textAllCaps="true" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtJamBuka"
+            <!-- Store Identity Card -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="32dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:clickable="true"/>
+                    android:orientation="vertical"
+                    android:padding="5dp">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:startIconDrawable="@drawable/ic_store"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:hint="Branch Designation">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtNamaCabang"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:inputType="textCapWords"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:startIconDrawable="@drawable/ic_edit"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:hint="Geographic Address">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtAlamat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:minLines="2"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="0dp"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:startIconDrawable="@drawable/ic_notification"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:hint="Number of Tables">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtJumlahMeja"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:inputType="number"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                style="@style/TextAppearance.Future.LabelLarge"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="6dp"
-                android:hint="Tutup">
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Financial Protocols"
+                android:textColor="#B39DDB"
+                android:textAllCaps="true" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtJamTutup"
+            <!-- Financials Card -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="32dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:clickable="true"/>
+                    android:orientation="vertical"
+                    android:padding="5dp">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:hint="Regulatory Tax (%)">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtPajak"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:inputType="numberDecimal"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:hint="Service Charge (%)">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtServiceCharge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:inputType="numberDecimal"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                style="@style/TextAppearance.Future.LabelLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Operational Features"
+                android:textColor="#B39DDB"
+                android:textAllCaps="true" />
+
+            <!-- Operational Features Card -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                app:cardCornerRadius="32dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switchKirimDapur"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="Auto Send to Kitchen"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switchStokOtomatis"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="Auto Stock Management"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSimpan"
+                style="@style/Widget.App.Button"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginBottom="40dp"
+                android:text="Commit Changes"
+                android:textAllCaps="false"
+                android:textAppearance="@style/TextAppearance.Future.LabelLarge"
+                android:textColor="@color/white"
+                app:cornerRadius="20dp"/>
 
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-
-        <!-- ================================================= -->
-        <!-- TRANSAKSI -->
-        <!-- ================================================= -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Transaksi"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Pajak (%)">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtPajak"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:hint="Service Charge (%)">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtServiceCharge"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Jumlah Meja"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:hint="Jumlah Meja">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtJumlahMeja"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-        <!-- ================================================= -->
-        <!-- TIPE PESANAN -->
-        <!-- ================================================= -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Tipe Pesanan"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
-
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            app:cardCornerRadius="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/switchDineIn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Dine In"/>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/switchTakeAway"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Take Away"/>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/switchDelivery"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Delivery"/>
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-
-        <!-- ================================================= -->
-        <!-- DAPUR -->
-        <!-- ================================================= -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Dapur"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
-
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            app:cardCornerRadius="16dp">
-
-            <com.google.android.material.materialswitch.MaterialSwitch
-                android:id="@+id/switchKirimDapur"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="Kirim pesanan ke dapur"/>
-
-        </com.google.android.material.card.MaterialCardView>
-
-
-        <!-- ================================================= -->
-        <!-- STOK -->
-        <!-- ================================================= -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Stok"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
-
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            app:cardCornerRadius="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/switchStokOtomatis"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Kurangi stok otomatis"/>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/switchStokNegatif"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Izinkan stok minus"/>
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-
-        <!-- ================================================= -->
-        <!-- SIMPAN -->
-        <!-- ================================================= -->
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSimpan"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:text="SIMPAN PENGATURAN"
-            android:textStyle="bold"
-            android:backgroundTint="@color/primary"
-            app:cornerRadius="16dp"/>
-
-    </LinearLayout>
-
-</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

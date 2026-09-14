@@ -1,10 +1,15 @@
 package tech.id.kasirapp.owner;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.timepicker.MaterialTimePicker;
@@ -18,6 +23,7 @@ import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.Branch;
 import tech.id.kasirapp.data.local.entity.Restaurant;
+import tech.id.kasirapp.util.StatusHelper;
 
 public class EditBranchActivity extends AppCompatActivity {
 
@@ -36,7 +42,7 @@ public class EditBranchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
 
         setContentView(
@@ -57,9 +63,16 @@ public class EditBranchActivity extends AppCompatActivity {
 
         initView();
 
+        setupToolbar();
+
         loadBranch();
 
         setupClick();
+
+        // Menerapkan Animasi
+        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+        View cardForm = findViewById(R.id.cardForm);
+        if (cardForm != null) cardForm.startAnimation(slideUp);
     }
 
     private void initView() {
@@ -82,6 +95,13 @@ public class EditBranchActivity extends AppCompatActivity {
         btnSimpan =
                 findViewById(R.id.btnSimpan);
 
+    }
+
+    private void setupToolbar() {
+        View toolbar = findViewById(R.id.toolbar);
+        if (toolbar instanceof MaterialToolbar) {
+            ((MaterialToolbar) toolbar).setNavigationOnClickListener(v -> finish());
+        }
     }
 
     private void loadBranch() {
@@ -330,6 +350,7 @@ public class EditBranchActivity extends AppCompatActivity {
                 syncToFirebase(
                         restaurant
                 );
+                StatusHelper.showLoading(this, "Updating branch sector...");
             });
 
         }).start();
@@ -372,14 +393,8 @@ public class EditBranchActivity extends AppCompatActivity {
                                     );
 
                             runOnUiThread(() -> {
-
-                                Toast.makeText(
-                                        EditBranchActivity.this,
-                                        "Cabang berhasil diperbarui",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-
-                                finish();
+                                StatusHelper.hideLoading();
+                                StatusHelper.showSuccess(EditBranchActivity.this, "Berhasil", "Cabang berhasil diperbarui", () -> finish());
                             });
 
                         }).start();
@@ -389,14 +404,10 @@ public class EditBranchActivity extends AppCompatActivity {
                     public void failed(
                             String error
                     ) {
-
-                        Toast.makeText(
-                                EditBranchActivity.this,
-                                "Data tersimpan lokal, tetapi gagal sinkron ke Firebase",
-                                Toast.LENGTH_LONG
-                        ).show();
-
-                        finish();
+                        runOnUiThread(() -> {
+                            StatusHelper.hideLoading();
+                            StatusHelper.showError(EditBranchActivity.this, "Gagal", "Data tersimpan lokal, tetapi gagal sinkron ke Firebase", () -> finish());
+                        });
                     }
                 }
         );

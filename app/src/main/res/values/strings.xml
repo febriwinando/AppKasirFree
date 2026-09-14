@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">KasirAPP</string>
+    <string name="kasir_nexus">Kasir Pro</string>
+    <string name="next_gen_pos">Modern Workspace Environment</string>
+    <string name="welcome_nexus">Sign in to manage your professional store</string>
+    <string name="sign_in_node">Sign In</string>
+    <string name="no_account_register">Create an elegant merchant account</string>
+    <string name="terminal_identity">Username</string>
+    <string name="access_cypher">Password</string>
+    <string name="nexus_core_version">Workspace Edition v3.5.0</string>
+
+    <!-- Dashboard Strings -->
+    <string name="root_operator">Store Administrator</string>
+    <string name="nexus_cluster">Main Enterprise Network</string>
+    <string name="op_sync">Active Orders</string>
+    <string name="inv_link">Total Products</string>
+    <string name="assets_0">0 Items</string>
+    <string name="primary_sector">Operational Hub Status</string>
+    <string name="quantum_status">Cloud Synchronization Active &amp; Secured</string>
+    <string name="matrix_subsystems">Management Suite</string>
+    <string name="tx_node">Cashier Terminal</string>
+    <string name="srv_network">Waiter Service</string>
+    <string name="quantum_asset">Inventory</string>
+    <string name="kitchen_grid">Kitchen Hub</string>
+    <string name="neural_report">Business Analytics</string>
+    <string name="crew_sync">Team Management</string>
+    <string name="access_core_settings">System Settings</string>
+    <string name="terminate_link">Sign Out from Workspace</string>
+    <string name="value_zero">0</string>
+
+    <!-- Team Management Strings -->
+    <string name="team_dir_sub">Manage authorization details and secure nodes for your professional digital staff members.</string>
 </resources>

@@ -1,10 +1,15 @@
 package tech.id.kasirapp.owner;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -14,6 +19,7 @@ import tech.id.kasirapp.data.firebase.FirebaseRepository;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.Manager;
+import tech.id.kasirapp.util.StatusHelper;
 
 public class EditManagerActivity extends AppCompatActivity {
 
@@ -34,6 +40,7 @@ public class EditManagerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
 
         setContentView(
@@ -57,6 +64,13 @@ public class EditManagerActivity extends AppCompatActivity {
                 );
 
         loadManager();
+
+        setupToolbar();
+
+        // Menerapkan Animasi
+        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+        View cardForm = findViewById(R.id.cardForm);
+        if (cardForm != null) cardForm.startAnimation(slideUp);
 
         btnSimpan.setOnClickListener(
                 v -> updateManager()
@@ -98,6 +112,13 @@ public class EditManagerActivity extends AppCompatActivity {
                 findViewById(
                         R.id.btnSimpan
                 );
+    }
+
+    private void setupToolbar() {
+        View toolbar = findViewById(R.id.toolbar);
+        if (toolbar instanceof MaterialToolbar) {
+            ((MaterialToolbar) toolbar).setNavigationOnClickListener(v -> finish());
+        }
     }
 
     // =========================================================
@@ -322,6 +343,7 @@ public class EditManagerActivity extends AppCompatActivity {
             runOnUiThread(() -> {
 
                 updateFirebase();
+                StatusHelper.showLoading(this, "Updating manager authorization...");
 
             });
 
@@ -358,14 +380,8 @@ public class EditManagerActivity extends AppCompatActivity {
                                     );
 
                             runOnUiThread(() -> {
-
-                                Toast.makeText(
-                                        EditManagerActivity.this,
-                                        "Manager berhasil diperbarui",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-
-                                finish();
+                                StatusHelper.hideLoading();
+                                StatusHelper.showSuccess(EditManagerActivity.this, "Berhasil", "Manager berhasil diperbarui", () -> finish());
 
                             });
 
@@ -386,14 +402,8 @@ public class EditManagerActivity extends AppCompatActivity {
                                     );
 
                             runOnUiThread(() -> {
-
-                                Toast.makeText(
-                                        EditManagerActivity.this,
-                                        "Manager diperbarui lokal, tetapi sinkronisasi gagal",
-                                        Toast.LENGTH_LONG
-                                ).show();
-
-                                finish();
+                                StatusHelper.hideLoading();
+                                StatusHelper.showError(EditManagerActivity.this, "Gagal", "Manager diperbarui lokal, tetapi sinkronisasi gagal", () -> finish());
 
                             });
 

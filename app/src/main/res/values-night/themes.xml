@@ -1,7 +1,27 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.KasirAPP" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="Base.Theme.KasirAPP" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Adaptive Luxury Dark Purple Theme -->
+        <item name="colorPrimary">#B39DDB</item> <!-- Premium Pastel Purple for Dark Mode -->
+        <item name="colorOnPrimary">#311B92</item>
+        <item name="colorPrimaryContainer">#4A148C</item>
+        <item name="colorOnPrimaryContainer">#F3E5F5</item>
+
+        <item name="colorSecondary">#E1BEE7</item>
+        <item name="colorOnSecondary">#4A148C</item>
+        <item name="colorSecondaryContainer">#2A1B3D</item>
+        <item name="colorOnSecondaryContainer">#F8F9FA</item>
+
+        <item name="android:windowBackground">#120E1C</item> <!-- Deep Royal Midnight Purple Canvas -->
+        <item name="colorSurface">#1C162E</item> <!-- Elevated Dark Violet Cards -->
+        <item name="colorOnSurface">#F5F6FA</item>
+        <item name="colorSurfaceVariant">#251E3D</item>
+        <item name="colorOnSurfaceVariant">#B39DDB</item>
+        <item name="colorOutline">#7B6F96</item>
+        <item name="colorOutlineVariant">#2D2544</item>
+
+        <item name="android:statusBarColor">#120E1C</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">#120E1C</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
     </style>
 </resources>

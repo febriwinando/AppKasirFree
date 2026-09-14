@@ -2,6 +2,7 @@ package tech.id.kasirapp.register;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import androidx.core.graphics.Insets;
@@ -13,6 +14,7 @@ import tech.id.kasirapp.util.StatusHelper;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -82,6 +84,8 @@ public class RegisterOwnerActivity extends AppCompatActivity {
                 .getDatabase(this)
                 .ownerDao()
                 .insert(owner);
+        
+        StatusHelper.showLoading(this, "Creating your profile...");
         uploadOwner(id);
     }
 
@@ -121,6 +125,7 @@ public class RegisterOwnerActivity extends AppCompatActivity {
                                     .insert(session);
 
                             runOnUiThread(() -> {
+                                StatusHelper.hideLoading();
                                 StatusHelper.showSuccess(RegisterOwnerActivity.this, "Registrasi Berhasil", "Akun Owner Anda telah berhasil didaftarkan.", () -> {
                                     Intent intent = new Intent(
                                             RegisterOwnerActivity.this,
@@ -140,6 +145,7 @@ public class RegisterOwnerActivity extends AppCompatActivity {
                                     .update(owner);
 
                             runOnUiThread(() -> {
+                                StatusHelper.hideLoading();
                                 StatusHelper.showError(RegisterOwnerActivity.this, "Registrasi Gagal", "Data lokal berhasil disimpan, namun gagal sinkron ke Firebase: " + error, null);
                             });
                         }
@@ -197,20 +203,33 @@ public class RegisterOwnerActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(v -> registerOwner());
         txtLogin.setOnClickListener(v -> finish());
 
+        setupToolbar();
+
         // Menangani Insets agar form tidak tertutup keyboard (Edge-to-Edge)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.containerRegister), (v, windowInsets) -> {
             Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            v.setPadding(0, 0, 0, insets.bottom);
+            v.setPadding(dpToPx(24), dpToPx(32), dpToPx(24), insets.bottom);
             return WindowInsetsCompat.CONSUMED;
         });
 
-        // Menerapkan Animasi
-        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
-        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        // Menerapkan Animasi Future Google
+        Animation entrance = AnimationUtils.loadAnimation(this, R.anim.anim_liquid_entrance);
 
-        findViewById(R.id.cardRegister).startAnimation(slideUp);
-        findViewById(R.id.imgHeader).startAnimation(fadeIn);
-        findViewById(R.id.tvHeaderTitle).startAnimation(fadeIn);
-        findViewById(R.id.tvHeaderSubtitle).startAnimation(fadeIn);
+        View cardRegister = findViewById(R.id.cardRegister);
+        if (cardRegister != null) cardRegister.startAnimation(entrance);
+        
+        View toolbar = findViewById(R.id.toolbar);
+        if (toolbar != null) toolbar.startAnimation(entrance);
+    }
+    private void setupToolbar() {
+        View toolbar = findViewById(R.id.toolbar);
+        if (toolbar instanceof MaterialToolbar) {
+            ((MaterialToolbar) toolbar).setNavigationOnClickListener(v -> finish());
+        }
+    }
+
+    private int dpToPx(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round((float) dp * density);
     }
 }

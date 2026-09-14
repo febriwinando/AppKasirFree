@@ -7,13 +7,18 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
@@ -54,7 +59,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
 
         setContentView(
@@ -77,11 +82,16 @@ public class RestaurantActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-
         super.onStart();
-
         loadRestaurants();
 
+        // Menerapkan Animasi
+        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+
+        View scrollView = findViewById(R.id.scrollView);
+        if (scrollView != null) scrollView.startAnimation(fadeIn);
+        if (btnAddRestaurant != null) btnAddRestaurant.startAnimation(slideUp);
     }
 
 
@@ -239,160 +249,66 @@ public class RestaurantActivity extends AppCompatActivity {
     ) {
 
         MaterialCardView card =
-                new MaterialCardView(this);
+                new MaterialCardView(this, null, com.google.android.material.R.attr.materialCardViewElevatedStyle);
 
-
-        card.setRadius(
-                dp(16)
+        card.setRadius(dp(28));
+        card.setCardElevation(dp(2));
+        card.setCardBackgroundColor(Color.WHITE);
+        
+        LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
         );
+        cardParams.setMargins(0, 0, 0, dp(16));
+        card.setLayoutParams(cardParams);
 
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
 
-        card.setCardElevation(
-                dp(1)
-        );
-
-
-        card.setCardBackgroundColor(
-                Color.WHITE
-        );
-
-
-        LinearLayout root =
-                new LinearLayout(this);
-
-
-        root.setOrientation(
-                LinearLayout.VERTICAL
-        );
-
-
-        // =====================================================
         // RESTAURANT HEADER
-        // =====================================================
+        LinearLayout header = new LinearLayout(this);
+        header.setOrientation(LinearLayout.HORIZONTAL);
+        header.setGravity(Gravity.CENTER_VERTICAL);
+        header.setPadding(dp(20), dp(20), dp(16), dp(20));
 
-        LinearLayout header =
-                new LinearLayout(this);
+        // Icon container
+        MaterialCardView iconContainer = new MaterialCardView(this);
+        iconContainer.setRadius(dp(16));
+        iconContainer.setCardElevation(0);
+        iconContainer.setCardBackgroundColor(ContextCompat.getColor(this, R.color.primary_light));
 
+        ImageView icon = new ImageView(this);
+        icon.setImageResource(R.drawable.ic_store);
+        icon.setColorFilter(ContextCompat.getColor(this, R.color.primary));
+        icon.setPadding(dp(12), dp(12), dp(12), dp(12));
 
-        header.setOrientation(
-                LinearLayout.HORIZONTAL
-        );
-
-
-        header.setGravity(
-                Gravity.CENTER_VERTICAL
-        );
-
-
-        header.setPadding(
-                dp(16),
-                dp(16),
-                dp(12),
-                dp(16)
-        );
-
-
-        // Icon restoran
-
-        ImageView icon =
-                new ImageView(this);
-
-
-        icon.setImageResource(
-                R.drawable.ic_store
-        );
-
-
-        icon.setPadding(
-                dp(8),
-                dp(8),
-                dp(8),
-                dp(8)
-        );
-
-
-        header.addView(
-                icon,
-                new LinearLayout.LayoutParams(
-                        dp(40),
-                        dp(40)
-                )
-        );
-
+        iconContainer.addView(icon, new FrameLayout.LayoutParams(dp(56), dp(56)));
+        header.addView(iconContainer, new LinearLayout.LayoutParams(dp(56), dp(56)));
 
         // Informasi restoran
+        LinearLayout info = new LinearLayout(this);
+        info.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams infoParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
+        infoParams.setMargins(dp(20), 0, 0, 0);
 
-        LinearLayout info =
-                new LinearLayout(this);
+        TextView tvName = new TextView(this);
+        tvName.setText(restaurant.name);
+        tvName.setTextColor(ContextCompat.getColor(this, R.color.black));
+        tvName.setTextSize(18);
+        tvName.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        
+        TextView tvSubtitle = new TextView(this);
+        tvSubtitle.setText("Business Outlet");
+        tvSubtitle.setTextColor(ContextCompat.getColor(this, R.color.gray));
+        tvSubtitle.setTextSize(14);
 
-
-        info.setOrientation(
-                LinearLayout.VERTICAL
-        );
-
-
-        LinearLayout.LayoutParams infoParams =
-                new LinearLayout.LayoutParams(
-                        0,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        1
-                );
-
-
-        infoParams.setMargins(
-                dp(12),
-                0,
-                0,
-                0
-        );
-
-
-        TextView tvName =
-                new TextView(this);
-
-
-        tvName.setText(
-                restaurant.name
-        );
-
-
-        tvName.setTextColor(
-                Color.rgb(
-                        33,
-                        33,
-                        33
-                )
-        );
-
-
-        tvName.setTextSize(
-                17
-        );
-
-
-        tvName.setTypeface(
-                null,
-                Typeface.BOLD
-        );
-
-
-
-
-
-
-
-
-        info.addView(
-                tvName
-        );
-
-
-
-
-        header.addView(
-                info,
-                infoParams
-        );
+        info.addView(tvName);
+        info.addView(tvSubtitle);
+        header.addView(info, infoParams);
+                
+        ImageView chevron = new ImageView(this);
+        chevron.setColorFilter(ContextCompat.getColor(this, R.color.gray));
+        header.addView(chevron, new LinearLayout.LayoutParams(dp(24), dp(24)));
 
 
         // Menu restoran
@@ -590,25 +506,8 @@ public class RestaurantActivity extends AppCompatActivity {
                 root
         );
 
-
-        LinearLayout.LayoutParams cardParams =
-                new LinearLayout.LayoutParams(
-                        -1,
-                        -2
-                );
-
-
-        cardParams.setMargins(
-                0,
-                0,
-                0,
-                dp(16)
-        );
-
-
         restaurantContainer.addView(
-                card,
-                cardParams
+                card
         );
 
 
@@ -1184,7 +1083,7 @@ public class RestaurantActivity extends AppCompatActivity {
     private void deleteRestaurant(
             Restaurant restaurant
     ) {
-
+        StatusHelper.showLoading(this, "Deleting business entity...");
         executor.execute(() -> {
 
             // Hapus cabang terlebih dahulu
@@ -1204,6 +1103,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
 
             runOnUiThread(() -> {
+                StatusHelper.hideLoading();
                 StatusHelper.showSuccess(this, "Berhasil", "Restoran berhasil dihapus", () -> loadRestaurants());
             });
 
@@ -1620,6 +1520,8 @@ public class RestaurantActivity extends AppCompatActivity {
         FirebaseRepository firebase =
                 new FirebaseRepository();
 
+        StatusHelper.showLoading(this, "Removing branch node...");
+
         executor.execute(() -> {
 
             // =====================================================
@@ -1657,12 +1559,15 @@ public class RestaurantActivity extends AppCompatActivity {
                                 public void failed(
                                         String error
                                 ) {
-                                    runOnUiThread(() -> StatusHelper.showError(
-                                            RestaurantActivity.this,
-                                            "Gagal",
-                                            "Gagal menghapus Manager: " + error,
-                                            null
-                                    ));
+                                    runOnUiThread(() -> {
+                                        StatusHelper.hideLoading();
+                                        StatusHelper.showError(
+                                                RestaurantActivity.this,
+                                                "Gagal",
+                                                "Gagal menghapus Manager: " + error,
+                                                null
+                                        );
+                                    });
                                 }
                             }
                     );
@@ -1730,6 +1635,7 @@ public class RestaurantActivity extends AppCompatActivity {
                     );
 
             runOnUiThread(() -> {
+                StatusHelper.hideLoading();
                 StatusHelper.showSuccess(this, "Berhasil", "Cabang dan Manager berhasil dihapus", () -> loadRestaurants());
             });
 

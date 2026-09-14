@@ -98,9 +98,37 @@ public class StatusHelper {
         }
     }
 
+    private static AlertDialog loadingDialog;
+
+    public static void showLoading(Activity activity, String message) {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            return;
+        }
+
+        View view = LayoutInflater.from(activity).inflate(R.layout.dialog_loading, null);
+        TextView tvMessage = view.findViewById(R.id.tvMessage);
+        tvMessage.setText(message);
+
+        loadingDialog = new MaterialAlertDialogBuilder(activity)
+                .setView(view)
+                .setCancelable(false)
+                .create();
+
+        if (!activity.isFinishing()) {
+            loadingDialog.show();
+        }
+    }
+
+    public static void hideLoading() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+            loadingDialog = null;
+        }
+    }
+
     private static void playTone(boolean isSuccess) {
         try {
-            ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+            ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 75);
             if (isSuccess) {
                 tg.startTone(ToneGenerator.TONE_PROP_ACK, 200);
             } else {
@@ -113,7 +141,7 @@ public class StatusHelper {
 
     private static void playConfirmTone() {
         try {
-            ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+            ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 75);
             tg.startTone(ToneGenerator.TONE_PROP_BEEP, 150);
         } catch (Exception e) {
             e.printStackTrace();

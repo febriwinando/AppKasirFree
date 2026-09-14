@@ -1,6 +1,7 @@
 package tech.id.kasirapp.register;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import tech.id.kasirapp.util.StatusHelper;
@@ -12,6 +13,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.content.Intent;
+
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.button.MaterialButton;
 
@@ -49,10 +52,12 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
         edtEmail = findViewById(R.id.edtEmail);
         btnLanjutCabang = findViewById(R.id.btnLanjutCabang);
 
+        setupToolbar();
+
         // Keyboard Handling
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.containerRegisterRestaurant), (v, windowInsets) -> {
             Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            v.setPadding(0, 0, 0, insets.bottom);
+            v.setPadding(dpToPx(24), dpToPx(32), dpToPx(24), insets.bottom);
             return WindowInsetsCompat.CONSUMED;
         });
 
@@ -60,10 +65,17 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
         Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
         Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
 
-        findViewById(R.id.cardForm).startAnimation(slideUp);
-        findViewById(R.id.imgHeader).startAnimation(fadeIn);
-        findViewById(R.id.tvHeaderTitle).startAnimation(fadeIn);
-        findViewById(R.id.tvHeaderSubtitle).startAnimation(fadeIn);
+        View cardForm = findViewById(R.id.cardForm);
+        if (cardForm != null) cardForm.startAnimation(slideUp);
+
+        View imgHeader = findViewById(R.id.imgHeader);
+        if (imgHeader != null) imgHeader.startAnimation(fadeIn);
+
+        View tvHeaderTitle = findViewById(R.id.tvHeaderTitle);
+        if (tvHeaderTitle != null) tvHeaderTitle.startAnimation(fadeIn);
+
+        View tvHeaderSubtitle = findViewById(R.id.tvHeaderSubtitle);
+        if (tvHeaderSubtitle != null) tvHeaderSubtitle.startAnimation(fadeIn);
 
         loadOwnerData(db);
 
@@ -124,8 +136,7 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
 
             long restaurantId = db.restaurantDao().insert(restaurant);
 
-
-
+            StatusHelper.showLoading(this, "Initializing business node...");
 
             FirebaseRepository firebase =
                     new FirebaseRepository();
@@ -153,6 +164,7 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
                                     );
 
                             runOnUiThread(() -> {
+                                StatusHelper.hideLoading();
                                 StatusHelper.showSuccess(RegisterRestaurantActivity.this, "Berhasil", "Restoran berhasil disimpan", () -> finish());
                             });
                         }
@@ -162,6 +174,7 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
                                 String error
                         ){
                             runOnUiThread(() -> {
+                                StatusHelper.hideLoading();
                                 StatusHelper.showError(RegisterRestaurantActivity.this, "Gagal", "Restoran disimpan lokal, sinkronisasi gagal", () -> finish());
                             });
                         }
@@ -171,6 +184,13 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
 
         });
 
+    }
+
+    private void setupToolbar() {
+        View toolbar = findViewById(R.id.toolbar);
+        if (toolbar instanceof MaterialToolbar) {
+            ((MaterialToolbar) toolbar).setNavigationOnClickListener(v -> finish());
+        }
     }
 
     private void loadOwnerData(AppDatabase db) {
@@ -188,4 +208,8 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
         }).start();
     }
 
+    private int dpToPx(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round((float) dp * density);
+    }
 }

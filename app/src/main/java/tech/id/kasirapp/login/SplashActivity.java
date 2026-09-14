@@ -2,6 +2,9 @@ package tech.id.kasirapp.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +33,15 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_splash);
+
+        // Menerapkan Animasi Future Google
+        Animation entrance = AnimationUtils.loadAnimation(this, R.anim.anim_liquid_entrance);
+        View logoContainer = findViewById(R.id.logoContainer);
+        if (logoContainer != null) logoContainer.startAnimation(entrance);
+
+        View tvAppName = findViewById(R.id.tvAppName);
+        if (tvAppName != null) tvAppName.startAnimation(entrance);
+
         checkSession();
     }
 

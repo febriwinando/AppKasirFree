@@ -1,0 +1,39 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+
+    <!-- Geometric Pulse Logo -->
+    <path
+        android:pathData="M50,15 A35,35 0 1,1 49.9,15 Z"
+        android:strokeWidth="1"
+        android:strokeColor="@color/primary_container"
+        android:fillColor="@color/primary_container"
+        android:alpha="0.3"/>
+
+    <path
+        android:pathData="M50,25 A25,25 0 1,1 49.9,25 Z"
+        android:strokeWidth="2"
+        android:strokeColor="@color/primary"
+        android:fillColor="@android:color/transparent"
+        android:alpha="0.6"/>
+
+    <path
+        android:pathData="M50,40 A10,10 0 1,1 49.9,40 Z"
+        android:fillColor="@color/primary"/>
+
+    <!-- Dynamic Flow Accents -->
+    <path
+        android:pathData="M30,50 L20,50"
+        android:strokeWidth="3"
+        android:strokeColor="@color/primary"
+        android:strokeLineCap="round"/>
+
+    <path
+        android:pathData="M80,50 L70,50"
+        android:strokeWidth="3"
+        android:strokeColor="@color/primary"
+        android:strokeLineCap="round"/>
+
+</vector>

@@ -2,9 +2,13 @@ package tech.id.kasirapp.dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
@@ -39,8 +43,6 @@ public class DashboardManagerActivity extends AppCompatActivity {
 
     private TextView tvJumlahPesanan;
     private TextView tvJumlahProduk;
-    private TextView tvJumlahKasir;
-    private TextView tvJumlahWaiter;
 
     private MaterialCardView cardPesanan;
     private MaterialCardView cardProduk;
@@ -65,6 +67,7 @@ public class DashboardManagerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
 
         setContentView(
@@ -76,62 +79,37 @@ public class DashboardManagerActivity extends AppCompatActivity {
         initView();
 
         loadSession();
+
+        // Menerapkan Animasi
+        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+
+        if (tvNamaManager != null) tvNamaManager.startAnimation(fadeIn);
+        if (cardPesanan != null) cardPesanan.startAnimation(slideUp);
+        if (cardProduk != null) cardProduk.startAnimation(slideUp);
     }
 
     private void initView() {
 
-        tvNamaManager =
-                findViewById(R.id.tvNamaManager);
+        tvNamaManager = findViewById(R.id.tvNamaManager);
+        tvNamaRestoran = findViewById(R.id.tvNamaRestoran);
+        tvNamaCabang = findViewById(R.id.tvNamaCabang);
+        tvAlamatCabang = findViewById(R.id.tvAlamatCabang);
 
-        tvNamaRestoran =
-                findViewById(R.id.tvNamaRestoran);
+        tvJumlahPesanan = findViewById(R.id.tvJumlahPesanan);
+        tvJumlahProduk = findViewById(R.id.tvJumlahProduk);
 
-        tvNamaCabang =
-                findViewById(R.id.tvNamaCabang);
-
-        tvAlamatCabang =
-                findViewById(R.id.tvAlamatCabang);
-
-        tvJumlahPesanan =
-                findViewById(R.id.tvJumlahPesanan);
-
-        tvJumlahProduk =
-                findViewById(R.id.tvJumlahProduk);
-
-        tvJumlahKasir =
-                findViewById(R.id.tvJumlahKasir);
-
-        tvJumlahWaiter =
-                findViewById(R.id.tvJumlahWaiter);
-
-        cardPesanan =
-                findViewById(R.id.cardPesanan);
-
-        cardProduk =
-                findViewById(R.id.cardProduk);
-
-        cardStok =
-                findViewById(R.id.cardStok);
-
-        cardKasir =
-                findViewById(R.id.cardKasir);
-
-        cardWaiter =
-                findViewById(R.id.cardWaiter);
-
-        cardDapur =
-                findViewById(R.id.cardDapur);
-
-        cardLaporan =
-                findViewById(R.id.cardLaporan);
-
-        cardPengaturan =
-                findViewById(R.id.cardPengaturan);
-
+        cardPesanan = findViewById(R.id.cardPesanan);
+        cardProduk = findViewById(R.id.cardProduk);
+        cardStok = findViewById(R.id.cardStok);
+        cardKasir = findViewById(R.id.cardKasir);
+        cardWaiter = findViewById(R.id.cardWaiter);
+        cardDapur = findViewById(R.id.cardDapur);
+        cardLaporan = findViewById(R.id.cardLaporan);
+        cardPengaturan = findViewById(R.id.cardPengaturan);
         cardPegawai = findViewById(R.id.cardPegawai);
 
-        btnLogout =
-                findViewById(R.id.btnLogout);
+        btnLogout = findViewById(R.id.btnLogout);
 
         setupClick();
     }

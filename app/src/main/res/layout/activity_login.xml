@@ -1,136 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/containerLogin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:fitsSystemWindows="true"
-    android:background="@drawable/bg_gradient">
+    android:background="@drawable/bg_liquid_purple_gradient">
 
-    <LinearLayout
-        android:id="@+id/containerLogin"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardLogin"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="28dp"
-            app:cardElevation="12dp"
-            app:cardBackgroundColor="@color/white">
+            android:padding="32dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineHeader"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="32dp">
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.10" />
 
-                <!-- Logo -->
+            <!-- Elegant White Minimalist Identity Container -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/logoContainer"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1.5dp"
+                app:strokeColor="#4DFFFFFF"
+                app:cardBackgroundColor="#26FFFFFF"
+                app:layout_constraintTop_toTopOf="@id/guidelineHeader"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
                 <ImageView
                     android:id="@+id/imgLogo"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/restaurant"
-                    android:padding="8dp"/>
+                    android:src="@drawable/ic_app_logo"
+                    app:tint="@color/white" />
+            </com.google.android.material.card.MaterialCardView>
 
-                <TextView
-                    android:id="@+id/tvAppTitle"
+            <TextView
+                android:id="@+id/tvAppTitle"
+                style="@style/TextAppearance.Premium.HeadlineLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/kasir_nexus"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/logoContainer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvAppSubtitle"
+                style="@style/TextAppearance.Premium.BodyLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/welcome_nexus"
+                android:textColor="#B39DDB"
+                app:layout_constraintTop_toBottomOf="@id/tvAppTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Pure Liquid Glass Frosted Login Box -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="#1AFFFFFF"
+                app:layout_constraintTop_toBottomOf="@id/tvAppSubtitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Kasir App"
-                    android:textAlignment="center"
-                    android:textSize="32sp"
-                    android:fontFamily="sans-serif-black"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="8dp"/>
+                    android:orientation="vertical"
+                    android:padding="26dp">
 
-                <TextView
-                    android:id="@+id/tvAppSubtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Solusi Pintar Kelola Bisnis Kuliner"
-                    android:textAlignment="center"
-                    android:textColor="@color/gray"
-                    android:layout_marginBottom="32dp"/>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Username"
-                    app:startIconDrawable="@drawable/ic_person"
-                    app:startIconTint="@color/primary"
-                    app:boxCornerRadiusTopStart="15dp"
-                    app:boxCornerRadiusTopEnd="15dp"
-                    app:boxCornerRadiusBottomStart="15dp"
-                    app:boxCornerRadiusBottomEnd="15dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtUsername"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:hint="@string/terminal_identity"
+                        app:startIconDrawable="@drawable/ic_person"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:textColorHint="#B3FFFFFF">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="Password"
-                    app:startIconDrawable="@drawable/ic_lock"
-                    app:startIconTint="@color/primary"
-                    app:endIconMode="password_toggle"
-                    app:boxCornerRadiusTopStart="15dp"
-                    app:boxCornerRadiusTopEnd="15dp"
-                    app:boxCornerRadiusBottomStart="15dp"
-                    app:boxCornerRadiusBottomEnd="15dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtUsername"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:textColor="@color/white" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtPassword"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPassword"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_marginTop="20dp"
+                        android:hint="@string/access_cypher"
+                        app:startIconDrawable="@drawable/ic_lock"
+                        app:startIconTint="@color/white"
+                        app:hintTextColor="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        android:textColorHint="#B3FFFFFF"
+                        app:endIconMode="password_toggle"
+                        app:endIconTint="@color/white">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnLogin"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="32dp"
-                    android:text="MASUK KE SISTEM"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    app:backgroundTint="@color/primary"
-                    app:cornerRadius="18dp"
-                    app:elevation="4dp"/>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:textColor="@color/white" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/txtRegistrasi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="24dp"
-                    android:text="Belum punya akun? Buat baru sekarang"
-                    android:textColor="@color/gray"
-                    android:textStyle="bold"/>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnLogin"
+                        style="@style/Widget.App.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="36dp"
+                        android:text="@string/sign_in_node"
+                        android:textAllCaps="false"
+                        android:textColor="@color/on_surface"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/white" />
 
-                <ProgressBar
-                    android:id="@+id/progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="gone"
-                    android:layout_marginTop="20dp"/>
-            </LinearLayout>
+                    <ProgressBar
+                        android:id="@+id/progress"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:visibility="gone"
+                        android:indeterminateTint="@color/white"/>
 
-        </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/txtRegistrasi"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/no_account_register"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/cardLogin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="56dp"
+                android:text="@string/nexus_core_version"
+                android:textColor="#B3FFFFFF"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/txtRegistrasi"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
