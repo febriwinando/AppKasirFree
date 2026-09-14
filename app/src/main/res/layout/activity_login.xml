@@ -28,6 +28,7 @@
             <!-- Elegant White Minimalist Identity Container -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/logoContainer"
+                style="@style/Widget.App.Card"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 app:cardCornerRadius="24dp"
@@ -44,8 +45,7 @@
                     android:layout_width="44dp"
                     android:layout_height="44dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_app_logo"
-                    app:tint="@color/white" />
+                    android:src="@drawable/logokasir" />
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="@string/kasir_nexus"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/logoContainer"
                 app:layout_constraintStart_toStartOf="parent"
@@ -68,21 +68,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="@string/welcome_nexus"
-                android:textColor="#B39DDB"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 app:layout_constraintTop_toBottomOf="@id/tvAppTitle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-            <!-- Pure Liquid Glass Frosted Login Box -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardLogin"
+                style="@style/Widget.App.Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                app:cardCornerRadius="28dp"
                 app:cardElevation="0dp"
-                app:strokeWidth="0dp"
-                app:cardBackgroundColor="#1AFFFFFF"
                 app:layout_constraintTop_toBottomOf="@id/tvAppSubtitle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
@@ -99,17 +96,16 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/terminal_identity"
                         app:startIconDrawable="@drawable/ic_person"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
-                        android:textColorHint="#B3FFFFFF">
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtUsername"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
-                            android:textColor="@color/white" />
+                            android:textColor="?attr/colorOnSurface" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -119,19 +115,18 @@
                         android:layout_marginTop="20dp"
                         android:hint="@string/access_cypher"
                         app:startIconDrawable="@drawable/ic_lock"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
-                        android:textColorHint="#B3FFFFFF"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         app:endIconMode="password_toggle"
-                        app:endIconTint="@color/white">
+                        app:endIconTint="?attr/colorOnSurfaceVariant">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPassword"
-                            android:textColor="@color/white" />
+                            android:textColor="?attr/colorOnSurface" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton
@@ -142,10 +137,9 @@
                         android:layout_marginTop="36dp"
                         android:text="@string/sign_in_node"
                         android:textAllCaps="false"
-                        android:textColor="@color/on_surface"
+                        android:textColor="?attr/colorOnSurface"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/white" />
+                        android:textStyle="bold" />
 
                     <ProgressBar
                         android:id="@+id/progress"
@@ -154,7 +148,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="20dp"
                         android:visibility="gone"
-                        android:indeterminateTint="@color/white"/>
+                        android:indeterminateTint="?attr/colorOnSurface"/>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -167,7 +161,7 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/no_account_register"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/cardLogin"
                 app:layout_constraintStart_toStartOf="parent"
@@ -178,7 +172,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="56dp"
                 android:text="@string/nexus_core_version"
-                android:textColor="#B3FFFFFF"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="12sp"
                 app:layout_constraintTop_toBottomOf="@id/txtRegistrasi"
                 app:layout_constraintStart_toStartOf="parent"

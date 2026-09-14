@@ -1,42 +1,60 @@
 <resources>
-    <!-- Premium Purple Lifestyle Palette (Inspired by the provided reference UI design) -->
-    <color name="primary">#5E35B1</color> <!-- Rich Vibrant Purple -->
+    <!-- Clean Premium Canvas Backgrounds (Fokus Light & Soft Dark) -->
+    <color name="primary">#202124</color>
     <color name="on_primary">#FFFFFF</color>
-    <color name="primary_container">#F3E5F5</color> <!-- Soft Light Purple tint -->
-    <color name="on_primary_container">#4A148C</color>
+    <color name="primary_container">#F5F6FA</color>
+    <color name="on_primary_container">#202124</color>
 
-    <color name="secondary">#7B1FA2</color> <!-- Deep Violet Accent -->
+    <color name="secondary">#625B71</color>
     <color name="on_secondary">#FFFFFF</color>
     <color name="secondary_container">#F8F9FA</color>
     <color name="on_secondary_container">#202124</color>
 
-    <color name="tertiary">#FFB300</color> <!-- Vivid Gold/Amber for Pts & Rewards -->
-    <color name="on_tertiary">#1F2023</color>
-    <color name="tertiary_container">#FFF8E1</color>
+    <color name="tertiary">#1F2023</color>
+    <color name="on_tertiary">#FFFFFF</color>
+    <color name="tertiary_container">#EDEDF5</color>
 
     <!-- Clean Premium Canvas Backgrounds -->
-    <color name="background">#F5F6FA</color> <!-- Soft Off-White Gray canvas -->
+    <color name="background">#F8F9FA</color> <!-- Soft White Light Mode Base -->
     <color name="on_background">#202124</color>
-    <color name="surface">#FFFFFF</color> <!-- Pure White crisp cards -->
+    <color name="surface">#FFFFFF</color>
     <color name="on_surface">#202124</color>
     <color name="surface_variant">#EDEDF5</color>
-    <color name="on_surface_variant">#625B71</color>
+    <color name="on_surface_variant">#202124</color>
 
-    <color name="surface_container">#F3E5F5</color>
+    <color name="surface_container">#FFFFFF</color>
 
     <!-- Outlines & Borders -->
-    <color name="outline">#7B6F96</color>
-    <color name="outline_variant">#E2E0EB</color> <!-- Crisp subtle card border -->
+    <color name="outline">#CCCCCC</color>
+    <color name="outline_variant">#E2E0EB</color>
 
     <!-- Semantic Tones -->
     <color name="success">#2ECC71</color>
     <color name="warning">#FFB300</color>
     <color name="error">#E74C3C</color>
 
+    <!-- Soft Tint Pastel Colors for Menu Liquid Glass Matrix -->
+    <color name="glass_soft_primary_blue">#1A2196F3</color>
+    <color name="glass_soft_secondary_blue">#1A00BCD4</color>
+    <color name="glass_soft_red">#1AE57373</color>
+    <color name="glass_soft_yellow">#1AFFD54F</color>
+    <color name="glass_soft_green">#1A81C784</color>
+
+    <!-- Rich Soft Bento Palette -->
+    <color name="bento_pink">#D95F8A</color>
+    <color name="bento_blue">#4F7FD9</color>
+    <color name="bento_purple">#625FD1</color>
+    <color name="bento_orange">#E98B16</color>
+    <color name="bento_green">#38B94F</color>
+    <color name="bento_cyan">#48A9D8</color>
+    <color name="bento_teal">#45B8D4</color>
+    <color name="bento_gray">#454548</color>
+    <color name="bento_light_cyan">#65B5E5</color>
+
     <!-- Legacy Compatibility Layer -->
-    <color name="primary_light">#F3E5F5</color>
-    <color name="primary_dark">#4A148C</color>
-    <color name="primary_variant">#4A148C</color>
+    <color name="primary_light">#F8F9FA</color>
+    <color name="primary_dark">#202124</color>
+    <color name="primary_variant">#202124</color>
     <color name="surface_dark">#202124</color>
     <color name="black">#202124</color>
     <color name="white">#FFFFFF</color>

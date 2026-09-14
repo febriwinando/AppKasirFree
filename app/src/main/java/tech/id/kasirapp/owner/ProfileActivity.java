@@ -95,19 +95,24 @@ public class ProfileActivity extends AppCompatActivity {
             if (session == null) return;
 
             Owner owner = db.ownerDao().getById(session.ownerId);
+            if (owner == null) {
+                owner = db.ownerDao().getOwner();
+            }
             Restaurant restaurant = db.restaurantDao().getRestaurant();
 
+            final Owner finalOwner = owner;
+
             runOnUiThread(() -> {
-                if (owner != null) {
-                    tvOwnerName.setText(owner.name != null ? owner.name : "-");
-                    tvUsername.setText(owner.username != null ? "@" + owner.username : "@username");
-                    tvFullName.setText(owner.name != null ? owner.name : "-");
-                    tvEmail.setText(owner.email != null ? owner.email : "-");
-                    tvPhone.setText(owner.phone != null ? owner.phone : "-");
+                if (finalOwner != null) {
+                    tvOwnerName.setText(finalOwner.name != null ? finalOwner.name : "-");
+                    tvUsername.setText(finalOwner.username != null ? "@" + finalOwner.username : "@username");
+                    tvFullName.setText(finalOwner.name != null ? finalOwner.name : "-");
+                    tvEmail.setText(finalOwner.email != null ? finalOwner.email : "-");
+                    tvPhone.setText(finalOwner.phone != null ? finalOwner.phone : "-");
                     
                     String avatarText = "U";
-                    if (owner.name != null && !owner.name.isEmpty()) {
-                        avatarText = owner.name.substring(0, 1).toUpperCase();
+                    if (finalOwner.name != null && !finalOwner.name.isEmpty()) {
+                        avatarText = finalOwner.name.substring(0, 1).toUpperCase();
                     }
                     tvAvatar.setText(avatarText);
                 }

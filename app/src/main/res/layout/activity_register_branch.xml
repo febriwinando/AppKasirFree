@@ -18,9 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="@color/white"
+            app:navigationIconTint="?attr/colorOnSurface"
             app:title="Outlet Details"
-            app:titleTextColor="@color/white"
+            app:titleTextColor="?attr/colorOnSurface"
             android:background="@android:color/transparent" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Outlet"
-                android:textColor="@color/white" />
+                android:textColor="?attr/colorOnSurface" />
 
             <TextView
                 style="@style/TextAppearance.Future.BodyLarge"
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Set up a new location for your business."
-                android:textColor="#E1BEE7" />
+                android:textColor="?attr/colorOnSurfaceVariant" />
 
             <!-- Business Aura Info Card -->
             <com.google.android.material.card.MaterialCardView
@@ -82,13 +82,14 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         app:cardCornerRadius="14dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="#26FFFFFF">
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_store"
-                            app:tint="@color/white" />
+                            app:tint="?attr/colorOnSurface" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
@@ -104,7 +105,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Business Name"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:textSize="18sp"/>
 
                         <TextView
@@ -113,7 +114,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Owner Identity"
-                            android:textColor="#B39DDB"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:alpha="0.7"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -140,15 +141,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:startIconDrawable="@drawable/ic_store"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Outlet Name">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtNamaCabang"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="textCapWords"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -158,15 +159,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         app:startIconDrawable="@drawable/ic_edit"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Full Address">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtAlamatCabang"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:minLines="2"
                             android:gravity="top"
                             android:inputType="textMultiLine"/>
@@ -178,15 +179,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         app:startIconDrawable="@drawable/ic_phone"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Contact Number">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtTeleponCabang"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="phone"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -203,15 +204,15 @@
                             android:layout_weight="1"
                             android:layout_marginEnd="8dp"
                             app:startIconDrawable="@drawable/ic_access_time"
-                            app:startIconTint="@color/white"
-                            app:hintTextColor="@color/white"
-                            app:boxStrokeColor="@color/white"
+                            app:startIconTint="?attr/colorOnSurfaceVariant"
+                            app:hintTextColor="?attr/colorOnSurfaceVariant"
+                            app:boxStrokeColor="?attr/colorOutline"
                             android:hint="Open">
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edtJamBuka"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/white"
+                                android:textColor="?attr/colorOnSurface"
                                 android:focusable="false"
                                 android:clickable="true"
                                 android:inputType="none"/>
@@ -224,15 +225,15 @@
                             android:layout_weight="1"
                             android:layout_marginStart="8dp"
                             app:startIconDrawable="@drawable/ic_access_time"
-                            app:startIconTint="@color/white"
-                            app:hintTextColor="@color/white"
-                            app:boxStrokeColor="@color/white"
+                            app:startIconTint="?attr/colorOnSurfaceVariant"
+                            app:hintTextColor="?attr/colorOnSurfaceVariant"
+                            app:boxStrokeColor="?attr/colorOutline"
                             android:hint="Close">
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edtJamTutup"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/white"
+                                android:textColor="?attr/colorOnSurface"
                                 android:focusable="false"
                                 android:clickable="true"
                                 android:inputType="none"/>
@@ -249,7 +250,7 @@
                         android:text="Verify &amp; Save"
                         android:textAllCaps="false"
                         android:textAppearance="@style/TextAppearance.Future.LabelLarge"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnSurface"
                         app:cornerRadius="20dp"/>
 
                     <!-- Hidden ID for compatibility -->

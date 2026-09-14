@@ -20,9 +20,9 @@
 
         <!-- Status & Nav Bars (Fully Immersive theme with adaptive fluid toggles) -->
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
 
         <!-- Material 3 Precision Component Radii with Liquid Glass Defaults -->
         <item name="materialCardViewStyle">@style/Widget.App.Card</item>
@@ -42,30 +42,37 @@
 
     <!-- Enhanced Liquid Glass Component Styles -->
     <style name="Widget.App.Card" parent="Widget.Material3.CardView.Filled">
-        <item name="cardCornerRadius">28dp</item>
+        <item name="cardCornerRadius">24dp</item>
         <item name="cardElevation">0dp</item>
         <item name="strokeWidth">0dp</item>
         <item name="android:background">@drawable/bg_liquid_glass</item>
         <item name="cardBackgroundColor">@android:color/transparent</item>
     </style>
 
+    <!-- Bento Grid Style Card (Solid Adaptive) -->
+    <style name="Widget.App.BentoCard" parent="Widget.Material3.CardView.Filled">
+        <item name="cardCornerRadius">24dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeWidth">0dp</item>
+    </style>
+
     <style name="Widget.App.Button" parent="Widget.Material3.Button.TonalButton">
-        <item name="cornerRadius">20dp</item>
+        <item name="cornerRadius">16dp</item>
         <item name="android:background">@drawable/bg_liquid_glass</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
     <style name="Widget.App.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
-        <item name="boxCornerRadiusTopStart">20dp</item>
-        <item name="boxCornerRadiusTopEnd">20dp</item>
-        <item name="boxCornerRadiusBottomStart">20dp</item>
-        <item name="boxCornerRadiusBottomEnd">20dp</item>
-        <item name="boxStrokeColor">#80FFFFFF</item>
-        <item name="boxStrokeWidth">1.5dp</item>
-        <item name="boxStrokeWidthFocused">2.5dp</item>
-        <item name="android:textColorHint">#B3FFFFFF</item>
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
+        <item name="boxStrokeColor">?attr/colorOutline</item>
+        <item name="boxStrokeWidth">1.2dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="android:textColorHint">?attr/colorOnSurfaceVariant</item>
     </style>
 
     <!-- Luxury Typography Definitions -->
@@ -73,27 +80,27 @@
         <item name="android:textSize">28sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:letterSpacing">-0.02</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
     <style name="TextAppearance.Premium.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
     <style name="TextAppearance.Premium.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
         <item name="android:textSize">15sp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:lineSpacingExtra">3dp</item>
-        <item name="android:textColor">#E1BEE7</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
 
     <style name="TextAppearance.Premium.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:letterSpacing">0.02</item>
-        <item name="android:textColor">#B39DDB</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
     </style>
 
     <!-- Legacy Compatibility Mappings -->

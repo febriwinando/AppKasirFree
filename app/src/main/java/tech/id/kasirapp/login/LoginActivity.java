@@ -30,6 +30,7 @@ import tech.id.kasirapp.dashboard.DashboardWaiterActivity;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.AppSession;
+import tech.id.kasirapp.data.local.entity.Owner;
 import tech.id.kasirapp.register.RegisterOwnerActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -449,8 +450,10 @@ public class LoginActivity extends AppCompatActivity {
 
         session.id = 1;
 
+        long ownerId = getLongSafe(doc, "id");
+
         session.userId =
-                getLongSafe(doc, "id");
+                ownerId;
 
         session.uuid =
                 doc.getId();
@@ -459,7 +462,7 @@ public class LoginActivity extends AppCompatActivity {
                 "OWNER";
 
         session.ownerId =
-                getLongSafe(doc, "id");
+                ownerId;
 
         session.restaurantId = 0;
 
@@ -467,10 +470,32 @@ public class LoginActivity extends AppCompatActivity {
 
         session.isLoggedIn = true;
 
-        simpanSession(
-                session,
-                DashboardOwnerActivity.class
-        );
+        // Simpan atau update data Owner ke database lokal (Room) agar ProfileActivity bisa membacanya
+        executor.execute(() -> {
+            Owner localOwner = new Owner();
+            localOwner.id = ownerId;
+            localOwner.firebaseId = doc.getString("firebaseId") != null ? doc.getString("firebaseId") : doc.getId();
+            localOwner.name = doc.getString("name");
+            localOwner.username = doc.getString("username");
+            localOwner.email = doc.getString("email");
+            localOwner.phone = doc.getString("phone");
+            localOwner.password = passwordHash;
+            localOwner.syncStatus = 1; // Sudah sinkron dari server
+
+            // Cek apakah owner sudah ada di local, jika belum insert, jika sudah update
+            Owner existing = db.ownerDao().getById(ownerId);
+            if (existing == null) {
+                db.ownerDao().insert(localOwner);
+            } else {
+                db.ownerDao().update(localOwner);
+            }
+
+            // Setelah data owner tersimpan di local, simpan session
+            simpanSession(
+                    session,
+                    DashboardOwnerActivity.class
+            );
+        });
     }
 
     private void prosesLoginManager(

@@ -20,9 +20,9 @@
             android:layout_height="?attr/actionBarSize"
             app:title="Account Settings"
             app:titleCentered="true"
-            app:titleTextColor="@color/white"
+            app:titleTextColor="?attr/colorOnSurface"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="@color/white"
+            app:navigationIconTint="?attr/colorOnSurface"
             android:background="@android:color/transparent"/>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -59,7 +59,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="U"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnSurface"
                         android:textSize="40sp"
                         android:fontFamily="sans-serif-medium" />
                 </com.google.android.material.card.MaterialCardView>
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="User Name"
-                    android:textColor="@color/white" />
+                    android:textColor="?attr/colorOnSurface" />
 
                 <TextView
                     android:id="@+id/tvUsername"
@@ -79,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="\@username"
-                    android:textColor="#B39DDB" />
+                    android:textColor="?attr/colorOnSurfaceVariant" />
 
             </LinearLayout>
 
@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Security &amp; Identity"
-                android:textColor="#B39DDB"
+                android:textColor="?attr/colorSecondary"
                 android:textAllCaps="true"
                 android:letterSpacing="0.1" />
 
@@ -112,11 +112,11 @@
                         android:layout_height="wrap_content"
                         android:padding="20dp"
                         android:gravity="center_vertical">
-                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_person" app:tint="@color/white" />
-                        <TextView android:id="@+id/tvFullName" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:text="Personal Details" android:textColor="@color/white" android:textStyle="bold"/>
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_person" app:tint="?attr/colorOnSurfaceVariant" />
+                        <TextView android:id="@+id/tvFullName" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:text="Personal Details" android:textColor="?attr/colorOnSurface" android:textStyle="bold"/>
                     </LinearLayout>
 
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#33FFFFFF" android:layout_marginHorizontal="16dp"/>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1A000000" android:layout_marginHorizontal="16dp"/>
 
                     <!-- Email -->
                     <LinearLayout
@@ -124,11 +124,11 @@
                         android:layout_height="wrap_content"
                         android:padding="20dp"
                         android:gravity="center_vertical">
-                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_email" app:tint="@color/white" />
-                        <TextView android:id="@+id/tvEmail" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:text="Email Notification" android:textColor="@color/white" android:textStyle="bold"/>
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_email" app:tint="?attr/colorOnSurfaceVariant" />
+                        <TextView android:id="@+id/tvEmail" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:text="Email Notification" android:textColor="?attr/colorOnSurface" android:textStyle="bold"/>
                     </LinearLayout>
 
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#33FFFFFF" android:layout_marginHorizontal="16dp"/>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1A000000" android:layout_marginHorizontal="16dp"/>
 
                     <!-- Phone -->
                     <LinearLayout
@@ -136,8 +136,8 @@
                         android:layout_height="wrap_content"
                         android:padding="20dp"
                         android:gravity="center_vertical">
-                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_phone" app:tint="@color/white" />
-                        <TextView android:id="@+id/tvPhone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:text="Phone Number" android:textColor="@color/white" android:textStyle="bold"/>
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_phone" app:tint="?attr/colorOnSurfaceVariant" />
+                        <TextView android:id="@+id/tvPhone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:text="Phone Number" android:textColor="?attr/colorOnSurface" android:textStyle="bold"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -149,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="Business Link"
-                android:textColor="#B39DDB"
+                android:textColor="?attr/colorSecondary"
                 android:textAllCaps="true"
                 android:letterSpacing="0.1" />
 
@@ -168,9 +168,9 @@
                     android:layout_height="wrap_content"
                     android:padding="20dp"
                     android:gravity="center_vertical">
-                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_store" app:tint="@color/white" />
-                    <TextView android:id="@+id/tvRestaurantName" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:text="My Enterprise" android:textColor="@color/white" android:textStyle="bold"/>
-                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_chevron_right" app:tint="@color/white" />
+                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_store" app:tint="?attr/colorOnSurfaceVariant" />
+                    <TextView android:id="@+id/tvRestaurantName" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:text="My Enterprise" android:textColor="?attr/colorOnSurface" android:textStyle="bold"/>
+                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_chevron_right" app:tint="?attr/colorOnSurfaceVariant" />
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
@@ -182,7 +182,7 @@
                 android:layout_height="56dp"
                 android:layout_marginTop="48dp"
                 android:text="Sign Out of Session"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnSurface"
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextAppearance.App.LabelLarge" />
 

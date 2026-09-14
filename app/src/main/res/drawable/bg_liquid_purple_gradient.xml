@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Base Deep Purple -->
+    <!-- Base Canvas - Adapts dynamically to windowBackground theme -->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#311B92" />
+            <solid android:color="?android:attr/windowBackground" />
         </shape>
     </item>
 
-    <!-- Liquid Flow Highlight 1 -->
+    <!-- Liquid Glass Organic Subtle Overlay 1 (Light / Soft Dark Glow) -->
     <item>
         <shape android:shape="rectangle">
             <gradient
                 android:angle="135"
-                android:centerX="30%"
-                android:centerY="30%"
+                android:centerX="20%"
+                android:centerY="20%"
                 android:endColor="@android:color/transparent"
-                android:gradientRadius="600dp"
-                android:startColor="#6A1B9A"
+                android:gradientRadius="700dp"
+                android:startColor="#0D000000"
                 android:type="radial" />
         </shape>
     </item>
 
-    <!-- Liquid Flow Highlight 2 -->
+    <!-- Liquid Glass Organic Subtle Overlay 2 -->
     <item>
         <shape android:shape="rectangle">
             <gradient
@@ -29,8 +29,8 @@
                 android:centerX="80%"
                 android:centerY="80%"
                 android:endColor="@android:color/transparent"
-                android:gradientRadius="500dp"
-                android:startColor="#5E35B1"
+                android:gradientRadius="600dp"
+                android:startColor="#05FFFFFF"
                 android:type="radial" />
         </shape>
     </item>

@@ -18,9 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="@color/white"
+            app:navigationIconTint="?attr/colorOnSurface"
             app:title="Edit Outlet"
-            app:titleTextColor="@color/white"
+            app:titleTextColor="?attr/colorOnSurface"
             android:background="@android:color/transparent" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Operational Node"
-                android:textColor="@color/white" />
+                android:textColor="?attr/colorOnSurface" />
 
             <TextView
                 style="@style/TextAppearance.Future.BodyLarge"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Update the configuration of this business sector."
-                android:textColor="#E1BEE7" />
+                android:textColor="?attr/colorOnSurfaceVariant" />
 
             <com.google.android.material.card.MaterialCardView
                 style="@style/Widget.App.Card"
@@ -75,15 +75,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:startIconDrawable="@drawable/ic_store"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Branch Designation">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtNamaCabang"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="textCapWords"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,15 +93,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         app:startIconDrawable="@drawable/ic_edit"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Geographic Address">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtAlamatCabang"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:minLines="2"
                             android:gravity="top"
                             android:inputType="textMultiLine"/>
@@ -113,15 +113,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         app:startIconDrawable="@drawable/ic_phone"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Contact Protocol">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtTeleponCabang"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="phone"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -138,15 +138,15 @@
                             android:layout_weight="1"
                             android:layout_marginEnd="8dp"
                             app:startIconDrawable="@drawable/ic_access_time"
-                            app:startIconTint="@color/white"
-                            app:hintTextColor="@color/white"
-                            app:boxStrokeColor="@color/white"
+                            app:startIconTint="?attr/colorOnSurfaceVariant"
+                            app:hintTextColor="?attr/colorOnSurfaceVariant"
+                            app:boxStrokeColor="?attr/colorOutline"
                             android:hint="Opening">
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edtJamBuka"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/white"
+                                android:textColor="?attr/colorOnSurface"
                                 android:focusable="false"
                                 android:clickable="true"
                                 android:inputType="none"/>
@@ -159,15 +159,15 @@
                             android:layout_weight="1"
                             android:layout_marginStart="8dp"
                             app:startIconDrawable="@drawable/ic_access_time"
-                            app:startIconTint="@color/white"
-                            app:hintTextColor="@color/white"
-                            app:boxStrokeColor="@color/white"
+                            app:startIconTint="?attr/colorOnSurfaceVariant"
+                            app:hintTextColor="?attr/colorOnSurfaceVariant"
+                            app:boxStrokeColor="?attr/colorOutline"
                             android:hint="Closing">
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edtJamTutup"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/white"
+                                android:textColor="?attr/colorOnSurface"
                                 android:focusable="false"
                                 android:clickable="true"
                                 android:inputType="none"/>
@@ -184,7 +184,7 @@
                         android:text="Commit Updates"
                         android:textAllCaps="false"
                         android:textAppearance="@style/TextAppearance.Future.LabelLarge"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnSurface"
                         app:cornerRadius="20dp"/>
 
                 </LinearLayout>

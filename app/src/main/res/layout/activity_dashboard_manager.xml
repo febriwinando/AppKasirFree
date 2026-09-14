@@ -38,83 +38,88 @@
             android:orientation="vertical"
             android:padding="22dp">
 
-            <!-- Profile Summary Plate inside a Glass Surface -->
-            <LinearLayout
+            <!-- Profile Summary Plate inside a Bento Glass Surface -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.BentoCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="@drawable/bg_liquid_glass"
-                android:padding="16dp"
+                app:cardBackgroundColor="@color/bento_gray"
                 android:layout_marginBottom="24dp">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    app:cardCornerRadius="28dp"
-                    app:cardElevation="0dp"
-                    app:strokeWidth="0dp"
-                    app:cardBackgroundColor="#4DFFFFFF">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_person"
-                        android:padding="14dp"
-                        app:tint="@color/white"/>
-                </com.google.android.material.card.MaterialCardView>
-
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="16dp"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/tvNamaManager"
-                        style="@style/TextAppearance.Premium.LabelLarge"
-                        android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/Widget.App.Card"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        app:cardCornerRadius="28dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="0dp"
+                        app:cardBackgroundColor="#4DFFFFFF">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_person"
+                            android:padding="14dp"
+                            app:tint="@color/white"/>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/root_operator"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:id="@+id/tvNamaRestoran"
-                        style="@style/TextAppearance.Premium.TitleLarge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:textStyle="bold"
-                        android:text="@string/nexus_cluster"
-                        android:textColor="#E1BEE7" />
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tvNamaManager"
+                            style="@style/TextAppearance.Premium.LabelLarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/root_operator"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tvNamaRestoran"
+                            style="@style/TextAppearance.Premium.TitleLarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:textStyle="bold"
+                            android:text="@string/nexus_cluster"
+                            android:textColor="#E1BEE7" />
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnConfigMenu"
+                        style="@style/Widget.App.Card"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="0dp"
+                        app:cardBackgroundColor="#26FFFFFF">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_more_vert"
+                            app:tint="@color/white"/>
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/btnConfigMenu"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="0dp"
-                    app:strokeWidth="0dp"
-                    app:cardBackgroundColor="#26FFFFFF">
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_more_vert"
-                        app:tint="@color/white"/>
-                </com.google.android.material.card.MaterialCardView>
-
-            </LinearLayout>
-
-            <!-- Loyalty / Balance Banner (Deeper Glassmorphism with Highlight stroke) -->
+            <!-- Loyalty / Balance Banner (Bento Purple) -->
             <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.BentoCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:background="@drawable/bg_liquid_glass"
-                app:cardElevation="12dp"
-                app:cardBackgroundColor="@android:color/transparent"
-                app:strokeWidth="0dp">
+                app:cardBackgroundColor="@color/bento_purple">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -127,7 +132,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="STORE REVENUE BALANCE"
-                        android:textColor="#E1BEE7"
+                        android:textColor="@color/white"
                         android:textStyle="bold"
                         android:letterSpacing="0.08" />
 
@@ -142,17 +147,26 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2,140 Pts"
-                            android:textColor="@color/tertiary"
+                            android:textColor="@color/white"
                             android:textSize="28sp"
                             android:textStyle="bold"/>
 
-                        <ImageView
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/Widget.App.Card"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:src="@drawable/ic_profit"
-                            app:tint="@color/tertiary"/>
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#26FFFFFF">
+                            <ImageView
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_profit"
+                                app:tint="@color/white"/>
+                        </com.google.android.material.card.MaterialCardView>
                     </RelativeLayout>
 
                     <TextView
@@ -160,7 +174,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Active node verification identifier: 11327 0045 11345"
-                        android:textColor="#B39DDB"
+                        android:textColor="#E1BEE7"
                         android:textSize="12sp"
                         android:layout_marginTop="18dp" />
                 </LinearLayout>
@@ -175,51 +189,68 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardPesanan"
+                    style="@style/Widget.App.BentoCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/bg_liquid_glass"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@android:color/transparent">
+                    app:cardBackgroundColor="@color/bento_blue">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="20dp">
-                        <TextView style="@style/TextAppearance.Premium.LabelLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/op_sync" android:textColor="#E1BEE7" />
-                        <TextView android:id="@+id/tvJumlahPesanan" style="@style/TextAppearance.Premium.TitleLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/value_zero" android:textColor="@color/white" android:textStyle="bold" android:layout_marginTop="8dp"/>
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/Widget.App.Card"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#26FFFFFF"
+                            android:layout_marginBottom="12dp">
+                            <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_transaction" app:tint="@color/white"/>
+                        </com.google.android.material.card.MaterialCardView>
+                        <TextView style="@style/TextAppearance.Premium.LabelLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/op_sync" android:textColor="@color/white" />
+                        <TextView android:id="@+id/tvJumlahPesanan" style="@style/TextAppearance.Premium.TitleLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/value_zero" android:textColor="@color/white" android:textStyle="bold" android:layout_marginTop="4dp"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardProduk"
+                    style="@style/Widget.App.BentoCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/bg_liquid_glass"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@android:color/transparent">
+                    app:cardBackgroundColor="@color/bento_teal">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="20dp">
-                        <TextView style="@style/TextAppearance.Premium.LabelLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/inv_link" android:textColor="#E1BEE7" />
-                        <TextView android:id="@+id/tvJumlahProduk" style="@style/TextAppearance.Premium.TitleLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/assets_0" android:textColor="@color/white" android:textStyle="bold" android:layout_marginTop="8dp"/>
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/Widget.App.Card"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#26FFFFFF"
+                            android:layout_marginBottom="12dp">
+                            <ImageView android:layout_width="20dp" android:layout_height="20dp" android:layout_gravity="center" android:src="@drawable/ic_product" app:tint="@color/white"/>
+                        </com.google.android.material.card.MaterialCardView>
+                        <TextView style="@style/TextAppearance.Premium.LabelLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/inv_link" android:textColor="@color/white" />
+                        <TextView android:id="@+id/tvJumlahProduk" style="@style/TextAppearance.Premium.TitleLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/assets_0" android:textColor="@color/white" android:textStyle="bold" android:layout_marginTop="4dp"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
             <!-- Branch Details Card (Minimal Elegant Layout Frame) -->
             <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.App.Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:background="@drawable/bg_liquid_glass"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="@android:color/transparent">
+                app:cardElevation="0dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -231,6 +262,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/primary_sector"
+                        android:textColor="?attr/colorOnSurface"
                         android:textStyle="bold" />
                     <TextView
                         android:id="@+id/tvAlamatCabang"
@@ -239,6 +271,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="13sp"
                         android:layout_marginTop="4dp"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:text="@string/quantum_status" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -251,7 +284,7 @@
                 android:layout_marginTop="28dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/matrix_subsystems"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold"
                 android:letterSpacing="0.04" />
 
@@ -263,15 +296,27 @@
                 <!-- Module Item 1 -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardKasir"
+                    style="@style/Widget.App.BentoCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
-                    android:background="@drawable/bg_liquid_glass"
-                    app:cardElevation="4dp"
-                    app:cardBackgroundColor="@android:color/transparent">
+                    app:cardBackgroundColor="@color/bento_blue">
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="20dp" android:gravity="center" android:orientation="vertical">
-                        <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_transaction" app:tint="@color/white"/>
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/Widget.App.Card"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#26FFFFFF">
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_transaction"
+                                app:tint="@color/white"/>
+                        </com.google.android.material.card.MaterialCardView>
                         <TextView style="@style/TextAppearance.Premium.LabelLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="@string/tx_node" android:textColor="@color/white" android:textStyle="bold" android:textSize="11sp"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -279,15 +324,27 @@
                 <!-- Module Item 2 -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardWaiter"
+                    style="@style/Widget.App.BentoCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
-                    android:background="@drawable/bg_liquid_glass"
-                    app:cardElevation="4dp"
-                    app:cardBackgroundColor="@android:color/transparent">
+                    app:cardBackgroundColor="@color/bento_cyan">
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="20dp" android:gravity="center" android:orientation="vertical">
-                        <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_person" app:tint="@color/white"/>
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/Widget.App.Card"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#26FFFFFF">
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_person"
+                                app:tint="@color/white"/>
+                        </com.google.android.material.card.MaterialCardView>
                         <TextView style="@style/TextAppearance.Premium.LabelLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="@string/srv_network" android:textColor="@color/white" android:textStyle="bold" android:textSize="11sp"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -295,15 +352,27 @@
                 <!-- Module Item 3 -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardStok"
+                    style="@style/Widget.App.BentoCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
-                    android:background="@drawable/bg_liquid_glass"
-                    app:cardElevation="4dp"
-                    app:cardBackgroundColor="@android:color/transparent">
+                    app:cardBackgroundColor="@color/bento_pink">
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="20dp" android:gravity="center" android:orientation="vertical">
-                        <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_product" app:tint="@color/white"/>
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/Widget.App.Card"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#26FFFFFF">
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_product"
+                                app:tint="@color/white"/>
+                        </com.google.android.material.card.MaterialCardView>
                         <TextView style="@style/TextAppearance.Premium.LabelLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="@string/quantum_asset" android:textColor="@color/white" android:textStyle="bold" android:textSize="11sp"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -311,15 +380,27 @@
                 <!-- Module Item 4 -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardDapur"
+                    style="@style/Widget.App.BentoCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
-                    android:background="@drawable/bg_liquid_glass"
-                    app:cardElevation="4dp"
-                    app:cardBackgroundColor="@android:color/transparent">
+                    app:cardBackgroundColor="@color/bento_orange">
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="20dp" android:gravity="center" android:orientation="vertical">
-                        <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_access_time" app:tint="@color/white"/>
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/Widget.App.Card"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#26FFFFFF">
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_access_time"
+                                app:tint="@color/white"/>
+                        </com.google.android.material.card.MaterialCardView>
                         <TextView style="@style/TextAppearance.Premium.LabelLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="@string/kitchen_grid" android:textColor="@color/white" android:textStyle="bold" android:textSize="11sp"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -327,15 +408,27 @@
                 <!-- Module Item 5 -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardLaporan"
+                    style="@style/Widget.App.BentoCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
-                    android:background="@drawable/bg_liquid_glass"
-                    app:cardElevation="4dp"
-                    app:cardBackgroundColor="@android:color/transparent">
+                    app:cardBackgroundColor="@color/bento_green">
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="20dp" android:gravity="center" android:orientation="vertical">
-                        <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_omzet" app:tint="@color/white"/>
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/Widget.App.Card"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#26FFFFFF">
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_omzet"
+                                app:tint="@color/white"/>
+                        </com.google.android.material.card.MaterialCardView>
                         <TextView style="@style/TextAppearance.Premium.LabelLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="@string/neural_report" android:textColor="@color/white" android:textStyle="bold" android:textSize="11sp"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -343,15 +436,27 @@
                 <!-- Module Item 6 -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardPegawai"
+                    style="@style/Widget.App.BentoCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
-                    android:background="@drawable/bg_liquid_glass"
-                    app:cardElevation="4dp"
-                    app:cardBackgroundColor="@android:color/transparent">
+                    app:cardBackgroundColor="@color/bento_purple">
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="20dp" android:gravity="center" android:orientation="vertical">
-                        <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_person" app:tint="@color/white"/>
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/Widget.App.Card"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            app:cardCornerRadius="14dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#26FFFFFF">
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_person"
+                                app:tint="@color/white"/>
+                        </com.google.android.material.card.MaterialCardView>
                         <TextView style="@style/TextAppearance.Premium.LabelLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="@string/crew_sync" android:textColor="@color/white" android:textStyle="bold" android:textSize="11sp"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -361,33 +466,31 @@
             <!-- Settings Extended Node Bar Link -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardPengaturan"
+                style="@style/Widget.App.Card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="32dp"
-                android:background="@drawable/bg_liquid_glass"
-                app:cardElevation="8dp"
-                app:cardBackgroundColor="@android:color/transparent">
+                app:cardElevation="0dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="60dp" android:padding="16dp" android:gravity="center">
-                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_edit" app:tint="@color/tertiary"/>
-                    <TextView style="@style/TextAppearance.Premium.LabelLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:text="@string/access_core_settings" android:textColor="@color/tertiary" android:textStyle="bold"/>
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_edit" app:tint="?attr/colorSecondary"/>
+                    <TextView style="@style/TextAppearance.Premium.LabelLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:text="@string/access_core_settings" android:textColor="?attr/colorSecondary" android:textStyle="bold"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Disconnect System Node -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLogout"
+                style="@style/Widget.App.Button"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="@string/terminate_link"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorError"
                 android:textAppearance="@style/TextAppearance.Premium.LabelLarge"
                 android:textStyle="bold"
-                android:background="@drawable/bg_liquid_glass"
-                app:strokeColor="#EA4335"
+                app:strokeColor="?attr/colorError"
                 app:strokeWidth="1.5dp"
-                app:backgroundTint="@android:color/transparent"
-                app:cornerRadius="20dp"/>
+                app:backgroundTint="@android:color/transparent"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

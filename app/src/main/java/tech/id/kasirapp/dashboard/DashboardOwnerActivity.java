@@ -11,19 +11,19 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 
 import tech.id.kasirapp.owner.ProfileActivity;
 import tech.id.kasirapp.R;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.Restaurant;
+import tech.id.kasirapp.owner.RestaurantActivity;
 
 public class DashboardOwnerActivity extends AppCompatActivity {
 
 
 
-    BottomNavigationView bottomNav;
     TextView tvGreeting, tvRestaurantName, txtOmzet, txtTransaksi;
 
     @Override
@@ -62,49 +62,20 @@ public class DashboardOwnerActivity extends AppCompatActivity {
         View imgAvatar = findViewById(R.id.imgAvatar);
         if (imgAvatar != null) imgAvatar.startAnimation(entrance);
 
-        bottomNav = findViewById(R.id.bottomNav);
-
-        bottomNav.setOnItemSelectedListener(item -> {
-
-            int id = item.getItemId();
-
-            if (id == R.id.home) {
-
-                // Sudah di Dashboard
-                return true;
-
-            } else if (id == R.id.order) {
-
-//                Intent intent = new Intent(
-//                        DashboardOwnerActivity.this,
-//                        OrderActivity.class
-//                );
-//
-//                startActivity(intent);
-                return true;
-
-            } else if (id == R.id.report) {
-
-//                Intent intent = new Intent(
-//                        DashboardOwnerActivity.this,
-//                        ReportActivity.class
-//                );
-//
-//                startActivity(intent);
-                return true;
-
-            } else if (id == R.id.profile) {
-
-                Intent intent = new Intent(
-                        DashboardOwnerActivity.this,
-                        ProfileActivity.class
-                );
-
+        View cardMenuRestaurant = findViewById(R.id.cardMenuRestaurant);
+        if (cardMenuRestaurant != null) {
+            cardMenuRestaurant.setOnClickListener(v -> {
+                Intent intent = new Intent(DashboardOwnerActivity.this, RestaurantActivity.class);
                 startActivity(intent);
-                return true;
-            }
+            });
+        }
 
-            return false;
-        });
+        View cardHeaderProfile = findViewById(R.id.cardHeaderProfile);
+        if (cardHeaderProfile != null) {
+            cardHeaderProfile.setOnClickListener(v -> {
+                Intent intent = new Intent(DashboardOwnerActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            });
+        }
     }
 }

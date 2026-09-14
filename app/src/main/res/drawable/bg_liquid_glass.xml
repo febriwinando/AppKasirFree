@@ -1,33 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Deep Glass Shadow/Inner Glow -->
+    <!-- Deep Glass Drop Shadow / Ambient Occlusion -->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#1A000000" />
-            <corners android:radius="28dp" />
+            <solid android:color="#0D000000" />
+            <corners android:radius="24dp" />
         </shape>
     </item>
 
-    <!-- Frosted Surface with Gradient for Depth -->
-    <item android:bottom="2dp" android:left="1dp" android:right="1dp" android:top="1dp">
+    <!-- Frosted Glass Core with Adaptive Translucency -->
+    <item android:bottom="1dp" android:left="1dp" android:right="1dp" android:top="1dp">
         <shape android:shape="rectangle">
             <gradient
                 android:angle="135"
-                android:endColor="#1AFFFFFF"
-                android:startColor="#4DFFFFFF"
+                android:startColor="#26FFFFFF"
+                android:endColor="#0DFFFFFF"
                 android:type="linear" />
-            <corners android:radius="28dp" />
+            <corners android:radius="24dp" />
         </shape>
     </item>
 
-    <!-- High-Light Reflection Edge (The "Glass" Stroke) -->
+    <!-- Organic Mesh Spot 1 (Top Right Glow) -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:centerX="80%"
+                android:centerY="20%"
+                android:gradientRadius="120dp"
+                android:startColor="#1AFFFFFF"
+                android:endColor="@android:color/transparent"
+                android:type="radial" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+
+    <!-- Organic Mesh Spot 2 (Bottom Left Shadow/Deepening) -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:centerX="20%"
+                android:centerY="80%"
+                android:gradientRadius="150dp"
+                android:startColor="#0D000000"
+                android:endColor="@android:color/transparent"
+                android:type="radial" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+
+    <!-- Sleek High-Light Outline Stroke (The Premium Glass Rim) -->
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@android:color/transparent" />
-            <corners android:radius="28dp" />
+            <corners android:radius="24dp" />
             <stroke
-                android:width="1.5dp"
-                android:color="#80FFFFFF" />
+                android:width="1.2dp"
+                android:color="#26FFFFFF" />
         </shape>
     </item>
 </layer-list>

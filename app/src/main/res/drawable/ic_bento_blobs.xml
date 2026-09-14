@@ -1,0 +1,47 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="100dp"
+    android:viewportWidth="200"
+    android:viewportHeight="100">
+
+    <!-- Deep Organic Splash Cluster (Faithful to the Figma Reference) -->
+    <group android:alpha="0.30">
+        <!-- Main Large Blobs (Bottom-Left Cluster) -->
+        <path
+            android:fillColor="#000000"
+            android:pathData="M-30,40 C-10,10 40,20 50,50 C60,80 30,110 -10,110 C-40,110 -50,70 -30,40 Z" />
+
+        <path
+            android:fillColor="#000000"
+            android:pathData="M20,70 C40,55 70,65 80,90 C90,115 60,130 30,125 C0,120 0,85 20,70 Z" />
+
+        <path
+            android:fillColor="#000000"
+            android:pathData="M45,30 C65,15 95,25 105,50 C115,75 85,95 55,90 C25,85 25,45 45,30 Z" />
+
+        <!-- Scattered Bubbles & Droplets (The Signature Bento Look) -->
+        <!-- Big Droplet -->
+        <path
+            android:fillColor="#000000"
+            android:pathData="M130,25 A10,10 0 1,1 110,25 A10,10 0 1,1 130,25" />
+        <!-- Small Droplet 1 -->
+        <path
+            android:fillColor="#000000"
+            android:pathData="M150,60 A7,7 0 1,1 136,60 A7,7 0 1,1 150,60" />
+        <!-- Small Droplet 2 -->
+        <path
+            android:fillColor="#000000"
+            android:pathData="M165,15 A4,4 0 1,1 157,15 A4,4 0 1,1 165,15" />
+        <!-- Accent Spot (Right side) -->
+        <path
+            android:fillColor="#000000"
+            android:pathData="M185,45 A6,6 0 1,1 173,45 A6,6 0 1,1 185,45" />
+    </group>
+
+    <!-- Professional Glass Sheen (Top Edge Light) -->
+    <path
+        android:alpha="0.12"
+        android:fillColor="#FFFFFF"
+        android:pathData="M0,0 L200,0 L200,40 C120,60 80,60 0,40 Z" />
+
+</vector>

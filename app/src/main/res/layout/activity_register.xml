@@ -18,9 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="@color/white"
+            app:navigationIconTint="?attr/colorOnSurface"
             app:title="Create Account"
-            app:titleTextColor="@color/white"
+            app:titleTextColor="?attr/colorOnSurface"
             android:background="@android:color/transparent" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Join the Ecosystem"
-                android:textColor="@color/white" />
+                android:textColor="?attr/colorOnSurface" />
 
             <TextView
                 style="@style/TextAppearance.Future.BodyLarge"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Set up your professional owner profile."
-                android:textColor="#E1BEE7" />
+                android:textColor="?attr/colorOnSurfaceVariant" />
 
             <com.google.android.material.card.MaterialCardView
                 style="@style/Widget.App.Card"
@@ -75,15 +75,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:startIconDrawable="@drawable/ic_person"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Full Name">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtNamaOwner"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="textPersonName"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,15 +93,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         app:startIconDrawable="@drawable/ic_email"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Email">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtEmail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="textEmailAddress"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -111,15 +111,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         app:startIconDrawable="@drawable/ic_phone"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Phone">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtNoHp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="phone"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -129,15 +129,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         app:startIconDrawable="@drawable/ic_person"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Username">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtUsername"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"/>
+                            android:textColor="?attr/colorOnSurface"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -146,17 +146,17 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         app:startIconDrawable="@drawable/ic_lock"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         app:endIconMode="password_toggle"
-                        app:endIconTint="@color/white"
+                        app:endIconTint="?attr/colorOnSurfaceVariant"
                         android:hint="Password">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="textPassword"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -166,17 +166,17 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         app:startIconDrawable="@drawable/ic_lock"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         app:endIconMode="password_toggle"
-                        app:endIconTint="@color/white"
+                        app:endIconTint="?attr/colorOnSurfaceVariant"
                         android:hint="Confirm Password">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtKonfirmasiPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="textPassword"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -189,7 +189,7 @@
                         android:text="Create Account"
                         android:textAllCaps="false"
                         android:textAppearance="@style/TextAppearance.Future.LabelLarge"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnSurface"
                         app:cornerRadius="20dp"/>
 
                     <com.google.android.material.button.MaterialButton
@@ -201,7 +201,7 @@
                         android:layout_marginTop="16dp"
                         android:text="Sign In instead"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:textAppearance="@style/TextAppearance.Future.LabelLarge"/>
 
                 </LinearLayout>

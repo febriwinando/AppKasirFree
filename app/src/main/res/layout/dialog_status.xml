@@ -21,14 +21,15 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:cardCornerRadius="24dp"
-            app:cardElevation="0dp">
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#26FFFFFF">
             <ImageView
                 android:id="@+id/imgStatus"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_success"
-                app:tint="@color/white" />
+                app:tint="?attr/colorOnSurface" />
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
@@ -39,7 +40,7 @@
             android:layout_marginTop="24dp"
             android:text="Action Success"
             android:textAlignment="center"
-            android:textColor="@color/white" />
+            android:textColor="?attr/colorOnSurface" />
 
         <TextView
             android:id="@+id/tvMessage"
@@ -49,7 +50,7 @@
             android:layout_marginTop="12dp"
             android:text="Your data has been successfully updated."
             android:textAlignment="center"
-            android:textColor="#E1BEE7" />
+            android:textColor="?attr/colorOnSurfaceVariant" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAction"
@@ -60,7 +61,7 @@
             android:text="Continue"
             android:textAllCaps="false"
             android:textAppearance="@style/TextAppearance.Future.LabelLarge"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorOnSurface"
             app:cornerRadius="20dp" />
 
     </LinearLayout>

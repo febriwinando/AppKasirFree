@@ -18,9 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="@color/white"
+            app:navigationIconTint="?attr/colorOnSurface"
             app:title="Business Profile"
-            app:titleTextColor="@color/white"
+            app:titleTextColor="?attr/colorOnSurface"
             android:background="@android:color/transparent" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -59,15 +59,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:startIconDrawable="@drawable/ic_store"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Business Name">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtNamaRestoran"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="textCapWords"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,15 +77,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         app:startIconDrawable="@drawable/ic_person"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Owner Name">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtPemilik"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="textPersonName"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,15 +95,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         app:startIconDrawable="@drawable/ic_phone"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Phone Number">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtTelepon"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="phone"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,15 +113,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         app:startIconDrawable="@drawable/ic_email"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Email">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtEmail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="textEmailAddress"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -133,7 +133,7 @@
                         android:layout_marginTop="32dp"
                         android:text="Save Changes"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnSurface"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         app:cornerRadius="20dp" />

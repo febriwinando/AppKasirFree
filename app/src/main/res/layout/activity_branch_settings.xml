@@ -18,9 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="@color/white"
+            app:navigationIconTint="?attr/colorOnSurface"
             app:title="System Configuration"
-            app:titleTextColor="@color/white"
+            app:titleTextColor="?attr/colorOnSurface"
             android:background="@android:color/transparent" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -48,7 +48,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="Operational Identity"
-                android:textColor="#B39DDB"
+                android:textColor="?attr/colorSecondary"
                 android:textAllCaps="true" />
 
             <!-- Store Identity Card -->
@@ -71,15 +71,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:startIconDrawable="@drawable/ic_store"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Branch Designation">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtNamaCabang"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="textCapWords"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -89,15 +89,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         app:startIconDrawable="@drawable/ic_edit"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Geographic Address">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtAlamat"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:minLines="2"
                             android:gravity="top"
                             android:inputType="textMultiLine"/>
@@ -109,15 +109,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         app:startIconDrawable="@drawable/ic_notification"
-                        app:startIconTint="@color/white"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:startIconTint="?attr/colorOnSurfaceVariant"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Number of Tables">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtJumlahMeja"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="number"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -131,7 +131,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="Financial Protocols"
-                android:textColor="#B39DDB"
+                android:textColor="?attr/colorSecondary"
                 android:textAllCaps="true" />
 
             <!-- Financials Card -->
@@ -153,14 +153,14 @@
                         style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Regulatory Tax (%)">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtPajak"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="numberDecimal"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -169,14 +169,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        app:hintTextColor="@color/white"
-                        app:boxStrokeColor="@color/white"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:boxStrokeColor="?attr/colorOutline"
                         android:hint="Service Charge (%)">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtServiceCharge"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="?attr/colorOnSurface"
                             android:inputType="numberDecimal"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -190,7 +190,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="Operational Features"
-                android:textColor="#B39DDB"
+                android:textColor="?attr/colorSecondary"
                 android:textAllCaps="true" />
 
             <!-- Operational Features Card -->
@@ -214,7 +214,7 @@
                         android:layout_height="wrap_content"
                         android:padding="16dp"
                         android:text="Auto Send to Kitchen"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnSurface"
                         android:textStyle="bold" />
 
                     <com.google.android.material.materialswitch.MaterialSwitch
@@ -223,7 +223,7 @@
                         android:layout_height="wrap_content"
                         android:padding="16dp"
                         android:text="Auto Stock Management"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnSurface"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -238,7 +238,7 @@
                 android:text="Commit Changes"
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextAppearance.Future.LabelLarge"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnSurface"
                 app:cornerRadius="20dp"/>
 
         </LinearLayout>
