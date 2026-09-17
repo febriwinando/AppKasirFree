@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Base.Theme.KasirAPP" parent="Theme.Material3.Light.NoActionBar">
-        <!-- Main Palette Light Mode Premium - Purple Reference Brand -->
+        <!-- Main Palette: Elegant White & Executive Black -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorOnPrimary">@color/on_primary</item>
         <item name="colorPrimaryContainer">@color/primary_container</item>
@@ -17,102 +17,156 @@
         <item name="colorSurfaceVariant">@color/surface_variant</item>
         <item name="colorOnSurfaceVariant">@color/on_surface_variant</item>
         <item name="colorOutline">@color/outline</item>
+        <item name="colorError">@color/error</item>
 
-        <!-- Status & Nav Bars (Fully Immersive theme with adaptive fluid toggles) -->
+        <!-- Immersive System Bars (Light Optimized) -->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
 
-        <!-- Material 3 Precision Component Radii with Liquid Glass Defaults -->
+        <!-- Global Premium Component Standards -->
         <item name="materialCardViewStyle">@style/Widget.App.Card</item>
-        <item name="materialButtonStyle">@style/Widget.App.Button</item>
+        <item name="materialButtonStyle">@style/Widget.App.Button.Primary</item>
         <item name="textInputStyle">@style/Widget.App.TextInputLayout</item>
 
-        <!-- Executive Minimalist Typography -->
-        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.Premium.HeadlineLarge</item>
-        <item name="textAppearanceTitleLarge">@style/TextAppearance.Premium.TitleLarge</item>
-        <item name="textAppearanceBodyLarge">@style/TextAppearance.Premium.BodyLarge</item>
-        <item name="textAppearanceLabelLarge">@style/TextAppearance.Premium.LabelLarge</item>
+        <!-- High-Performance Typography Scale -->
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.App.HeadlineLarge</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.App.TitleLarge</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.App.BodyLarge</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.App.LabelLarge</item>
     </style>
 
     <style name="Theme.KasirAPP" parent="Base.Theme.KasirAPP" />
 
-    <style name="Theme.KasirAPP.Login" parent="Theme.KasirAPP" />
-
-    <!-- Enhanced Liquid Glass Component Styles -->
+    <!-- Porcelain Card Styles -->
     <style name="Widget.App.Card" parent="Widget.Material3.CardView.Filled">
-        <item name="cardCornerRadius">24dp</item>
+        <item name="cardCornerRadius">28dp</item>
         <item name="cardElevation">0dp</item>
-        <item name="strokeWidth">0dp</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">@color/outline</item>
         <item name="android:background">@drawable/bg_liquid_glass</item>
         <item name="cardBackgroundColor">@android:color/transparent</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="rippleColor">#1A000000</item>
     </style>
 
-    <!-- Bento Grid Style Card (Solid Adaptive) -->
+    <style name="Widget.App.Card.Solid" parent="Widget.Material3.CardView.Filled">
+        <item name="cardCornerRadius">24dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardBackgroundColor">@color/surface</item>
+        <item name="strokeColor">@color/outline_variant</item>
+        <item name="strokeWidth">1.2dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+    </style>
+
+    <!-- Bento Grid Style Card (Restored for Compatibility) -->
     <style name="Widget.App.BentoCard" parent="Widget.Material3.CardView.Filled">
         <item name="cardCornerRadius">24dp</item>
         <item name="cardElevation">0dp</item>
         <item name="strokeWidth">0dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="rippleColor">#33FFFFFF</item>
     </style>
 
-    <style name="Widget.App.Button" parent="Widget.Material3.Button.TonalButton">
-        <item name="cornerRadius">16dp</item>
-        <item name="android:background">@drawable/bg_liquid_glass</item>
+    <!-- Executive Button Styles -->
+    <style name="Widget.App.Button" parent="Widget.Material3.Button">
+        <item name="cornerRadius">20dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
-        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:minHeight">60dp</item>
     </style>
 
+    <style name="Widget.App.Button.Primary" parent="Widget.App.Button">
+        <item name="backgroundTint">@color/primary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="rippleColor">#33FFFFFF</item>
+    </style>
+
+    <style name="Widget.App.Button.Success" parent="Widget.App.Button">
+        <item name="backgroundTint">@color/success</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="rippleColor">#33FFFFFF</item>
+    </style>
+
+    <style name="Widget.App.Button.Danger" parent="Widget.App.Button">
+        <item name="backgroundTint">@color/error</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="rippleColor">#33FFFFFF</item>
+    </style>
+
+    <style name="Widget.App.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="cornerRadius">20dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:minHeight">60dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="strokeColor">@color/outline</item>
+        <item name="strokeWidth">1.5dp</item>
+        <item name="android:textColor">@color/primary</item>
+    </style>
+
+    <!-- Precision Input Styles -->
     <style name="Widget.App.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
-        <item name="boxCornerRadiusTopStart">16dp</item>
-        <item name="boxCornerRadiusTopEnd">16dp</item>
-        <item name="boxCornerRadiusBottomStart">16dp</item>
-        <item name="boxCornerRadiusBottomEnd">16dp</item>
-        <item name="boxStrokeColor">?attr/colorOutline</item>
+        <item name="boxCornerRadiusTopStart">18dp</item>
+        <item name="boxCornerRadiusTopEnd">18dp</item>
+        <item name="boxCornerRadiusBottomStart">18dp</item>
+        <item name="boxCornerRadiusBottomEnd">18dp</item>
+        <item name="boxStrokeColor">@color/outline</item>
         <item name="boxStrokeWidth">1.2dp</item>
         <item name="boxStrokeWidthFocused">2dp</item>
-        <item name="android:textColorHint">?attr/colorOnSurfaceVariant</item>
+        <item name="android:textColorHint">@color/secondary</item>
+        <item name="hintTextColor">@color/primary</item>
     </style>
 
-    <!-- Luxury Typography Definitions -->
-    <style name="TextAppearance.Premium.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
-        <item name="android:textSize">28sp</item>
+    <!-- Luxury Typography Scale -->
+    <style name="TextAppearance.App.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:textSize">32sp</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:letterSpacing">-0.04</item>
+        <item name="android:textColor">@color/primary</item>
+    </style>
+
+    <style name="TextAppearance.App.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textSize">22sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:letterSpacing">-0.02</item>
-        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textColor">@color/primary</item>
     </style>
 
-    <style name="TextAppearance.Premium.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
-        <item name="android:textSize">20sp</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">?attr/colorOnSurface</item>
-    </style>
-
-    <style name="TextAppearance.Premium.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
-        <item name="android:textSize">15sp</item>
+    <style name="TextAppearance.App.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:lineSpacingExtra">3dp</item>
-        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+        <item name="android:lineSpacingExtra">4dp</item>
+        <item name="android:textColor">@color/secondary</item>
     </style>
 
-    <style name="TextAppearance.Premium.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+    <style name="TextAppearance.App.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:letterSpacing">0.02</item>
-        <item name="android:textColor">?attr/colorSecondary</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="android:textColor">@color/secondary</item>
     </style>
 
-    <!-- Legacy Compatibility Mappings -->
-    <style name="TextAppearance.App.HeadlineLarge" parent="TextAppearance.Premium.HeadlineLarge" />
-    <style name="TextAppearance.App.TitleLarge" parent="TextAppearance.Premium.TitleLarge" />
-    <style name="TextAppearance.App.BodyLarge" parent="TextAppearance.Premium.BodyLarge" />
-    <style name="TextAppearance.App.LabelLarge" parent="TextAppearance.Premium.LabelLarge" />
+    <!-- Extended Compatibility Mappings -->
+    <style name="TextAppearance.Premium.HeadlineLarge" parent="TextAppearance.App.HeadlineLarge" />
+    <style name="TextAppearance.Premium.TitleLarge" parent="TextAppearance.App.TitleLarge" />
+    <style name="TextAppearance.Premium.BodyLarge" parent="TextAppearance.App.BodyLarge" />
+    <style name="TextAppearance.Premium.LabelLarge" parent="TextAppearance.App.LabelLarge" />
 
-    <!-- Backward Compatibility Legacy Future Styles Mapping -->
-    <style name="TextAppearance.Future.HeadlineLarge" parent="TextAppearance.Premium.HeadlineLarge" />
-    <style name="TextAppearance.Future.TitleLarge" parent="TextAppearance.Premium.TitleLarge" />
-    <style name="TextAppearance.Future.BodyLarge" parent="TextAppearance.Premium.BodyLarge" />
-    <style name="TextAppearance.Future.LabelLarge" parent="TextAppearance.Premium.LabelLarge" />
+    <style name="TextAppearance.Future.HeadlineLarge" parent="TextAppearance.App.HeadlineLarge" />
+    <style name="TextAppearance.Future.TitleLarge" parent="TextAppearance.App.TitleLarge" />
+    <style name="TextAppearance.Future.BodyLarge" parent="TextAppearance.App.BodyLarge" />
+    <style name="TextAppearance.Future.LabelLarge" parent="TextAppearance.App.LabelLarge" />
 
 </resources>

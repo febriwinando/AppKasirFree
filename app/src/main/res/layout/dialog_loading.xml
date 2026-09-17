@@ -2,36 +2,34 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/Widget.App.Card"
+    style="@style/Widget.App.Card.Solid"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="32dp"
-    app:cardElevation="0dp">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="32dp"
+        android:padding="40dp"
         android:gravity="center">
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            app:indicatorColor="?attr/colorOnSurface"
-            app:trackColor="?attr/colorSurfaceVariant"
-            app:trackThickness="4dp" />
+            app:indicatorColor="@color/primary"
+            app:trackColor="@color/surface_variant"
+            app:trackThickness="3dp" />
 
         <TextView
             android:id="@+id/tvMessage"
-            style="@style/TextAppearance.Future.BodyLarge"
+            style="@style/TextAppearance.App.BodyLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Processing..."
+            android:text="Processing Request..."
             android:textAlignment="center"
-            android:textColor="?attr/colorOnSurfaceVariant" />
+            android:alpha="0.6" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

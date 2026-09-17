@@ -17,12 +17,14 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import tech.id.kasirapp.data.local.entity.Manager;
 import tech.id.kasirapp.manager.BranchSettingsActivity;
 import tech.id.kasirapp.chasier.CashierActivity;
 import tech.id.kasirapp.EmployeeActivity;
 import tech.id.kasirapp.kitchenstaf.KitchenActivity;
 import tech.id.kasirapp.login.LoginActivity;
 import tech.id.kasirapp.OrderActivity;
+import tech.id.kasirapp.product.MenuListActivity;
 import tech.id.kasirapp.product.ProductActivity;
 import tech.id.kasirapp.R;
 import tech.id.kasirapp.ReportActivity;
@@ -51,7 +53,7 @@ public class DashboardManagerActivity extends AppCompatActivity {
     private MaterialCardView cardWaiter;
     private MaterialCardView cardDapur;
     private MaterialCardView cardLaporan;
-    private MaterialCardView cardPengaturan, cardPegawai;
+    private MaterialCardView cardPengaturan, cardPegawai, cardManageMenu;
 
     private MaterialButton btnLogout;
 
@@ -70,14 +72,10 @@ public class DashboardManagerActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
 
-        setContentView(
-                R.layout.activity_dashboard_manager
-        );
-
+        setContentView(R.layout.activity_dashboard_manager);
         db = DatabaseClient.getDatabase(this);
 
         initView();
-
         loadSession();
 
         // Menerapkan Animasi
@@ -108,6 +106,7 @@ public class DashboardManagerActivity extends AppCompatActivity {
         cardLaporan = findViewById(R.id.cardLaporan);
         cardPengaturan = findViewById(R.id.cardPengaturan);
         cardPegawai = findViewById(R.id.cardPegawai);
+        cardManageMenu = findViewById(R.id.cardManageMenu);
 
         btnLogout = findViewById(R.id.btnLogout);
 
@@ -133,7 +132,7 @@ public class DashboardManagerActivity extends AppCompatActivity {
 
                     Toast.makeText(
                             DashboardManagerActivity.this,
-                            "Session tidak valid",
+                            getString(R.string.msg_invalid_session),
                             Toast.LENGTH_SHORT
                     ).show();
 
@@ -184,7 +183,7 @@ public class DashboardManagerActivity extends AppCompatActivity {
 
                     Toast.makeText(
                             DashboardManagerActivity.this,
-                            "Data cabang tidak ditemukan",
+                            getString(R.string.msg_branch_not_found),
                             Toast.LENGTH_LONG
                     ).show();
 
@@ -209,7 +208,7 @@ public class DashboardManagerActivity extends AppCompatActivity {
                                 : branch.address
                 );
 
-                Toast.makeText(this,"Branch: "+branchId, Toast.LENGTH_LONG).show();
+
 
 
                 loadManagerName();
@@ -227,7 +226,7 @@ public class DashboardManagerActivity extends AppCompatActivity {
         executor.execute(() -> {
 
             // Jika ManagerDao Anda sudah memiliki getById()
-            tech.id.kasirapp.data.local.entity.Manager manager =
+            Manager manager =
                     db.managerDao()
                             .getById(managerId);
 
@@ -236,13 +235,13 @@ public class DashboardManagerActivity extends AppCompatActivity {
                 if (manager != null) {
 
                     tvNamaManager.setText(
-                            "Halo, " + manager.name
+                            getString(R.string.label_greeting, manager.name)
                     );
 
                 } else {
 
                     tvNamaManager.setText(
-                            "Halo, Manager"
+                            getString(R.string.label_greeting, getString(R.string.label_default_manager))
                     );
                 }
 
@@ -277,7 +276,7 @@ public class DashboardManagerActivity extends AppCompatActivity {
             Intent intent =
                     new Intent(
                             this,
-                            ProductActivity.class
+                            MenuListActivity.class
                     );
 
             intent.putExtra(
@@ -411,6 +410,12 @@ public class DashboardManagerActivity extends AppCompatActivity {
                     restaurantId
             );
 
+            startActivity(intent);
+        });
+
+        cardManageMenu.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MenuListActivity.class);
+            intent.putExtra("branch_id", branchId);
             startActivity(intent);
         });
 

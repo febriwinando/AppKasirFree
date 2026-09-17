@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
             if (username.isEmpty()) {
 
                 edtUsername.setError(
-                        "Username wajib diisi"
+                        getString(R.string.err_username_required)
                 );
 
                 edtUsername.requestFocus();
@@ -131,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
             if (password.isEmpty()) {
 
                 edtPassword.setError(
-                        "Password wajib diisi"
+                        getString(R.string.err_password_required)
                 );
 
                 edtPassword.requestFocus();
@@ -220,7 +220,7 @@ public class LoginActivity extends AppCompatActivity {
                 )
                 .addOnFailureListener(
                         e -> loginGagal(
-                                "Gagal menghubungi server"
+                                getString(R.string.msg_server_error)
                         )
                 );
 
@@ -270,7 +270,7 @@ public class LoginActivity extends AppCompatActivity {
                 )
                 .addOnFailureListener(
                         e -> loginGagal(
-                                "Gagal menghubungi server"
+                                getString(R.string.msg_server_error)
                         )
                 );
 
@@ -320,7 +320,7 @@ public class LoginActivity extends AppCompatActivity {
                 )
                 .addOnFailureListener(
                         e -> loginGagal(
-                                "Gagal menghubungi server"
+                                getString(R.string.msg_server_error)
                         )
                 );
 
@@ -370,7 +370,7 @@ public class LoginActivity extends AppCompatActivity {
                 )
                 .addOnFailureListener(
                         e -> loginGagal(
-                                "Gagal menghubungi server"
+                                getString(R.string.msg_server_error)
                         )
                 );
 
@@ -410,7 +410,7 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
 
                                 loginGagal(
-                                        "Username atau password salah"
+                                        getString(R.string.msg_login_failed)
                                 );
 
                             }
@@ -419,7 +419,7 @@ public class LoginActivity extends AppCompatActivity {
                 )
                 .addOnFailureListener(
                         e -> loginGagal(
-                                "Gagal menghubungi server"
+                                getString(R.string.msg_server_error)
                         )
                 );
 
@@ -439,7 +439,7 @@ public class LoginActivity extends AppCompatActivity {
         )) {
 
             loginGagal(
-                    "Username atau password salah"
+                    getString(R.string.msg_login_failed)
             );
 
             return;
@@ -517,7 +517,7 @@ public class LoginActivity extends AppCompatActivity {
                 )) {
 
             loginGagal(
-                    "Username atau password salah"
+                    getString(R.string.msg_login_failed)
             );
 
             return;
@@ -610,7 +610,7 @@ public class LoginActivity extends AppCompatActivity {
                 doc.getString("password")
         )) {
             loginGagal(
-                    "Username atau password salah"
+                    getString(R.string.msg_login_failed)
             );
             return;
         }
@@ -661,7 +661,7 @@ public class LoginActivity extends AppCompatActivity {
         )) {
 
             loginGagal(
-                    "Username atau password salah"
+                    getString(R.string.msg_login_failed)
             );
 
             return;
@@ -712,7 +712,7 @@ public class LoginActivity extends AppCompatActivity {
         )) {
 
             loginGagal(
-                    "Username atau password salah"
+                    getString(R.string.msg_login_failed)
             );
 
             return;
@@ -803,7 +803,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 Toast.makeText(
                         LoginActivity.this,
-                        "Login berhasil",
+                        getString(R.string.msg_login_success),
                         Toast.LENGTH_SHORT
                 ).show();
 

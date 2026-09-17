@@ -4,24 +4,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_liquid_purple_gradient">
+    android:background="@color/background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
-        app:elevation="0dp">
+        app:elevation="0dp"
+        android:background="@color/background">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="@color/white"
-            app:title="Insights Engine"
-            app:titleTextColor="@color/white"
-            android:background="@android:color/transparent" />
+            app:navigationIconTint="@color/primary"
+            app:title="Neural Reports"
+            app:titleTextColor="@color/primary"
+            app:titleTextAppearance="@style/TextAppearance.App.TitleLarge"
+            android:background="@color/background" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -36,22 +37,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="24dp">
 
             <TextView
-                style="@style/TextAppearance.Future.HeadlineLarge"
+                style="@style/TextAppearance.App.HeadlineLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Predictive Reports"
-                android:textColor="@color/white" />
+                android:text="Business Analysis" />
 
             <TextView
-                style="@style/TextAppearance.Future.BodyLarge"
+                style="@style/TextAppearance.App.BodyLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Visualizing your ecosystem growth."
-                android:textColor="#E1BEE7" />
+                android:layout_marginTop="6dp"
+                android:text="Intelligence summary of ecosystem performance." />
 
             <LinearLayout
                 android:id="@+id/reportContainer"

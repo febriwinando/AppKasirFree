@@ -1069,8 +1069,8 @@ public class RestaurantActivity extends AppCompatActivity {
     ) {
         StatusHelper.showConfirm(
                 this,
-                "Hapus Restoran?",
-                "Restoran \"" + restaurant.name + "\" dan seluruh cabangnya akan dihapus permanen.",
+                getString(R.string.title_confirm_delete_restaurant),
+                getString(R.string.msg_confirm_delete_restaurant, restaurant.name),
                 () -> deleteRestaurant(restaurant)
         );
     }
@@ -1083,7 +1083,7 @@ public class RestaurantActivity extends AppCompatActivity {
     private void deleteRestaurant(
             Restaurant restaurant
     ) {
-        StatusHelper.showLoading(this, "Deleting business entity...");
+        StatusHelper.showLoading(this, getString(R.string.msg_delete_loading));
         executor.execute(() -> {
 
             // Hapus cabang terlebih dahulu
@@ -1104,7 +1104,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 StatusHelper.hideLoading();
-                StatusHelper.showSuccess(this, "Berhasil", "Restoran berhasil dihapus", () -> loadRestaurants());
+                StatusHelper.showSuccess(this, getString(R.string.dialog_success), getString(R.string.msg_delete_success), () -> loadRestaurants());
             });
 
         });
@@ -1345,19 +1345,14 @@ public class RestaurantActivity extends AppCompatActivity {
     private void confirmChangeMainBranch(Branch branch) {
 
         new MaterialAlertDialogBuilder(this)
-                .setTitle("Jadikan Cabang Utama?")
-                .setMessage(
-                        "Cabang \"" +
-                                branch.name +
-                                "\" akan menjadi cabang utama.\n\n" +
-                                "Cabang utama saat ini akan otomatis menjadi cabang biasa."
-                )
+                .setTitle(getString(R.string.title_confirm_main_branch))
+                .setMessage(getString(R.string.msg_confirm_main_branch, branch.name))
                 .setNegativeButton(
-                        "Batal",
+                        getString(R.string.dialog_decline),
                         null
                 )
                 .setPositiveButton(
-                        "Jadikan Utama",
+                        "Konfirmasi",
                         (dialog, which) -> {
 
                             changeMainBranch(branch);
@@ -1435,8 +1430,8 @@ public class RestaurantActivity extends AppCompatActivity {
     private void confirmDeleteBranch(Branch branch) {
         StatusHelper.showConfirm(
                 this,
-                "Hapus Cabang?",
-                "Yakin ingin menghapus cabang \"" + branch.name + "\"?",
+                getString(R.string.title_confirm_delete_branch),
+                getString(R.string.msg_confirm_delete_branch, branch.name),
                 () -> deleteBranch(branch)
         );
     }
@@ -1510,7 +1505,7 @@ public class RestaurantActivity extends AppCompatActivity {
     private void deleteBranch(Branch branch) {
 
         if (branch.isMain) {
-            StatusHelper.showError(this, "Gagal", "Cabang utama tidak dapat dihapus.", null);
+            StatusHelper.showError(this, getString(R.string.title_error), getString(R.string.err_delete_primary_branch), null);
             return;
         }
 
@@ -1520,7 +1515,7 @@ public class RestaurantActivity extends AppCompatActivity {
         FirebaseRepository firebase =
                 new FirebaseRepository();
 
-        StatusHelper.showLoading(this, "Removing branch node...");
+        StatusHelper.showLoading(this, getString(R.string.msg_delete_branch_loading));
 
         executor.execute(() -> {
 
@@ -1636,7 +1631,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 StatusHelper.hideLoading();
-                StatusHelper.showSuccess(this, "Berhasil", "Cabang dan Manager berhasil dihapus", () -> loadRestaurants());
+                StatusHelper.showSuccess(this, getString(R.string.dialog_success), getString(R.string.msg_delete_branch_success), () -> loadRestaurants());
             });
 
         });

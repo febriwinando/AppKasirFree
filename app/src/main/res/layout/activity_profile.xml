@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_liquid_purple_gradient">
+    android:background="@color/background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -18,18 +18,21 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Account Settings"
+            app:title="@string/profile_title"
             app:titleCentered="true"
-            app:titleTextColor="?attr/colorOnSurface"
+            app:titleTextColor="@color/primary"
+            app:titleTextAppearance="@style/TextAppearance.App.TitleLarge"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="?attr/colorOnSurface"
-            android:background="@android:color/transparent"/>
+            app:navigationIconTint="@color/primary"
+            android:background="@color/background"
+            android:elevation="0dp"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -39,7 +42,7 @@
             android:paddingHorizontal="24dp"
             android:paddingTop="32dp">
 
-            <!-- Executive Profile Header -->
+            <!-- Profile Header Surface -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,20 +51,21 @@
                 android:layout_marginBottom="40dp">
 
                 <com.google.android.material.card.MaterialCardView
-                    style="@style/Widget.App.Card"
+                    style="@style/Widget.App.Card.Solid"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     app:cardCornerRadius="50dp"
-                    app:cardElevation="0dp">
+                    app:cardBackgroundColor="@color/surface_variant"
+                    app:strokeWidth="0dp">
                     <TextView
                         android:id="@+id/tvAvatar"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="U"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="@color/primary"
                         android:textSize="40sp"
-                        android:fontFamily="sans-serif-medium" />
+                        android:fontFamily="sans-serif-black" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -69,9 +73,9 @@
                     style="@style/TextAppearance.App.TitleLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="20dp"
                     android:text="User Name"
-                    android:textColor="?attr/colorOnSurface" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvUsername"
@@ -79,65 +83,61 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="\@username"
-                    android:textColor="?attr/colorOnSurfaceVariant" />
+                    android:alpha="0.6" />
 
             </LinearLayout>
 
-            <!-- Settings Sections -->
+            <!-- Identity Protocols -->
             <TextView
                 style="@style/TextAppearance.App.LabelLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Security &amp; Identity"
-                android:textColor="?attr/colorSecondary"
-                android:textAllCaps="true"
-                android:letterSpacing="0.1" />
+                android:text="@string/profile_security"
+                android:textColor="@color/secondary"
+                android:letterSpacing="0.1"
+                android:textSize="11sp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardInfo"
-                style="@style/Widget.App.Card"
+                style="@style/Widget.App.Card.Solid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:cardElevation="0dp">
+                android:layout_marginTop="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <!-- Full Name -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="20dp"
                         android:gravity="center_vertical">
-                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_person" app:tint="?attr/colorOnSurfaceVariant" />
-                        <TextView android:id="@+id/tvFullName" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:text="Personal Details" android:textColor="?attr/colorOnSurface" android:textStyle="bold"/>
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_person" app:tint="@color/primary" />
+                        <TextView android:id="@+id/tvFullName" style="@style/TextAppearance.App.BodyLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:text="Personal Details" android:textColor="@color/primary" android:textStyle="bold"/>
                     </LinearLayout>
 
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1A000000" android:layout_marginHorizontal="16dp"/>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/outline_variant" android:layout_marginHorizontal="20dp"/>
 
-                    <!-- Email -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="20dp"
                         android:gravity="center_vertical">
-                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_email" app:tint="?attr/colorOnSurfaceVariant" />
-                        <TextView android:id="@+id/tvEmail" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:text="Email Notification" android:textColor="?attr/colorOnSurface" android:textStyle="bold"/>
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_email" app:tint="@color/primary" />
+                        <TextView android:id="@+id/tvEmail" style="@style/TextAppearance.App.BodyLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:text="Email Notification" android:textColor="@color/primary" android:textStyle="bold"/>
                     </LinearLayout>
 
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1A000000" android:layout_marginHorizontal="16dp"/>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/outline_variant" android:layout_marginHorizontal="20dp"/>
 
-                    <!-- Phone -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="20dp"
                         android:gravity="center_vertical">
-                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_phone" app:tint="?attr/colorOnSurfaceVariant" />
-                        <TextView android:id="@+id/tvPhone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:text="Phone Number" android:textColor="?attr/colorOnSurface" android:textStyle="bold"/>
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_phone" app:tint="@color/primary" />
+                        <TextView android:id="@+id/tvPhone" style="@style/TextAppearance.App.BodyLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:text="Phone Number" android:textColor="@color/primary" android:textStyle="bold"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -148,45 +148,43 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Business Link"
-                android:textColor="?attr/colorSecondary"
-                android:textAllCaps="true"
-                android:letterSpacing="0.1" />
+                android:text="@string/profile_business"
+                android:textColor="@color/secondary"
+                android:letterSpacing="0.1"
+                android:textSize="11sp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardRestaurant"
-                style="@style/Widget.App.Card"
+                style="@style/Widget.App.Card.Solid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:clickable="true"
-                android:focusable="true"
-                app:cardElevation="0dp">
+                android:layout_marginTop="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="20dp"
                     android:gravity="center_vertical">
-                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_store" app:tint="?attr/colorOnSurfaceVariant" />
-                    <TextView android:id="@+id/tvRestaurantName" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:text="My Enterprise" android:textColor="?attr/colorOnSurface" android:textStyle="bold"/>
-                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_chevron_right" app:tint="?attr/colorOnSurfaceVariant" />
+                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_store" app:tint="@color/primary" />
+                    <TextView android:id="@+id/tvRestaurantNameProfile" style="@style/TextAppearance.App.BodyLarge" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:text="My Enterprise" android:textColor="@color/primary" android:textStyle="bold"/>
+                    <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_chevron_right" app:tint="@color/secondary" />
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Logout Sequence -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLogout"
-                style="@style/Widget.App.Button"
+                style="@style/Widget.App.Button.Danger"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="64dp"
                 android:layout_marginTop="48dp"
-                android:text="Sign Out of Session"
-                android:textColor="?attr/colorOnSurface"
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.App.LabelLarge" />
+                android:text="@string/profile_logout" />
 
-            <View android:layout_width="match_parent" android:layout_height="48dp" />
+            <!-- Hidden field for compatibility -->
+            <View android:id="@+id/tvRestaurantName" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
+
+            <View android:layout_width="match_parent" android:layout_height="60dp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

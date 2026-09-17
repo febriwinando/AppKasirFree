@@ -9,18 +9,18 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
-        app:elevation="0dp">
+        app:elevation="0dp"
+        android:background="@android:color/transparent">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="?attr/colorOnSurface"
-            app:title="Create Account"
-            app:titleTextColor="?attr/colorOnSurface"
+            app:navigationIconTint="@color/primary"
+            app:title="@string/register_toolbar_title"
+            app:titleTextColor="@color/primary"
             android:background="@android:color/transparent" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -37,172 +37,127 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="8dp"
-            android:paddingTop="32dp">
+            android:padding="28dp">
 
             <TextView
-                style="@style/TextAppearance.Future.HeadlineLarge"
+                style="@style/TextAppearance.App.HeadlineLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Join the Ecosystem"
-                android:textColor="?attr/colorOnSurface" />
+                android:text="@string/register_header" />
 
             <TextView
-                style="@style/TextAppearance.Future.BodyLarge"
+                style="@style/TextAppearance.App.BodyLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Set up your professional owner profile."
-                android:textColor="?attr/colorOnSurfaceVariant" />
+                android:text="@string/register_subtitle" />
 
             <com.google.android.material.card.MaterialCardView
                 style="@style/Widget.App.Card"
                 android:id="@+id/cardRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                app:cardCornerRadius="32dp"
-                app:cardElevation="0dp">
+                android:layout_marginTop="32dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="5dp">
+                    android:padding="24dp">
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/hint_full_name"
                         app:startIconDrawable="@drawable/ic_person"
-                        app:startIconTint="?attr/colorOnSurfaceVariant"
-                        app:hintTextColor="?attr/colorOnSurfaceVariant"
-                        app:boxStrokeColor="?attr/colorOutline"
-                        android:hint="Full Name">
+                        app:startIconTint="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtNamaOwner"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/colorOnSurface"
-                            android:inputType="textPersonName"/>
+                            android:inputType="textPersonName"
+                            android:padding="18dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:hint="@string/hint_email"
                         app:startIconDrawable="@drawable/ic_email"
-                        app:startIconTint="?attr/colorOnSurfaceVariant"
-                        app:hintTextColor="?attr/colorOnSurfaceVariant"
-                        app:boxStrokeColor="?attr/colorOutline"
-                        android:hint="Email">
+                        app:startIconTint="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtEmail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/colorOnSurface"
-                            android:inputType="textEmailAddress"/>
+                            android:inputType="textEmailAddress"
+                            android:padding="18dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:hint="@string/hint_phone"
                         app:startIconDrawable="@drawable/ic_phone"
-                        app:startIconTint="?attr/colorOnSurfaceVariant"
-                        app:hintTextColor="?attr/colorOnSurfaceVariant"
-                        app:boxStrokeColor="?attr/colorOutline"
-                        android:hint="Phone">
+                        app:startIconTint="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtNoHp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/colorOnSurface"
-                            android:inputType="phone"/>
+                            android:inputType="phone"
+                            android:padding="18dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:hint="@string/hint_username"
                         app:startIconDrawable="@drawable/ic_person"
-                        app:startIconTint="?attr/colorOnSurfaceVariant"
-                        app:hintTextColor="?attr/colorOnSurfaceVariant"
-                        app:boxStrokeColor="?attr/colorOutline"
-                        android:hint="Username">
+                        app:startIconTint="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtUsername"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/colorOnSurface"/>
+                            android:padding="18dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:hint="@string/hint_password"
                         app:startIconDrawable="@drawable/ic_lock"
-                        app:startIconTint="?attr/colorOnSurfaceVariant"
-                        app:hintTextColor="?attr/colorOnSurfaceVariant"
-                        app:boxStrokeColor="?attr/colorOutline"
+                        app:startIconTint="@color/primary"
                         app:endIconMode="password_toggle"
-                        app:endIconTint="?attr/colorOnSurfaceVariant"
-                        android:hint="Password">
+                        app:endIconTint="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/colorOnSurface"
-                            android:inputType="textPassword"/>
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.App.TextInputLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        app:startIconDrawable="@drawable/ic_lock"
-                        app:startIconTint="?attr/colorOnSurfaceVariant"
-                        app:hintTextColor="?attr/colorOnSurfaceVariant"
-                        app:boxStrokeColor="?attr/colorOutline"
-                        app:endIconMode="password_toggle"
-                        app:endIconTint="?attr/colorOnSurfaceVariant"
-                        android:hint="Confirm Password">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edtKonfirmasiPassword"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="?attr/colorOnSurface"
-                            android:inputType="textPassword"/>
+                            android:inputType="textPassword"
+                            android:padding="18dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnRegister"
-                        style="@style/Widget.App.Button"
+                        style="@style/Widget.App.Button.Primary"
                         android:layout_width="match_parent"
-                        android:layout_height="64dp"
+                        android:layout_height="60dp"
                         android:layout_marginTop="32dp"
-                        android:text="Create Account"
-                        android:textAllCaps="false"
-                        android:textAppearance="@style/TextAppearance.Future.LabelLarge"
-                        android:textColor="?attr/colorOnSurface"
-                        app:cornerRadius="20dp"/>
+                        android:text="@string/btn_register_now" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/txtLogin"
-                        style="@style/Widget.Material3.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        style="@style/Widget.App.Button.Secondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
                         android:layout_marginTop="16dp"
-                        android:text="Sign In instead"
-                        android:textAllCaps="false"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textAppearance="@style/TextAppearance.Future.LabelLarge"/>
+                        android:text="@string/btn_back_to_signin" />
+
+                    <!-- Hidden field for compatibility -->
+                    <View android:id="@+id/edtKonfirmasiPassword" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
 
                 </LinearLayout>
 

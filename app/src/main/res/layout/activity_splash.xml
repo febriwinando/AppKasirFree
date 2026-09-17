@@ -17,56 +17,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Frosted Liquid Glass Logo Container -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/logoContainer"
             style="@style/Widget.App.Card"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            app:cardCornerRadius="70dp"
-            app:cardElevation="0dp">
-
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            app:cardCornerRadius="80dp">
             <ImageView
                 android:id="@+id/imgLogo"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:src="@drawable/logokasir" />
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/tvAppName"
-            style="@style/TextAppearance.Premium.HeadlineLarge"
+            style="@style/TextAppearance.App.HeadlineLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="40dp"
             android:text="@string/kasir_nexus"
-            android:textColor="?attr/colorOnSurface"
-            android:textStyle="bold"
-            android:letterSpacing="0.05" />
+            android:letterSpacing="0.1" />
 
         <TextView
             android:id="@+id/tvAppSubtitle"
-            style="@style/TextAppearance.Premium.BodyLarge"
+            style="@style/TextAppearance.App.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="8dp"
             android:text="@string/next_gen_pos"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:alpha="0.9" />
+            android:alpha="0.7"
+            android:letterSpacing="0.2" />
 
     </LinearLayout>
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"
-        android:layout_width="180dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="120dp"
         android:indeterminate="true"
-        app:indicatorColor="@color/tertiary"
-        app:trackColor="#26FFFFFF"
-        app:trackThickness="4dp"
-        app:trackCornerRadius="4dp"
+        app:indicatorColor="@color/primary"
+        app:trackColor="#0D000000"
+        app:trackThickness="3dp"
+        app:trackCornerRadius="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

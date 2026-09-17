@@ -1,33 +1,161 @@
 <resources>
-    <string name="app_name">KasirAPP</string>
+    <string name="app_name">Kasir Pro</string>
     <string name="kasir_nexus">Kasir Pro</string>
-    <string name="next_gen_pos">Modern Workspace Environment</string>
-    <string name="welcome_nexus">Sign in to manage your professional store</string>
-    <string name="sign_in_node">Sign In</string>
-    <string name="no_account_register">Create an elegant merchant account</string>
-    <string name="terminal_identity">Username</string>
-    <string name="access_cypher">Password</string>
-    <string name="nexus_core_version">Workspace Edition v3.5.0</string>
+    <string name="next_gen_pos">Sistem Point of Sales Terpadu</string>
+    <string name="welcome_nexus">Manajemen Restoran Profesional &amp; Efisien</string>
+    <string name="sign_in_node">Masuk ke Sistem</string>
+    <string name="no_account_register">Daftar Akun Pemilik Baru</string>
+    <string name="terminal_identity">Nama Pengguna</string>
+    <string name="access_cypher">Kata Sandi</string>
+    <string name="nexus_core_version">Versi 1.0.0</string>
+    <string name="catalog_entry_title">Entri Katalog</string>
 
-    <!-- Dashboard Strings -->
-    <string name="root_operator">Store Administrator</string>
-    <string name="nexus_cluster">Main Enterprise Network</string>
-    <string name="op_sync">Active Orders</string>
-    <string name="inv_link">Total Products</string>
-    <string name="assets_0">0 Items</string>
-    <string name="primary_sector">Operational Hub Status</string>
-    <string name="quantum_status">Cloud Synchronization Active &amp; Secured</string>
-    <string name="matrix_subsystems">Management Suite</string>
-    <string name="tx_node">Cashier Terminal</string>
-    <string name="srv_network">Waiter Service</string>
-    <string name="quantum_asset">Inventory</string>
-    <string name="kitchen_grid">Kitchen Hub</string>
-    <string name="neural_report">Business Analytics</string>
-    <string name="crew_sync">Team Management</string>
-    <string name="access_core_settings">System Settings</string>
-    <string name="terminate_link">Sign Out from Workspace</string>
+    <!-- Dashboard & Navigation -->
+    <string name="dashboard_title">Dashboard Eksekutif</string>
+    <string name="root_operator">Manajer Operasional</string>
+    <string name="nexus_cluster">Pusat Kendali Restoran</string>
+    <string name="op_sync">Pesanan Berjalan</string>
+    <string name="label_orders">PESANAN</string>
+    <string name="label_menu_items">PRODUK</string>
+    <string name="inv_link">Total Katalog Produk</string>
+    <string name="assets_0">0 Menu Terdaftar</string>
+    <string name="primary_sector">Informasi Cabang</string>
+    <string name="quantum_status">Terhubung ke Database Cloud</string>
+    <string name="matrix_subsystems">Modul Operasional</string>
+    <string name="tx_node">Kasir</string>
+    <string name="srv_network">Pelayan</string>
+    <string name="quantum_asset">Stok &amp; Inventori</string>
+    <string name="kitchen_grid">Dapur</string>
+    <string name="neural_report">Laporan &amp; Analitik</string>
+    <string name="crew_sync">Manajemen SDM</string>
+    <string name="access_core_settings">Pengaturan Sistem</string>
+    <string name="terminate_link">Keluar dari Sesi</string>
     <string name="value_zero">0</string>
 
-    <!-- Team Management Strings -->
-    <string name="team_dir_sub">Manage authorization details and secure nodes for your professional digital staff members.</string>
+    <!-- Product & Menu -->
+    <string name="menu_new_title">Tambah Menu Baru</string>
+    <string name="menu_new_subtitle">Daftarkan produk kuliner baru ke dalam sistem.</string>
+    <string name="menu_identity">Identifikasi Produk</string>
+    <string name="menu_name">Nama Menu</string>
+    <string name="menu_sku">SKU / Kode Barcode</string>
+    <string name="menu_classification">Klasifikasi &amp; Kategori</string>
+    <string name="menu_type">Jenis Menu</string>
+    <string name="menu_category">Kategori Hidangan</string>
+    <string name="menu_pricing">Informasi Keuangan</string>
+    <string name="menu_cost">Harga Modal (HPP)</string>
+    <string name="menu_retail">Harga Jual</string>
+    <string name="menu_inventory">Inventori &amp; Stok</string>
+    <string name="menu_unit">Satuan Stok</string>
+    <string name="menu_initial_qty">Jumlah Stok Awal</string>
+    <string name="menu_status_title">Pengaturan Operasional</string>
+    <string name="menu_status_active">Status Produk</string>
+    <string name="menu_availability">Ketersediaan Jual</string>
+    <string name="menu_desc">Deskripsi Produk</string>
+    <string name="menu_save">Simpan ke Katalog</string>
+
+    <!-- Branch & Setup -->
+    <string name="branch_setup_title">Konfigurasi Cabang</string>
+    <string name="branch_identity">Identitas Operasional</string>
+    <string name="branch_name">Nama Cabang</string>
+    <string name="branch_address">Alamat Lengkap</string>
+    <string name="branch_tables">Kapasitas Meja</string>
+    <string name="branch_financial">Protokol Keuangan</string>
+    <string name="branch_tax">Pajak (PPN %)</string>
+    <string name="branch_service">Biaya Layanan (%)</string>
+    <string name="branch_automation">Otomatisasi Sistem</string>
+    <string name="branch_kitchen_sync">Kirim Pesanan ke Dapur Otomatis</string>
+    <string name="branch_stock_sync">Manajemen Stok Otomatis</string>
+    <string name="branch_save">Sinkronisasi Perubahan</string>
+
+    <!-- Team & Profile -->
+    <string name="team_title">Manajemen Kru</string>
+    <string name="team_dir_sub">Kelola data staf dan otoritas akses operasional.</string>
+    <string name="profile_title">Pengaturan Akun</string>
+    <string name="profile_security">Keamanan &amp; Identitas</string>
+    <string name="profile_business">Tautan Bisnis</string>
+    <string name="profile_logout">Keluar dari Sistem</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_verify">Verifikasi Diperlukan</string>
+    <string name="dialog_confirm_msg">Apakah Anda yakin ingin memproses tindakan ini?</string>
+    <string name="dialog_authorize">Otorisasi Tindakan</string>
+    <string name="dialog_decline">Batalkan</string>
+    <string name="dialog_success">Tindakan Berhasil</string>
+    <string name="dialog_success_msg">Data telah berhasil diperbarui di dalam ekosistem.</string>
+    <string name="dialog_acknowledge">Selesai</string>
+    <!-- Registration -->
+    <string name="register_toolbar_title">Registrasi Pemilik</string>
+    <string name="register_header">Bergabung dengan Ekosistem</string>
+    <string name="register_subtitle">Atur profil pemilik profesional Anda.</string>
+    <string name="hint_full_name">Nama Lengkap</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_phone">Nomor Telepon</string>
+    <string name="hint_username">Nama Pengguna</string>
+    <string name="hint_password">Kata Sandi</string>
+    <string name="btn_register_now">Daftar Sekarang</string>
+    <string name="btn_back_to_signin">Kembali ke Masuk</string>
+
+    <!-- Dashboard & Navigation -->
+    <string name="dashboard_toolbar_title">Analisis Eksekutif</string>
+    <string name="welcome_back">Selamat Datang Kembali,</string>
+    <string name="label_net_revenue">PENDAPATAN BERSIH</string>
+    <string name="label_sync_transaction">Transaksi Sinkron</string>
+    <string name="label_sales">Penjualan</string>
+    <string name="label_revenue">Pendapatan</string>
+    <string name="label_inventory">Inventori</string>
+    <string name="label_outlets">Cabang</string>
+    <string name="label_settings">Pengaturan</string>
+    <string name="compiling_analysis">Menyusun Analisis Ekosistem&#8230;</string>
+
+    <!-- Product & Menu -->
+    <string name="catalog_mgmt_title">Manajemen Katalog</string>
+    <string name="hint_search_product">Cari produk&#8230;</string>
+    <string name="chip_all">Semua</string>
+    <string name="chip_food">Makanan</string>
+    <string name="chip_drink">Minuman</string>
+    <string name="no_records_found">Tidak ada rekaman ditemukan di sektor saat ini.</string>
+    <string name="expand_catalog">Perluas Katalog</string>
+
+    <!-- Team & Profile -->
+    <string name="operational_crew_header">Kru Operasional</string>
+
+    <!-- Business & Ecosystem -->
+    <string name="business_list_title">Daftar Bisnis</string>
+    <string name="my_ecosystem_header">Ekosistem Saya</string>
+    <string name="my_ecosystem_subtitle">Pantau dan kelola seluruh unit bisnis Anda.</string>
+    <string name="register_business">Daftarkan Bisnis</string>
+
+    <!-- General Messages -->
+    <string name="msg_loading_save">Menyimpan data ke sistem...</string>
+    <string name="msg_success_save">Data berhasil ditambahkan ke katalog sistem.</string>
+    <string name="title_error">Kesalahan Sistem</string>
+    <string name="msg_error_generic">Terjadi kesalahan saat memproses data. Silakan coba lagi.</string>
+    <string name="msg_invalid_session">Sesi tidak valid, silakan masuk kembali.</string>
+    <string name="msg_branch_not_found">Data cabang tidak ditemukan.</string>
+    <string name="msg_restaurant_not_found">Data restoran tidak ditemukan.</string>
+    <string name="label_greeting">Halo, %1$s</string>
+    <string name="label_default_manager">Manajer</string>
+    <string name="label_default_owner">Pemilik</string>
+    <string name="dialog_logout_title">Keluar dari Sesi?</string>
+    <string name="dialog_logout_msg">Anda akan mengakhiri sesi akses operasional pada perangkat ini. Lanjutkan?</string>
+    <string name="msg_logout_success">Sesi telah berakhir dengan aman.</string>
+    <string name="msg_login_success">Otorisasi berhasil. Selamat datang di sistem.</string>
+    <string name="msg_login_failed">Akses ditolak. Nama pengguna atau kata sandi tidak valid.</string>
+    <string name="msg_server_error">Gagal menghubungi pusat data. Periksa koneksi internet Anda.</string>
+    <string name="err_username_required">Nama pengguna wajib diisi</string>
+    <string name="err_password_required">Kata sandi wajib diisi</string>
+    <string name="err_name_required">Nama lengkap wajib diisi</string>
+    <string name="err_password_mismatch">Konfirmasi kata sandi tidak sesuai</string>
+    <string name="msg_delete_confirm">Otorisasi penghapusan data bisnis. Tindakan ini tidak dapat dibatalkan. Lanjutkan?</string>
+    <string name="msg_delete_loading">Menghapus entitas bisnis dari sistem&#8230;</string>
+    <string name="msg_delete_success">Data bisnis berhasil dihapus dari ekosistem.</string>
+    <string name="msg_delete_branch_loading">Menghapus unit cabang dari sistem&#8230;</string>
+    <string name="msg_delete_branch_success">Data cabang dan manajer berhasil dihapus.</string>
+    <string name="err_delete_primary_branch">Cabang utama adalah inti sistem dan tidak dapat dihapus.</string>
+    <string name="title_confirm_delete_restaurant">Hapus Restoran?</string>
+    <string name="msg_confirm_delete_restaurant">Restoran \"%1$s\" dan seluruh unit cabangnya akan dihapus secara permanen dari sistem.</string>
+    <string name="title_confirm_delete_branch">Hapus Cabang?</string>
+    <string name="msg_confirm_delete_branch">Apakah Anda yakin ingin menghapus unit cabang \"%1$s\"?</string>
+    <string name="title_confirm_main_branch">Jadikan Cabang Utama?</string>
+    <string name="msg_confirm_main_branch">Unit cabang \"%1$s\" akan diatur sebagai pusat operasional utama ekosistem.</string>
 </resources>

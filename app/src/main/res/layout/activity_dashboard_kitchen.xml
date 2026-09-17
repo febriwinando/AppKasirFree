@@ -2,11 +2,9 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@drawable/bg_liquid_purple_gradient">
+    android:background="@color/background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,50 +14,46 @@
         android:orientation="vertical">
 
         <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.App.BentoCard"
+            style="@style/Widget.App.Card.Solid"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/bento_green"
-            app:cardElevation="0dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="32dp"
+                android:padding="40dp"
                 android:gravity="center">
 
                 <com.google.android.material.card.MaterialCardView
-                    style="@style/Widget.App.Card"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    app:cardCornerRadius="20dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:cardCornerRadius="30dp"
                     app:cardElevation="0dp"
-                    app:cardBackgroundColor="#26FFFFFF">
+                    app:cardBackgroundColor="@color/surface_variant">
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_access_time"
-                        app:tint="@color/white" />
+                        app:tint="@color/primary" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
-                    style="@style/TextAppearance.Premium.HeadlineLarge"
+                    style="@style/TextAppearance.App.HeadlineLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="Kitchen Analytics"
-                    android:textColor="@color/white"
+                    android:layout_marginTop="32dp"
+                    android:text="Kitchen Module"
                     android:textStyle="bold" />
 
                 <TextView
-                    style="@style/TextAppearance.Premium.BodyLarge"
+                    style="@style/TextAppearance.App.BodyLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Optimizing Culinary Flow..."
-                    android:textColor="#E1BEE7" />
+                    android:layout_marginTop="12dp"
+                    android:text="Monitoring Order Queue..."
+                    android:alpha="0.6" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

@@ -4,24 +4,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_liquid_purple_gradient">
+    android:background="@color/background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
-        app:elevation="0dp">
+        app:elevation="0dp"
+        android:background="@color/background">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="?attr/colorOnSurface"
-            app:title="Business Registration"
-            app:titleTextColor="?attr/colorOnSurface"
-            android:background="@android:color/transparent" />
+            app:navigationIconTint="@color/primary"
+            app:title="Ecosystem Initiation"
+            app:titleTextColor="@color/primary"
+            app:titleTextAppearance="@style/TextAppearance.App.TitleLarge"
+            android:background="@color/background" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -34,135 +35,111 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:id="@+id/containerRegisterRestaurant"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="8dp"
-            android:paddingTop="32dp">
-
-            <!-- Hidden IDs for compatibility -->
-            <View android:id="@+id/imgHeader" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone"/>
-            <View android:id="@+id/tvHeaderTitle" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone"/>
-            <View android:id="@+id/tvHeaderSubtitle" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone"/>
+            android:padding="24dp">
 
             <TextView
-                style="@style/TextAppearance.Future.HeadlineLarge"
+                style="@style/TextAppearance.App.HeadlineLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Business"
-                android:textColor="?attr/colorOnSurface" />
+                android:text="Ecosystem Hub" />
 
             <TextView
-                style="@style/TextAppearance.Future.BodyLarge"
+                style="@style/TextAppearance.App.BodyLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Register your restaurant identity."
-                android:textColor="?attr/colorOnSurfaceVariant" />
+                android:layout_marginTop="6dp"
+                android:text="Establish the core identity of your restaurant network." />
 
             <com.google.android.material.card.MaterialCardView
-                style="@style/Widget.App.Card"
-                android:id="@+id/cardForm"
+                style="@style/Widget.App.Card.Solid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                app:cardCornerRadius="32dp"
-                app:cardElevation="0dp">
+                android:layout_marginTop="32dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="5dp">
+                    android:padding="24dp">
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="Restaurant Designation"
                         app:startIconDrawable="@drawable/ic_store"
-                        app:startIconTint="?attr/colorOnSurfaceVariant"
-                        app:hintTextColor="?attr/colorOnSurfaceVariant"
-                        app:boxStrokeColor="?attr/colorOutline"
-                        android:hint="Business Name">
+                        app:startIconTint="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtNamaRestoran"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/colorOnSurface"
-                            android:inputType="textCapWords"/>
+                            android:inputType="textCapWords"
+                            android:padding="18dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:hint="Proprietor Identity"
                         app:startIconDrawable="@drawable/ic_person"
-                        app:startIconTint="?attr/colorOnSurfaceVariant"
-                        app:hintTextColor="?attr/colorOnSurfaceVariant"
-                        app:boxStrokeColor="?attr/colorOutline"
-                        android:hint="Owner Representative">
+                        app:startIconTint="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtPemilik"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/colorOnSurface"
-                            android:inputType="textPersonName"/>
+                            android:inputType="textCapWords"
+                            android:padding="18dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:hint="Contact Protocol"
                         app:startIconDrawable="@drawable/ic_phone"
-                        app:startIconTint="?attr/colorOnSurfaceVariant"
-                        app:hintTextColor="?attr/colorOnSurfaceVariant"
-                        app:boxStrokeColor="?attr/colorOutline"
-                        android:hint="Business Phone">
+                        app:startIconTint="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtTelepon"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/colorOnSurface"
-                            android:inputType="phone"/>
+                            android:inputType="phone"
+                            android:padding="18dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:hint="Corporate Email"
                         app:startIconDrawable="@drawable/ic_email"
-                        app:startIconTint="?attr/colorOnSurfaceVariant"
-                        app:hintTextColor="?attr/colorOnSurfaceVariant"
-                        app:boxStrokeColor="?attr/colorOutline"
-                        android:hint="Business Email">
+                        app:startIconTint="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edtEmail"
+                            android:id="@+id/edtEmailRestoran"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/colorOnSurface"
-                            android:inputType="textEmailAddress"/>
+                            android:inputType="textEmailAddress"
+                            android:padding="18dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnLanjutCabang"
-                        style="@style/Widget.App.Button"
+                        style="@style/Widget.App.Button.Primary"
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
                         android:layout_marginTop="32dp"
-                        android:text="Continue to Outlets"
-                        android:textAllCaps="false"
-                        android:textAppearance="@style/TextAppearance.Future.LabelLarge"
-                        android:textColor="?attr/colorOnSurface"
-                        app:cornerRadius="20dp" />
+                        android:text="Initiate Outlets" />
+
+                    <!-- Hidden fields for compatibility -->
+                    <View android:id="@+id/edtAlamatRestoran" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
+                    <View android:id="@+id/imgHeader" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
+                    <View android:id="@+id/tvHeaderTitle" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
+                    <View android:id="@+id/tvHeaderSubtitle" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
 
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

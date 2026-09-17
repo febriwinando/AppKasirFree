@@ -52,22 +52,22 @@ public class RegisterOwnerActivity extends AppCompatActivity {
         String phone = edtNoHp.getText().toString().trim();
 
         if(nama.isEmpty()){
-            edtNamaOwner.setError("Nama wajib diisi");
+            edtNamaOwner.setError(getString(R.string.err_name_required));
             return;
         }
 
         if(username.isEmpty()){
-            edtUsername.setError("Username wajib diisi");
+            edtUsername.setError(getString(R.string.err_username_required));
             return;
         }
 
         if(password.isEmpty()){
-            edtPassword.setError("Password wajib diisi");
+            edtPassword.setError(getString(R.string.err_password_required));
             return;
         }
 
         if(!password.equals(konfirmasi)){
-            edtKonfirmasiPassword.setError("Password tidak sama");
+            edtKonfirmasiPassword.setError(getString(R.string.err_password_mismatch));
             return;
         }
 

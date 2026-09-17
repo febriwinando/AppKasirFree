@@ -148,16 +148,14 @@ public class ProfileActivity extends AppCompatActivity {
     private void logout() {
 
         new MaterialAlertDialogBuilder(this)
-                .setTitle("Keluar dari akun?")
-                .setMessage(
-                        "Anda akan keluar dari akun ini pada perangkat."
-                )
+                .setTitle(getString(R.string.dialog_logout_title))
+                .setMessage(getString(R.string.dialog_logout_msg))
                 .setNegativeButton(
-                        "Batal",
+                        getString(R.string.dialog_decline),
                         null
                 )
                 .setPositiveButton(
-                        "Keluar",
+                        getString(R.string.terminate_link),
                         (dialog, which) -> {
 
                             executor.execute(() -> {
@@ -169,7 +167,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                                     Toast.makeText(
                                             ProfileActivity.this,
-                                            "Berhasil keluar",
+                                            getString(R.string.msg_logout_success),
                                             Toast.LENGTH_SHORT
                                     ).show();
 

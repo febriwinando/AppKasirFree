@@ -4,24 +4,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_liquid_purple_gradient">
+    android:background="@color/background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
-        app:elevation="0dp">
+        app:elevation="0dp"
+        android:background="@color/background">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="?attr/colorOnSurface"
-            app:title="Business Profile"
-            app:titleTextColor="?attr/colorOnSurface"
-            android:background="@android:color/transparent" />
+            app:navigationIconTint="@color/primary"
+            app:title="Core Identity"
+            app:titleTextColor="@color/primary"
+            app:titleTextAppearance="@style/TextAppearance.App.TitleLarge"
+            android:background="@color/background" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -37,112 +38,106 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="12dp"
-            android:paddingTop="32dp">
+            android:padding="24dp">
+
+            <TextView
+                style="@style/TextAppearance.App.HeadlineLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ecosystem Hub" />
+
+            <TextView
+                style="@style/TextAppearance.App.BodyLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Configure the root identity of your restaurant network." />
 
             <com.google.android.material.card.MaterialCardView
-                style="@style/Widget.App.Card"
                 android:id="@+id/cardForm"
+                style="@style/Widget.App.Card.Solid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="28dp"
-                app:cardElevation="0dp">
+                android:layout_marginTop="32dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="5dp">
+                    android:padding="24dp">
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="Restaurant Name"
                         app:startIconDrawable="@drawable/ic_store"
-                        app:startIconTint="?attr/colorOnSurfaceVariant"
-                        app:hintTextColor="?attr/colorOnSurfaceVariant"
-                        app:boxStrokeColor="?attr/colorOutline"
-                        android:hint="Business Name">
+                        app:startIconTint="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtNamaRestoran"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/colorOnSurface"
-                            android:inputType="textCapWords"/>
+                            android:inputType="textCapWords"
+                            android:padding="18dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:hint="Proprietor Identity"
                         app:startIconDrawable="@drawable/ic_person"
-                        app:startIconTint="?attr/colorOnSurfaceVariant"
-                        app:hintTextColor="?attr/colorOnSurfaceVariant"
-                        app:boxStrokeColor="?attr/colorOutline"
-                        android:hint="Owner Name">
+                        app:startIconTint="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtPemilik"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/colorOnSurface"
-                            android:inputType="textPersonName"/>
+                            android:inputType="textCapWords"
+                            android:padding="18dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:hint="Contact Protocol"
                         app:startIconDrawable="@drawable/ic_phone"
-                        app:startIconTint="?attr/colorOnSurfaceVariant"
-                        app:hintTextColor="?attr/colorOnSurfaceVariant"
-                        app:boxStrokeColor="?attr/colorOutline"
-                        android:hint="Phone Number">
+                        app:startIconTint="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtTelepon"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/colorOnSurface"
-                            android:inputType="phone"/>
+                            android:inputType="phone"
+                            android:padding="18dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.App.TextInputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:hint="Corporate Email"
                         app:startIconDrawable="@drawable/ic_email"
-                        app:startIconTint="?attr/colorOnSurfaceVariant"
-                        app:hintTextColor="?attr/colorOnSurfaceVariant"
-                        app:boxStrokeColor="?attr/colorOutline"
-                        android:hint="Email">
+                        app:startIconTint="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edtEmail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/colorOnSurface"
-                            android:inputType="textEmailAddress"/>
+                            android:inputType="textEmailAddress"
+                            android:padding="18dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSimpan"
-                        style="@style/Widget.App.Button"
+                        style="@style/Widget.App.Button.Primary"
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
                         android:layout_marginTop="32dp"
-                        android:text="Save Changes"
-                        android:textAllCaps="false"
-                        android:textColor="?attr/colorOnSurface"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:cornerRadius="20dp" />
+                        android:text="Commit Changes" />
+
+                    <!-- Hidden Address Field if needed by logic but removed from UI -->
+                    <View android:id="@+id/edtAlamatRestoran" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
 
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
