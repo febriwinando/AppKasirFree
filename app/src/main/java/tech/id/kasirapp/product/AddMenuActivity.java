@@ -40,10 +40,8 @@ public class AddMenuActivity extends AppCompatActivity {
 
     private TextInputEditText edtMenuName;
     private TextInputEditText edtSKU;
-    private TextInputEditText edtCostPrice;
     private TextInputEditText edtPrice;
     private TextInputEditText edtDescription;
-    private TextInputEditText edtStock;
 
     private AutoCompleteTextView spinnerUnit;
     private AutoCompleteTextView spinnerMenuType;
@@ -133,10 +131,8 @@ public class AddMenuActivity extends AppCompatActivity {
 
         edtMenuName = findViewById(R.id.edtMenuName);
         edtSKU = findViewById(R.id.edtSKU);
-        edtCostPrice = findViewById(R.id.edtCostPrice);
         edtPrice = findViewById(R.id.edtPrice);
         edtDescription = findViewById(R.id.edtDescription);
-        edtStock = findViewById(R.id.edtStock);
 
         spinnerUnit = findViewById(R.id.spinnerUnit);
         spinnerMenuType = findViewById(R.id.spinnerMenuType);
@@ -482,17 +478,11 @@ public class AddMenuActivity extends AppCompatActivity {
                         .toString()
                         .trim();
 
-        String costPriceStr =
-                getText(edtCostPrice);
-
         String priceStr =
                 getText(edtPrice);
 
         String desc =
                 getText(edtDescription);
-
-        String stockStr =
-                getText(edtStock);
 
         // =========================
         // VALIDATION
@@ -546,31 +536,13 @@ public class AddMenuActivity extends AppCompatActivity {
         // PARSE NUMBER
         // =========================
 
-        double costPrice;
-
         double price;
 
-        int stock;
-
         try {
-
-            costPrice =
-                    costPriceStr.isEmpty()
-                            ? 0
-                            : Double.parseDouble(
-                            costPriceStr
-                    );
 
             price =
                     Double.parseDouble(
                             priceStr
-                    );
-
-            stock =
-                    stockStr.isEmpty()
-                            ? 0
-                            : Integer.parseInt(
-                            stockStr
                     );
 
         } catch (NumberFormatException e) {
@@ -592,24 +564,6 @@ public class AddMenuActivity extends AppCompatActivity {
 
             edtPrice.setError(
                     "Harga tidak boleh negatif"
-            );
-
-            return;
-        }
-
-        if (costPrice < 0) {
-
-            edtCostPrice.setError(
-                    "Harga modal tidak boleh negatif"
-            );
-
-            return;
-        }
-
-        if (stock < 0) {
-
-            edtStock.setError(
-                    "Stok tidak boleh negatif"
             );
 
             return;
@@ -656,7 +610,7 @@ public class AddMenuActivity extends AppCompatActivity {
                         status;
 
                 menu.costPrice =
-                        costPrice;
+                        0;
 
                 menu.price =
                         price;
@@ -665,7 +619,7 @@ public class AddMenuActivity extends AppCompatActivity {
                         desc;
 
                 menu.stock =
-                        stock;
+                        0;
 
                 menu.imagePath =
                         selectedImageUri != null

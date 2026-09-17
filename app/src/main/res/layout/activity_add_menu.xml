@@ -194,18 +194,7 @@
                 android:layout_marginTop="28dp"
                 android:text="@string/menu_pricing" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/menu_cost"
-                app:prefixText="Rp ">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtCostPrice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:padding="18dp" />
-            </com.google.android.material.textfield.TextInputLayout>
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -241,17 +230,7 @@
                     android:padding="18dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/menu_initial_qty">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtStock"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:padding="18dp" />
-            </com.google.android.material.textfield.TextInputLayout>
+
 
             <!-- SECTION: STATUS -->
             <TextView
