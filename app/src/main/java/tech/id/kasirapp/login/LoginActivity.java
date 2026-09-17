@@ -67,11 +67,14 @@ public class LoginActivity extends AppCompatActivity {
         txtRegistrasi = findViewById(R.id.txtRegistrasi);
 
         // Menangani Insets agar form tidak tertutup keyboard (Edge-to-Edge)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.scrollView), (v, windowInsets) -> {
-            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
-            v.setPadding(0, insets.top, 0, insets.bottom);
-            return windowInsets;
-        });
+        View scrollView = findViewById(R.id.scrollView);
+        if (scrollView != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(scrollView, (v, windowInsets) -> {
+                Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+                v.setPadding(0, insets.top, 0, insets.bottom);
+                return windowInsets;
+            });
+        }
 
         // Menerapkan Animasi Future Google
         Animation entrance = AnimationUtils.loadAnimation(this, R.anim.anim_liquid_entrance);

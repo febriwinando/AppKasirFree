@@ -22,13 +22,21 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import tech.id.kasirapp.R;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
+import tech.id.kasirapp.data.local.entity.AppSession;
 import tech.id.kasirapp.data.local.entity.Menu;
 import tech.id.kasirapp.util.StatusHelper;
 
@@ -63,6 +71,8 @@ public class AddMenuActivity extends AppCompatActivity {
     // =========================
 
     private AppDatabase db;
+    private FirebaseFirestore firestore;
+    private AppSession session;
     private final ExecutorService executor =
             Executors.newSingleThreadExecutor();
 
@@ -112,15 +122,27 @@ public class AddMenuActivity extends AppCompatActivity {
         // Database
         db = DatabaseClient.getDatabase(this);
 
+        // Firestore
+        firestore = FirebaseFirestore.getInstance();
+
         // Branch ID
         branchId = getIntent()
                 .getLongExtra("branch_id", 0);
+
+        // Load Session
+        loadSession();
 
         initView();
 
         setupSpinners();
 
         setupWindowInsets();
+    }
+
+    private void loadSession() {
+        executor.execute(() -> {
+            session = db.sessionDao().getSession();
+        });
     }
 
     // =========================
@@ -133,6 +155,8 @@ public class AddMenuActivity extends AppCompatActivity {
         edtSKU = findViewById(R.id.edtSKU);
         edtPrice = findViewById(R.id.edtPrice);
         edtDescription = findViewById(R.id.edtDescription);
+
+        generateAutoSKU();
 
         spinnerUnit = findViewById(R.id.spinnerUnit);
         spinnerMenuType = findViewById(R.id.spinnerMenuType);
@@ -586,6 +610,11 @@ public class AddMenuActivity extends AppCompatActivity {
 
             try {
 
+                // Pastikan session sudah terload
+                if (session == null) {
+                    session = db.sessionDao().getSession();
+                }
+
                 Menu menu = new Menu();
 
                 menu.branchId =
@@ -623,7 +652,7 @@ public class AddMenuActivity extends AppCompatActivity {
 
                 menu.imagePath =
                         selectedImageUri != null
-                                ? selectedImageUri.toString()
+                                ? saveImageToInternalStorage(selectedImageUri)
                                 : null;
 
                 menu.isAvailable =
@@ -634,8 +663,50 @@ public class AddMenuActivity extends AppCompatActivity {
                 // Belum tersinkronisasi
                 menu.syncStatus = 0;
 
-                // Insert database
-                db.menuDao().insert(menu);
+                // Insert database lokal
+                long id = db.menuDao().insert(menu);
+                menu.id = id;
+
+                // =========================
+                // SYNC TO FIRESTORE
+                // =========================
+
+                String menuUuid = UUID.randomUUID().toString();
+                menu.firebaseId = menuUuid;
+
+                Map<String, Object> menuData = new HashMap<>();
+                menuData.put("id", id);
+                menuData.put("firebaseId", menuUuid);
+                menuData.put("name", menu.name);
+                menuData.put("sku", menu.sku);
+                menuData.put("type", menu.type);
+                menuData.put("category", menu.category);
+                menuData.put("unit", menu.unit);
+                menuData.put("price", menu.price);
+                menuData.put("description", menu.description);
+                menuData.put("isAvailable", menu.isAvailable);
+                menuData.put("status", menu.status);
+                menuData.put("branchId", menu.branchId);
+                menuData.put("imagePath", menu.imagePath);
+                
+                if (session != null) {
+                    menuData.put("restaurantId", session.restaurantId);
+                    menuData.put("ownerId", session.ownerId);
+                }
+
+                firestore.collection("menus")
+                        .document(menuUuid)
+                        .set(menuData)
+                        .addOnSuccessListener(aVoid -> {
+                            // Update syncStatus di local
+                            executor.execute(() -> {
+                                menu.syncStatus = 1;
+                                db.menuDao().update(menu);
+                            });
+                        })
+                        .addOnFailureListener(e -> {
+                            e.printStackTrace();
+                        });
 
                 // =========================
                 // SUCCESS
@@ -670,6 +741,52 @@ public class AddMenuActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    // =========================
+    // SKU GENERATOR
+    // =========================
+
+    private void generateAutoSKU() {
+        if (edtSKU != null && (edtSKU.getText() == null || edtSKU.getText().toString().isEmpty())) {
+            String prefix = "PRD";
+            String timestamp = String.valueOf(System.currentTimeMillis()).substring(7);
+            String random = String.valueOf((int) (Math.random() * 900) + 100);
+            String autoSKU = prefix + timestamp + random;
+            edtSKU.setText(autoSKU);
+        }
+    }
+
+    // =========================
+    // SAVE IMAGE HELPER
+    // =========================
+
+    private String saveImageToInternalStorage(Uri uri) {
+        if (uri == null) return null;
+        if (!"content".equals(uri.getScheme())) {
+            return uri.toString();
+        }
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            if (inputStream == null) return null;
+
+            File file = new File(getFilesDir(), "menu_image_" + System.currentTimeMillis() + ".jpg");
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            outputStream.close();
+            inputStream.close();
+
+            return Uri.fromFile(file).toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return uri.toString();
+        }
     }
 
     // =========================

@@ -189,8 +189,14 @@ public class MenuListActivity extends AppCompatActivity {
             holder.tvStatus.setText(statusText);
 
             if (menu.imagePath != null) {
-                holder.imgMenu.setImageURI(Uri.parse(menu.imagePath));
-                holder.imgMenu.setAlpha(1.0f);
+                try {
+                    holder.imgMenu.setImageURI(Uri.parse(menu.imagePath));
+                    holder.imgMenu.setAlpha(1.0f);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    holder.imgMenu.setImageResource(R.drawable.ic_product);
+                    holder.imgMenu.setAlpha(0.5f);
+                }
             } else {
                 holder.imgMenu.setImageResource(R.drawable.ic_product);
                 holder.imgMenu.setAlpha(0.5f);
