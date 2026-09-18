@@ -227,7 +227,8 @@ public class EditManagerActivity extends AppCompatActivity {
                 edtUsername
                         .getText()
                         .toString()
-                        .trim();
+                        .trim()
+                        .toLowerCase();
 
         String password =
                 edtPassword
@@ -326,6 +327,8 @@ public class EditManagerActivity extends AppCompatActivity {
 
             manager.phone =
                     telepon;
+
+            manager.role = "manager";
 
             /*
              * Jika password diisi,

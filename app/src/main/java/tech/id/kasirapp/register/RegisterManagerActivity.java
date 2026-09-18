@@ -150,7 +150,8 @@ public class RegisterManagerActivity extends AppCompatActivity {
         String username =
                 edtUsername.getText()
                         .toString()
-                        .trim();
+                        .trim()
+                        .toLowerCase();
 
         String password =
                 edtPassword.getText()
@@ -270,6 +271,8 @@ public class RegisterManagerActivity extends AppCompatActivity {
 
             manager.phone =
                     telepon;
+
+            manager.role = "manager";
 
             manager.syncStatus = 0;
 

@@ -19,6 +19,7 @@ import java.util.concurrent.Executors;
 
 import tech.id.kasirapp.data.local.entity.Manager;
 import tech.id.kasirapp.manager.BranchSettingsActivity;
+import tech.id.kasirapp.manager.ManagerSettingsActivity;
 import tech.id.kasirapp.chasier.CashierActivity;
 import tech.id.kasirapp.EmployeeActivity;
 import tech.id.kasirapp.kitchenstaf.KitchenActivity;
@@ -397,7 +398,7 @@ public class DashboardManagerActivity extends AppCompatActivity {
             Intent intent =
                     new Intent(
                             this,
-                            BranchSettingsActivity.class
+                            ManagerSettingsActivity.class
                     );
 
             intent.putExtra(

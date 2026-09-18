@@ -45,7 +45,7 @@ public class RegisterOwnerActivity extends AppCompatActivity {
 
     private void registerOwner() {
         String nama = edtNamaOwner.getText().toString().trim();
-        String username = edtUsername.getText().toString().trim();
+        String username = edtUsername.getText().toString().trim().toLowerCase();
         String password = edtPassword.getText().toString();
         String konfirmasi = edtKonfirmasiPassword.getText().toString();
         String email = edtEmail.getText().toString().trim();
@@ -78,6 +78,7 @@ public class RegisterOwnerActivity extends AppCompatActivity {
         owner.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());
         owner.email = email;
         owner.phone = phone;
+        owner.role = "owner";
         owner.syncStatus = 0;
 
         long id = DatabaseClient

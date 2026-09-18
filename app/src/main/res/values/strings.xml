@@ -78,7 +78,7 @@
     <!-- Dialogs -->
     <string name="dialog_verify">Verifikasi Diperlukan</string>
     <string name="dialog_confirm_msg">Apakah Anda yakin ingin memproses tindakan ini?</string>
-    <string name="dialog_authorize">Otorisasi Tindakan</string>
+    <string name="dialog_authorize">Yakin!</string>
     <string name="dialog_decline">Batalkan</string>
     <string name="dialog_success">Tindakan Berhasil</string>
     <string name="dialog_success_msg">Data telah berhasil diperbarui di dalam ekosistem.</string>
@@ -159,4 +159,31 @@
     <string name="msg_confirm_delete_branch">Apakah Anda yakin ingin menghapus unit cabang \"%1$s\"?</string>
     <string name="title_confirm_main_branch">Jadikan Cabang Utama?</string>
     <string name="msg_confirm_main_branch">Unit cabang \"%1$s\" akan diatur sebagai pusat operasional utama ekosistem.</string>
+
+    <!-- Waiter -->
+    <string name="title_waiter_list">Daftar Waiter</string>
+    <string name="hint_search_waiter">Cari waiter...</string>
+    <string name="empty_waiter_list">Belum ada data waiter</string>
+    <string name="btn_add_waiter">Tambah Waiter</string>
+    <string name="msg_add_waiter_coming_soon">Fitur Tambah Waiter segera hadir</string>
+
+    <string name="label_full_name">Nama Lengkap</string>
+    <string name="label_nik">NIK</string>
+    <string name="label_phone">Nomor HP</string>
+    <string name="label_address">Alamat</string>
+    <string name="label_education">Pendidikan</string>
+    <string name="label_photo">Foto Profil</string>
+    <string name="label_photo_ktp">Foto KTP</string>
+    <string name="label_employee_number">Nomor Pegawai</string>
+    <string name="btn_save_waiter">Simpan Waiter</string>
+    <string name="hint_enter_name">Masukkan nama lengkap</string>
+    <string name="hint_enter_nik">Masukkan NIK</string>
+    <string name="hint_enter_phone">Masukkan nomor HP</string>
+    <string name="hint_enter_address">Masukkan alamat</string>
+    <string name="hint_enter_username">Masukkan nama pengguna</string>
+    <string name="hint_enter_password">Masukkan kata sandi</string>
+    <string name="label_click_to_pick_ktp">Klik untuk pilih foto KTP</string>
+    <string name="label_status">Status</string>
+    <string name="status_active">Aktif</string>
+    <string name="status_inactive">Tidak Aktif</string>
 </resources>

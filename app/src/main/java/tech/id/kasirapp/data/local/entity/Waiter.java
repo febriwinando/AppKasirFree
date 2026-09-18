@@ -16,5 +16,13 @@ public class Waiter {
     public String username;
     public String password;
     public String phone;
+    public String nik;
+    public String address;
+    public String education;
+    public String photoPath;
+    public String ktpPhotoPath;
+    public String employeeNumber;
+    public String role = "waiter";
+    public boolean isActive = true;
     public int syncStatus;
 }

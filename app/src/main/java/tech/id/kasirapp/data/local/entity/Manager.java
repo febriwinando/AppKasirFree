@@ -33,5 +33,7 @@ public class Manager {
 
     public String phone;
 
+    public String role = "manager";
+
     public int syncStatus;
 }

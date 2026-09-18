@@ -32,6 +32,8 @@ import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.AppSession;
 import tech.id.kasirapp.data.local.entity.Menu;
 import tech.id.kasirapp.data.local.entity.Owner;
+import tech.id.kasirapp.data.local.entity.Manager;
+import tech.id.kasirapp.data.local.entity.Waiter;
 import tech.id.kasirapp.register.RegisterOwnerActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -166,15 +168,14 @@ public class LoginActivity extends AppCompatActivity {
         );
 
 
+        String userLower = username.toLowerCase().trim();
+
         /*
          * Cari username di Firestore.
-         *
-         * Untuk sementara kita cek
-         * masing-masing collection.
          */
 
         cekOwner(
-                username,
+                userLower,
                 password
         );
 
@@ -596,26 +597,61 @@ public class LoginActivity extends AppCompatActivity {
                 true;
 
         // =========================================
-        // SIMPAN SESSION
+        // SIMPAN DATA MANAGER KE LOCAL
         // =========================================
-        simpanSession(
-                session,
-                DashboardManagerActivity.class
-        );
+        executor.execute(() -> {
+            Manager localManager = new Manager();
+            localManager.id = session.userId;
+            localManager.firebaseId = doc.getString("firebaseId");
+            localManager.branchId = session.branchId;
+            localManager.branchFirebaseId = doc.getString("branchFirebaseId");
+            localManager.name = doc.getString("name");
+            localManager.username = doc.getString("username");
+            localManager.phone = doc.getString("phone");
+            localManager.password = passwordHash;
+            localManager.role = "manager";
+            localManager.syncStatus = 1;
+
+            Manager existing = db.managerDao().getById(session.userId);
+            if (existing == null) {
+                db.managerDao().insert(localManager);
+            } else {
+                db.managerDao().update(localManager);
+            }
+
+            // =========================================
+            // SIMPAN SESSION
+            // =========================================
+            simpanSession(
+                    session,
+                    DashboardManagerActivity.class
+            );
+        });
     }
 
     private void prosesLoginWaiter(
             DocumentSnapshot doc,
             String password
     ) {
+        String passwordHash = doc.getString("password");
+        Log.d("LoginWaiter", "Attempting login for: " + doc.getString("username"));
 
-        if (!verifikasiPassword(
+        if (passwordHash == null || !verifikasiPassword(
                 password,
-                doc.getString("password")
+                passwordHash
         )) {
+            Log.e("LoginWaiter", "Password verification failed");
             loginGagal(
                     getString(R.string.msg_login_failed)
             );
+            return;
+        }
+
+        // Cek apakah akun aktif
+        Boolean isActive = doc.getBoolean("isActive");
+        if (isActive != null && !isActive) {
+            Log.w("LoginWaiter", "Account is inactive");
+            loginGagal("Akun Waiter Anda dinonaktifkan. Silakan hubungi Manajer.");
             return;
         }
 
@@ -629,8 +665,8 @@ public class LoginActivity extends AppCompatActivity {
         session.uuid =
                 doc.getId();
 
-        session.userId =
-                getLongSafe(doc, "id");
+        long waiterId = getLongSafe(doc, "id");
+        session.userId = waiterId;
 
         session.ownerId =
                 getLongSafe(doc, "ownerId");
@@ -647,11 +683,38 @@ public class LoginActivity extends AppCompatActivity {
         session.isLoggedIn =
                 true;
 
+        // Simpan data waiter ke database lokal agar dashboard bisa menampilkan profilnya
+        executor.execute(() -> {
+            Waiter localWaiter = new Waiter();
+            localWaiter.id = waiterId;
+            localWaiter.firebaseId = doc.getString("firebaseId");
+            localWaiter.branchId = session.branchId;
+            localWaiter.name = doc.getString("name");
+            localWaiter.username = doc.getString("username");
+            localWaiter.phone = doc.getString("phone");
+            localWaiter.nik = doc.getString("nik");
+            localWaiter.address = doc.getString("address");
+            localWaiter.education = doc.getString("education");
+            localWaiter.photoPath = doc.getString("photoPath");
+            localWaiter.ktpPhotoPath = doc.getString("ktpPhotoPath");
+            localWaiter.employeeNumber = doc.getString("employeeNumber");
+            localWaiter.password = passwordHash;
+            localWaiter.role = "waiter";
+            localWaiter.isActive = true;
+            localWaiter.syncStatus = 1;
 
-        simpanSession(
-                session,
-                DashboardWaiterActivity.class
-        );
+            Waiter existing = db.waiterDao().getById(waiterId);
+            if (existing == null) {
+                db.waiterDao().insert(localWaiter);
+            } else {
+                db.waiterDao().update(localWaiter);
+            }
+
+            simpanSession(
+                    session,
+                    DashboardWaiterActivity.class
+            );
+        });
     }
 
     private void prosesLoginKasir(

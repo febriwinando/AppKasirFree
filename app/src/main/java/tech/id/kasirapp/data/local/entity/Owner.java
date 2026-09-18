@@ -23,5 +23,7 @@ public class Owner {
 
     public String phone;
 
+    public String role = "owner";
+
     public int syncStatus;
 }
