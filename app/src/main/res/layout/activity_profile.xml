@@ -166,7 +166,7 @@
                     android:padding="20dp"
                     android:gravity="center_vertical">
                     <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_store" app:tint="@color/primary" />
-                    <TextView android:id="@+id/tvRestaurantNameProfile" style="@style/TextAppearance.App.BodyLarge" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:text="My Enterprise" android:textColor="@color/primary" android:textStyle="bold"/>
+                    <TextView android:id="@+id/tvRestaurantName" style="@style/TextAppearance.App.BodyLarge" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="16dp" android:text="My Enterprise" android:textColor="@color/primary" android:textStyle="bold"/>
                     <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/ic_chevron_right" app:tint="@color/secondary" />
                 </LinearLayout>
 
@@ -180,9 +180,6 @@
                 android:layout_height="64dp"
                 android:layout_marginTop="48dp"
                 android:text="@string/profile_logout" />
-
-            <!-- Hidden field for compatibility -->
-            <View android:id="@+id/tvRestaurantName" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
 
             <View android:layout_width="match_parent" android:layout_height="60dp" />
 

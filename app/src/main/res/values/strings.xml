@@ -92,6 +92,7 @@
     <string name="hint_phone">Nomor Telepon</string>
     <string name="hint_username">Nama Pengguna</string>
     <string name="hint_password">Kata Sandi</string>
+    <string name="hint_confirm_password">Konfirmasi Kata Sandi</string>
     <string name="btn_register_now">Daftar Sekarang</string>
     <string name="btn_back_to_signin">Kembali ke Masuk</string>
 

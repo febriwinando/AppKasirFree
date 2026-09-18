@@ -30,6 +30,7 @@ import tech.id.kasirapp.dashboard.DashboardWaiterActivity;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.AppSession;
+import tech.id.kasirapp.data.local.entity.Menu;
 import tech.id.kasirapp.data.local.entity.Owner;
 import tech.id.kasirapp.register.RegisterOwnerActivity;
 
@@ -788,42 +789,97 @@ public class LoginActivity extends AppCompatActivity {
     ) {
 
         executor.execute(() -> {
+            // Hapus data lokal yang mungkin tertinggal sebelum menyimpan session baru untuk memicu sync ulang yang bersih
+            db.menuDao().deleteByBranch(session.branchId);
 
             db.sessionDao()
                     .insert(session);
 
+            // Ambil data menu dari Firestore berdasarkan branchId untuk di-restore secara lokal
+            if (session.branchId > 0) {
+                firestore.collection("menus")
+                        .whereEqualTo("branchId", session.branchId)
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
+                                executor.execute(() -> {
+                                    for (DocumentSnapshot menuDoc : queryDocumentSnapshots.getDocuments()) {
+                                        try {
+                                            Menu menu = new Menu();
+                                            menu.id = getLongSafe(menuDoc, "id");
+                                            menu.firebaseId = menuDoc.getString("firebaseId") != null ? menuDoc.getString("firebaseId") : menuDoc.getId();
+                                            menu.branchId = getLongSafe(menuDoc, "branchId");
+                                            menu.name = menuDoc.getString("name");
+                                            menu.sku = menuDoc.getString("sku");
+                                            menu.type = menuDoc.getString("type");
+                                            menu.category = menuDoc.getString("category");
+                                            menu.unit = menuDoc.getString("unit");
+                                            
+                                            Double priceVal = menuDoc.getDouble("price");
+                                            menu.price = priceVal != null ? priceVal : 0.0;
+                                            
+                                            Double costPriceVal = menuDoc.getDouble("costPrice");
+                                            menu.costPrice = costPriceVal != null ? costPriceVal : 0.0;
+                                            
+                                            menu.description = menuDoc.getString("description");
+                                            menu.imagePath = menuDoc.getString("imagePath");
+                                            
+                                            Long stockVal = menuDoc.getLong("stock");
+                                            menu.stock = stockVal != null ? stockVal.intValue() : 0;
+                                            
+                                            Boolean isAvail = menuDoc.getBoolean("isAvailable");
+                                            menu.isAvailable = isAvail != null ? isAvail : true;
+                                            
+                                            menu.status = menuDoc.getString("status") != null ? menuDoc.getString("status") : "Aktif";
+                                            menu.syncStatus = 1; // Sudah tersinkronisasi dari cloud
 
-            runOnUiThread(() -> {
+                                            // Insert ke DB lokal Room
+                                            db.menuDao().insert(menu);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    navigateToDashboard(dashboard);
+                                });
+                            } else {
+                                navigateToDashboard(dashboard);
+                            }
+                        })
+                        .addOnFailureListener(e -> {
+                            e.printStackTrace();
+                            navigateToDashboard(dashboard);
+                        });
+            } else {
+                // Jika Owner login tanpa branchId tertentu, langsung arahkan ke dashboard
+                navigateToDashboard(dashboard);
+            }
+        });
+    }
 
-                progress.setVisibility(
-                        View.GONE
-                );
+    private void navigateToDashboard(Class<?> dashboard) {
+        runOnUiThread(() -> {
+            progress.setVisibility(
+                    View.GONE
+            );
 
-                btnLogin.setEnabled(
-                        true
-                );
+            btnLogin.setEnabled(
+                    true
+            );
 
-
-                Toast.makeText(
-                        LoginActivity.this,
-                        getString(R.string.msg_login_success),
-                        Toast.LENGTH_SHORT
+            Toast.makeText(
+                    LoginActivity.this,
+                    getString(R.string.msg_login_success),
+                    Toast.LENGTH_SHORT
                 ).show();
 
+            Intent intent =
+                    new Intent(
+                            LoginActivity.this,
+                            dashboard
+                    );
 
-                Intent intent =
-                        new Intent(
-                                LoginActivity.this,
-                                dashboard
-                        );
-
-
-                startActivity(intent);
-
-                finish();
-
-            });
-
+            startActivity(intent);
+            finish();
         });
     }
 

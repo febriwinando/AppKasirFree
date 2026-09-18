@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -201,6 +202,14 @@ public class MenuListActivity extends AppCompatActivity {
                 holder.imgMenu.setImageResource(R.drawable.ic_product);
                 holder.imgMenu.setAlpha(0.5f);
             }
+            
+            // Klik Tombol Edit
+            holder.btnEditMenu.setOnClickListener(v -> {
+                Intent intent = new Intent(MenuListActivity.this, AddMenuActivity.class);
+                intent.putExtra("branch_id", branchId);
+                intent.putExtra("menu_id", menu.id);
+                startActivity(intent);
+            });
         }
 
         @Override
@@ -211,6 +220,7 @@ public class MenuListActivity extends AppCompatActivity {
         class MenuViewHolder extends RecyclerView.ViewHolder {
             TextView tvName, tvCategory, tvType, tvPrice, tvStatus;
             ImageView imgMenu;
+            ImageButton btnEditMenu;
 
             public MenuViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -220,6 +230,7 @@ public class MenuListActivity extends AppCompatActivity {
                 tvPrice = itemView.findViewById(R.id.tvPrice);
                 tvStatus = itemView.findViewById(R.id.tvStatus);
                 imgMenu = itemView.findViewById(R.id.imgMenu);
+                btnEditMenu = itemView.findViewById(R.id.btnEditMenu);
             }
         }
     }

@@ -140,6 +140,23 @@
                             android:padding="18dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="@string/hint_confirm_password"
+                        app:startIconDrawable="@drawable/ic_lock"
+                        app:startIconTint="@color/primary"
+                        app:endIconMode="password_toggle"
+                        app:endIconTint="@color/primary">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtKonfirmasiPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:padding="18dp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnRegister"
                         style="@style/Widget.App.Button.Primary"
@@ -156,8 +173,6 @@
                         android:layout_marginTop="16dp"
                         android:text="@string/btn_back_to_signin" />
 
-                    <!-- Hidden field for compatibility -->
-                    <View android:id="@+id/edtKonfirmasiPassword" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
 
                 </LinearLayout>
 

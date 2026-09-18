@@ -77,6 +77,8 @@ public class AddMenuActivity extends AppCompatActivity {
             Executors.newSingleThreadExecutor();
 
     private long branchId;
+    private long menuId = -1;
+    private Menu existingMenu;
 
     // =========================
     // IMAGE
@@ -129,6 +131,9 @@ public class AddMenuActivity extends AppCompatActivity {
         branchId = getIntent()
                 .getLongExtra("branch_id", 0);
 
+        // Menu ID for Edit mode
+        menuId = getIntent().getLongExtra("menu_id", -1);
+
         // Load Session
         loadSession();
 
@@ -137,6 +142,11 @@ public class AddMenuActivity extends AppCompatActivity {
         setupSpinners();
 
         setupWindowInsets();
+
+        // Check if edit mode
+        if (menuId != -1) {
+            checkAndLoadEditData();
+        }
     }
 
     private void loadSession() {
@@ -180,7 +190,9 @@ public class AddMenuActivity extends AppCompatActivity {
                 findViewById(R.id.toolbar);
 
         if (toolbar != null) {
-
+            if (menuId != -1) {
+                toolbar.setTitle("Edit Menu");
+            }
             toolbar.setNavigationOnClickListener(
                     v -> finish()
             );
@@ -232,6 +244,42 @@ public class AddMenuActivity extends AppCompatActivity {
                     return insets;
                 }
         );
+    }
+
+    // =========================
+    // LOAD EDIT DATA
+    // =========================
+
+    private void checkAndLoadEditData() {
+        executor.execute(() -> {
+            existingMenu = db.menuDao().getById(menuId);
+            if (existingMenu != null) {
+                runOnUiThread(() -> {
+                    edtMenuName.setText(existingMenu.name);
+                    edtSKU.setText(existingMenu.sku);
+                    edtPrice.setText(String.valueOf((long) existingMenu.price));
+                    edtDescription.setText(existingMenu.description);
+
+                    spinnerUnit.setText(existingMenu.unit, false);
+                    spinnerMenuType.setText(existingMenu.type, false);
+                    spinnerCategory.setText(existingMenu.category, false);
+                    spinnerStatus.setText(existingMenu.status != null ? existingMenu.status : "Aktif", false);
+                    spinnerAvailability.setText(existingMenu.isAvailable ? "Tersedia" : "Habis", false);
+
+                    if (existingMenu.imagePath != null) {
+                        try {
+                            imgMenu.setImageURI(Uri.parse(existingMenu.imagePath));
+                            imgMenu.setAlpha(1.0f);
+                            if (imgLogoOverlay != null) {
+                                imgLogoOverlay.setVisibility(View.GONE);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     // =========================
@@ -615,7 +663,7 @@ public class AddMenuActivity extends AppCompatActivity {
                     session = db.sessionDao().getSession();
                 }
 
-                Menu menu = new Menu();
+                Menu menu = (menuId != -1 && existingMenu != null) ? existingMenu : new Menu();
 
                 menu.branchId =
                         branchId;
@@ -650,10 +698,9 @@ public class AddMenuActivity extends AppCompatActivity {
                 menu.stock =
                         0;
 
-                menu.imagePath =
-                        selectedImageUri != null
-                                ? saveImageToInternalStorage(selectedImageUri)
-                                : null;
+                if (selectedImageUri != null) {
+                    menu.imagePath = saveImageToInternalStorage(selectedImageUri);
+                }
 
                 menu.isAvailable =
                         "Tersedia".equals(
@@ -663,19 +710,22 @@ public class AddMenuActivity extends AppCompatActivity {
                 // Belum tersinkronisasi
                 menu.syncStatus = 0;
 
-                // Insert database lokal
-                long id = db.menuDao().insert(menu);
-                menu.id = id;
+                if (menuId != -1) {
+                    db.menuDao().update(menu);
+                } else {
+                    long id = db.menuDao().insert(menu);
+                    menu.id = id;
+                }
 
                 // =========================
                 // SYNC TO FIRESTORE
                 // =========================
 
-                String menuUuid = UUID.randomUUID().toString();
+                String menuUuid = menu.firebaseId != null ? menu.firebaseId : UUID.randomUUID().toString();
                 menu.firebaseId = menuUuid;
 
                 Map<String, Object> menuData = new HashMap<>();
-                menuData.put("id", id);
+                menuData.put("id", menu.id);
                 menuData.put("firebaseId", menuUuid);
                 menuData.put("name", menu.name);
                 menuData.put("sku", menu.sku);

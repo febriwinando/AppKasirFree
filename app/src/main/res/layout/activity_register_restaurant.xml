@@ -54,6 +54,7 @@
                 android:text="Establish the core identity of your restaurant network." />
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardForm"
                 style="@style/Widget.App.Card.Solid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -117,7 +118,7 @@
                         app:startIconDrawable="@drawable/ic_email"
                         app:startIconTint="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edtEmailRestoran"
+                            android:id="@+id/edtEmail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textEmailAddress"

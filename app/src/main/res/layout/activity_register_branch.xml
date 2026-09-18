@@ -155,8 +155,8 @@
 
                     <!-- Hidden fields for compatibility -->
                     <View android:id="@+id/cardCabangUtama" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
-                    <View android:id="@+id/tvNamaRestoranHeader" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
-                    <View android:id="@+id/tvNamaOwnerHeader" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
+                    <TextView android:id="@+id/tvNamaRestoranHeader" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
+                    <TextView android:id="@+id/tvNamaOwnerHeader" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
                     <View android:id="@+id/imgHeader" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
                     <View android:id="@+id/tvHeaderTitle" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
                     <View android:id="@+id/tvHeaderSubtitle" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />

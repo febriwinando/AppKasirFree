@@ -28,6 +28,9 @@ public interface MenuDao {
     @Query("SELECT * FROM menus WHERE id = :id LIMIT 1")
     Menu getById(long id);
 
+    @Query("DELETE FROM menus WHERE branchId = :branchId")
+    void deleteByBranch(long branchId);
+
     @Query("SELECT COUNT(*) FROM menus WHERE branchId = :branchId")
     int countByBranch(long branchId);
 }

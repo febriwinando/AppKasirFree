@@ -54,6 +54,7 @@
                 android:text="Provision administrative access for this operational sector." />
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardForm"
                 style="@style/Widget.App.Card.Solid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,7 +103,7 @@
                         app:startIconDrawable="@drawable/ic_person"
                         app:startIconTint="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edtUsernameManager"
+                            android:id="@+id/edtUsername"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="18dp"/>
@@ -118,7 +119,24 @@
                         app:endIconMode="password_toggle"
                         app:endIconTint="@color/primary">
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edtPasswordManager"
+                            android:id="@+id/edtPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:padding="18dp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="Confirm Access Cypher"
+                        app:startIconDrawable="@drawable/ic_lock"
+                        app:startIconTint="@color/primary"
+                        app:endIconMode="password_toggle"
+                        app:endIconTint="@color/primary">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtKonfirmasiPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPassword"
@@ -132,9 +150,6 @@
                         android:layout_height="64dp"
                         android:layout_marginTop="32dp"
                         android:text="Commit Administrator" />
-
-                    <!-- Hidden fields for compatibility -->
-                    <View android:id="@+id/edtKonfirmasiPassword" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

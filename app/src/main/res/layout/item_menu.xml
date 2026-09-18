@@ -107,11 +107,15 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_chevron_right"
-            app:tint="@color/outline" />
+        <ImageButton
+            android:id="@+id/btnEditMenu"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_edit"
+            android:layout_marginStart="8dp"
+            app:tint="@color/primary"
+            android:contentDescription="Edit Menu" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
