@@ -9,6 +9,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -386,6 +387,42 @@ public class FirebaseRepository {
 
     public void deleteDiskon(String firebaseId, OnCompleteListener listener) {
         handleTask(firestore.collection("discounts").document(firebaseId).delete(), listener);
+    }
+
+    // --- Combo ---
+
+    public void saveCombo(
+            String firebaseId,
+            long branchId,
+            String name,
+            double price,
+            String description,
+            String status,
+            List<Map<String, Object>> items,
+            int syncStatus,
+            long restaurantId,
+            long ownerId,
+            OnCompleteListener listener
+    ) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", firebaseId);
+        data.put("firebaseId", firebaseId);
+        data.put("branchId", branchId);
+        data.put("name", name);
+        data.put("price", price);
+        data.put("description", description);
+        data.put("status", status);
+        data.put("items", items);
+        data.put("syncStatus", syncStatus);
+        data.put("restaurantId", restaurantId);
+        data.put("ownerId", ownerId);
+        data.put("updatedAt", FieldValue.serverTimestamp());
+
+        handleTask(firestore.collection("combos").document(firebaseId).set(data), listener);
+    }
+
+    public void deleteCombo(String firebaseId, OnCompleteListener listener) {
+        handleTask(firestore.collection("combos").document(firebaseId).delete(), listener);
     }
 
     // --- Staff (Waiter, Cashier, Kitchen Staff) ---

@@ -16,8 +16,10 @@ import tech.id.kasirapp.data.local.entity.*;
         KitchenStaff.class,
         Menu.class,
         Ruangan.class,
-        Diskon.class},
-        version=8)
+        Diskon.class,
+        Combo.class,
+        ComboItem.class},
+        version=9)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract RestaurantDao restaurantDao();
     public abstract BranchDao branchDao();
@@ -30,4 +32,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract MenuDao menuDao();
     public abstract RuanganDao ruanganDao();
     public abstract DiskonDao diskonDao();
+    public abstract ComboDao comboDao();
+    public abstract ComboItemDao comboItemDao();
 }

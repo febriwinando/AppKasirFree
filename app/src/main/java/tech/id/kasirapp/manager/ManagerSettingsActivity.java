@@ -68,9 +68,10 @@ public class ManagerSettingsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        rowPaketCombo.setOnClickListener(v -> 
-            Toast.makeText(this, "Fitur Menu Paket Combo Segera Hadir!", Toast.LENGTH_SHORT).show()
-        );
+        rowPaketCombo.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ComboListActivity.class);
+            startActivity(intent);
+        });
 
         rowPromo.setOnClickListener(v -> 
             Toast.makeText(this, "Fitur Promo & Voucher Segera Hadir!", Toast.LENGTH_SHORT).show()

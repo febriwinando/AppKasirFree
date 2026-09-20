@@ -36,6 +36,8 @@ import tech.id.kasirapp.data.local.entity.Owner;
 import tech.id.kasirapp.data.local.entity.Manager;
 import tech.id.kasirapp.data.local.entity.Waiter;
 import tech.id.kasirapp.register.RegisterOwnerActivity;
+import tech.id.kasirapp.util.StatusHelper;
+import tech.id.kasirapp.util.SyncHelper;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -227,7 +229,11 @@ public class LoginActivity extends AppCompatActivity {
                 session.uuid = owner.firebaseId;
                 session.isLoggedIn = true;
                 session.role = "OWNER";
-                simpanSession(session, DashboardOwnerActivity.class);
+                
+                runOnUiThread(() -> progress.setIndeterminate(true));
+                new SyncHelper(this).syncOwnerData(owner.firebaseId, id, () -> {
+                    simpanSession(session, DashboardOwnerActivity.class);
+                });
             });
         } else {
             loginGagal(getString(R.string.msg_login_failed));
@@ -255,7 +261,11 @@ public class LoginActivity extends AppCompatActivity {
                 session.uuid = manager.firebaseId;
                 session.isLoggedIn = true;
                 session.role = "MANAGER";
-                simpanSession(session, DashboardManagerActivity.class);
+
+                runOnUiThread(() -> progress.setIndeterminate(true));
+                new SyncHelper(this).syncBranchData(manager.branchId, () -> {
+                    simpanSession(session, DashboardManagerActivity.class);
+                });
             });
         } else {
             loginGagal(getString(R.string.msg_login_failed));
@@ -285,7 +295,11 @@ public class LoginActivity extends AppCompatActivity {
                 session.uuid = waiter.firebaseId;
                 session.isLoggedIn = true;
                 session.role = "WAITER";
-                simpanSession(session, DashboardWaiterActivity.class);
+
+                runOnUiThread(() -> progress.setIndeterminate(true));
+                new SyncHelper(this).syncBranchData(waiter.branchId, () -> {
+                    simpanSession(session, DashboardWaiterActivity.class);
+                });
             });
         } else {
             loginGagal(getString(R.string.msg_login_failed));
