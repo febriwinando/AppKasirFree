@@ -1,5 +1,6 @@
 package tech.id.kasirapp.manager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -12,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.card.MaterialCardView;
 
-import android.content.Intent;
 import tech.id.kasirapp.R;
 
 public class ManagerSettingsActivity extends AppCompatActivity {
@@ -63,9 +63,10 @@ public class ManagerSettingsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        rowDiskon.setOnClickListener(v -> 
-            Toast.makeText(this, "Fitur Pengaturan Diskon Segera Hadir!", Toast.LENGTH_SHORT).show()
-        );
+        rowDiskon.setOnClickListener(v -> {
+            Intent intent = new Intent(this, DiscountManagementActivity.class);
+            startActivity(intent);
+        });
 
         rowPaketCombo.setOnClickListener(v -> 
             Toast.makeText(this, "Fitur Menu Paket Combo Segera Hadir!", Toast.LENGTH_SHORT).show()

@@ -348,6 +348,46 @@ public class FirebaseRepository {
         handleTask(firestore.collection("rooms").document(firebaseId).delete(), listener);
     }
 
+    // --- Diskon (Discount) ---
+
+    public void saveDiskon(
+            String firebaseId,
+            long branchId,
+            String name,
+            String type,
+            double value,
+            boolean isPercentage,
+            boolean isActive,
+            long menuId,
+            String menuName,
+            int syncStatus,
+            long restaurantId,
+            long ownerId,
+            OnCompleteListener listener
+    ) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", firebaseId);
+        data.put("firebaseId", firebaseId);
+        data.put("branchId", branchId);
+        data.put("name", name);
+        data.put("type", type);
+        data.put("value", value);
+        data.put("isPercentage", isPercentage);
+        data.put("isActive", isActive);
+        data.put("menuId", menuId);
+        data.put("menuName", menuName);
+        data.put("syncStatus", syncStatus);
+        data.put("restaurantId", restaurantId);
+        data.put("ownerId", ownerId);
+        data.put("updatedAt", FieldValue.serverTimestamp());
+
+        handleTask(firestore.collection("discounts").document(firebaseId).set(data), listener);
+    }
+
+    public void deleteDiskon(String firebaseId, OnCompleteListener listener) {
+        handleTask(firestore.collection("discounts").document(firebaseId).delete(), listener);
+    }
+
     // --- Staff (Waiter, Cashier, Kitchen Staff) ---
 
     public void saveWaiter(

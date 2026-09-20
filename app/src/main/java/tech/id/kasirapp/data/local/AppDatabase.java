@@ -15,8 +15,9 @@ import tech.id.kasirapp.data.local.entity.*;
         Cashier.class,
         KitchenStaff.class,
         Menu.class,
-        Ruangan.class},
-        version=6)
+        Ruangan.class,
+        Diskon.class},
+        version=8)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract RestaurantDao restaurantDao();
     public abstract BranchDao branchDao();
@@ -28,4 +29,5 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract KitchenStaffDao kitchenStaffDao();
     public abstract MenuDao menuDao();
     public abstract RuanganDao ruanganDao();
+    public abstract DiskonDao diskonDao();
 }
