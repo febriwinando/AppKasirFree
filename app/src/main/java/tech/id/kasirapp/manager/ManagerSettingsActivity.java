@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.card.MaterialCardView;
 
+import android.content.Intent;
 import tech.id.kasirapp.R;
 
 public class ManagerSettingsActivity extends AppCompatActivity {
@@ -57,9 +58,10 @@ public class ManagerSettingsActivity extends AppCompatActivity {
     }
 
     private void setupClickListeners() {
-        cardAturMeja.setOnClickListener(v -> 
-            Toast.makeText(this, "Fitur Manajemen Meja Segera Hadir!", Toast.LENGTH_SHORT).show()
-        );
+        cardAturMeja.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RoomManagementActivity.class);
+            startActivity(intent);
+        });
 
         rowDiskon.setOnClickListener(v -> 
             Toast.makeText(this, "Fitur Pengaturan Diskon Segera Hadir!", Toast.LENGTH_SHORT).show()

@@ -16,6 +16,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 
 import tech.id.kasirapp.R;
 import tech.id.kasirapp.data.firebase.FirebaseRepository;
@@ -25,6 +27,7 @@ import tech.id.kasirapp.data.local.entity.AppSession;
 import tech.id.kasirapp.data.local.entity.Branch;
 import tech.id.kasirapp.util.StatusHelper;
 
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -101,7 +104,38 @@ public class BranchSettingsActivity extends AppCompatActivity {
 
         btnSimpan = findViewById(R.id.btnSimpan);
 
+        edtJamBuka.setOnClickListener(v -> showTimePicker(true));
+        edtJamTutup.setOnClickListener(v -> showTimePicker(false));
+    }
 
+    private void showTimePicker(boolean jamBuka) {
+        TextInputEditText target = jamBuka ? edtJamBuka : edtJamTutup;
+        int hour = 8;
+        int minute = 0;
+
+        String value = target.getText() != null ? target.getText().toString() : "";
+        if (!value.isEmpty()) {
+            try {
+                String[] waktu = value.split(":");
+                hour = Integer.parseInt(waktu[0]);
+                minute = Integer.parseInt(waktu[1]);
+            } catch (Exception ignored) {}
+        }
+
+        MaterialTimePicker picker = new MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(hour)
+                .setMinute(minute)
+                .setTitleText(jamBuka ? "Pilih Jam Buka" : "Pilih Jam Tutup")
+                .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
+                .build();
+
+        picker.addOnPositiveButtonClickListener(v -> {
+            String waktu = String.format(Locale.getDefault(), "%02d:%02d", picker.getHour(), picker.getMinute());
+            target.setText(waktu);
+        });
+
+        picker.show(getSupportFragmentManager(), jamBuka ? "TIME_PICKER_BUKA" : "TIME_PICKER_TUTUP");
     }
 
     private void setupToolbar() {
@@ -199,7 +233,11 @@ public class BranchSettingsActivity extends AppCompatActivity {
                                 : String.valueOf(branch.tax)
                 );
 
-                edtServiceCharge.setText("0");
+                edtServiceCharge.setText(
+                        branch.serviceCharge == 0.00
+                                ? "0"
+                                : String.valueOf(branch.serviceCharge)
+                );
                 switchKirimDapur.setChecked(branch.sendToKitchen);
                 switchStokOtomatis.setChecked(branch.automaticStock);
 

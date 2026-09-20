@@ -318,6 +318,36 @@ public class FirebaseRepository {
         handleTask(firestore.collection("waiters").document(firebaseId).delete(), listener);
     }
 
+    // --- Ruangan (Room) ---
+
+    public void saveRuangan(
+            String firebaseId,
+            long branchId,
+            String name,
+            int tableCount,
+            int syncStatus,
+            long restaurantId,
+            long ownerId,
+            OnCompleteListener listener
+    ) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", firebaseId);
+        data.put("firebaseId", firebaseId);
+        data.put("branchId", branchId);
+        data.put("name", name);
+        data.put("tableCount", tableCount);
+        data.put("syncStatus", syncStatus);
+        data.put("restaurantId", restaurantId);
+        data.put("ownerId", ownerId);
+        data.put("updatedAt", FieldValue.serverTimestamp());
+
+        handleTask(firestore.collection("rooms").document(firebaseId).set(data), listener);
+    }
+
+    public void deleteRuangan(String firebaseId, OnCompleteListener listener) {
+        handleTask(firestore.collection("rooms").document(firebaseId).delete(), listener);
+    }
+
     // --- Staff (Waiter, Cashier, Kitchen Staff) ---
 
     public void saveWaiter(
