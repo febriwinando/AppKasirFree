@@ -376,7 +376,7 @@ public class EditBranchActivity extends AppCompatActivity {
 
         firebase.saveBranch(
                 branch.firebaseId,
-                restaurant.firebaseId,
+                0, // long schema alignment
                 branch.name,
                 branch.restaurantId,
                 branch.address,
@@ -384,6 +384,16 @@ public class EditBranchActivity extends AppCompatActivity {
                 branch.openTime,
                 branch.closeTime,
                 branch.isMain,
+                branch.tax,
+                branch.serviceCharge,
+                branch.jumlahMeja,
+                branch.dineIn,
+                branch.takeAway,
+                branch.delivery,
+                branch.sendToKitchen,
+                branch.automaticStock,
+                branch.allowNegativeStock,
+                branch.syncStatus,
                 new FirebaseRepository.OnCompleteListener() {
 
                     @Override

@@ -145,7 +145,6 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
 
 
             firebase.saveRestaurant(
-
                     firebaseId,
                     restaurant.name,
                     restaurant.ownerName,
@@ -153,6 +152,8 @@ public class RegisterRestaurantActivity extends AppCompatActivity {
                     restaurant.email,
                     restaurant.ownerId = session.ownerId,
                     restaurant.isActive = true,
+                    restaurant.createdAt,
+                    restaurant.syncStatus,
                     new FirebaseRepository.OnCompleteListener(){
 
                         @Override

@@ -104,9 +104,11 @@ public class RegisterOwnerActivity extends AppCompatActivity {
                     owner.firebaseId,
                     owner.name,
                     owner.username,
-                    owner.email,
                     owner.password,
+                    owner.email,
                     owner.phone,
+                    owner.role,
+                    owner.syncStatus,
                     new FirebaseRepository.OnCompleteListener() {
                         @Override
                         public void success() {

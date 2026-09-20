@@ -281,7 +281,7 @@ public class RegisterBranchActivity extends AppCompatActivity {
             FirebaseRepository firebase = new FirebaseRepository();
             firebase.saveBranch(
                     firebaseId,
-                    restaurant.firebaseId,
+                    0, // fallback for restaurantFirebaseId long schema type
                     branch.name,
                     branch.restaurantId,
                     branch.address,
@@ -289,6 +289,16 @@ public class RegisterBranchActivity extends AppCompatActivity {
                     branch.openTime,
                     branch.closeTime,
                     branch.isMain,
+                    branch.tax,
+                    branch.serviceCharge,
+                    branch.jumlahMeja,
+                    branch.dineIn,
+                    branch.takeAway,
+                    branch.delivery,
+                    branch.sendToKitchen,
+                    branch.automaticStock,
+                    branch.allowNegativeStock,
+                    branch.syncStatus,
                     new FirebaseRepository.OnCompleteListener() {
                         @Override
                         public void success() {

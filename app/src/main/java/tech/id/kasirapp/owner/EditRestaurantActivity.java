@@ -289,6 +289,8 @@ public class EditRestaurantActivity extends AppCompatActivity {
                 restaurant.email,
                 restaurant.ownerId,
                 restaurant.isActive,
+                restaurant.createdAt,
+                restaurant.syncStatus,
                 new FirebaseRepository.OnCompleteListener() {
 
                     @Override

@@ -19,14 +19,11 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -34,6 +31,7 @@ import java.util.concurrent.Executors;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
 import tech.id.kasirapp.R;
+import tech.id.kasirapp.data.firebase.FirebaseRepository;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.AppSession;
@@ -50,7 +48,6 @@ public class AddWaiterActivity extends AppCompatActivity {
     
     private Uri selectedImageUri, selectedKtpUri;
     private AppDatabase db;
-    private FirebaseFirestore firestore;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private long branchId;
     private long restaurantId;
@@ -75,7 +72,6 @@ public class AddWaiterActivity extends AppCompatActivity {
                     selectedKtpUri = uri;
                     imgKtp.setImageURI(uri);
                     imgKtp.setImageTintList(null);
-                    // Hide the overlay text if needed, or just let the image cover it
                 }
             }
     );
@@ -87,7 +83,6 @@ public class AddWaiterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_waiter);
 
         db = DatabaseClient.getDatabase(this);
-        firestore = FirebaseFirestore.getInstance();
         branchId = getIntent().getLongExtra("branch_id", 0);
         waiterId = getIntent().getLongExtra("waiter_id", -1);
 
@@ -113,10 +108,7 @@ public class AddWaiterActivity extends AppCompatActivity {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.scrollView), (v, insets) -> {
             Insets ime = insets.getInsets(WindowInsetsCompat.Type.ime());
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            
-            // Menambahkan padding bawah sesuai tinggi keyboard (ime) + navigasi sistem
             v.setPadding(0, 0, 0, ime.bottom + systemBars.bottom);
-            
             return insets;
         });
     }
@@ -151,8 +143,95 @@ public class AddWaiterActivity extends AppCompatActivity {
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         if (waiterId != -1) {
             toolbar.setTitle("Edit Waiter");
+            toolbar.inflateMenu(R.menu.menu_delete);
+            toolbar.setOnMenuItemClickListener(item -> {
+                if (item.getItemId() == R.id.action_delete) {
+                    showDeleteConfirmation();
+                    return true;
+                }
+                return false;
+            });
         }
         toolbar.setNavigationOnClickListener(v -> finish());
+    }
+
+    private void showDeleteConfirmation() {
+        StatusHelper.showConfirm(this, "Hapus Waiter", "Apakah Anda yakin ingin menghapus data pelayan ini? Foto profil dan data di server juga akan dihapus.", () -> {
+            if (existingWaiter != null) {
+                deleteWaiter();
+            }
+        });
+    }
+
+    private void deleteWaiter() {
+        StatusHelper.showLoading(this, "Deleting waiter and assets...");
+        
+        FirebaseRepository repo = new FirebaseRepository();
+        
+        // 1. Delete Profile Image
+        repo.deleteImage(existingWaiter.photoPath, new FirebaseRepository.OnCompleteListener() {
+            @Override
+            public void success() {
+                // 2. Delete KTP Image
+                repo.deleteImage(existingWaiter.ktpPhotoPath, new FirebaseRepository.OnCompleteListener() {
+                    @Override
+                    public void success() {
+                        // 3. Delete from Firestore
+                        repo.deleteWaiter(existingWaiter.firebaseId, new FirebaseRepository.OnCompleteListener() {
+                            @Override
+                            public void success() {
+                                // 4. Delete from Room
+                                executor.execute(() -> {
+                                    db.waiterDao().deleteById(existingWaiter.id);
+                                    
+                                    // 5. Delete local files
+                                    deleteLocalFile(existingWaiter.photoPath);
+                                    deleteLocalFile(existingWaiter.ktpPhotoPath);
+                                    
+                                    runOnUiThread(() -> {
+                                        StatusHelper.hideLoading();
+                                        StatusHelper.showSuccess(AddWaiterActivity.this, "Berhasil", "Data pelayan telah dihapus", AddWaiterActivity.this::finish);
+                                    });
+                                });
+                            }
+
+                            @Override
+                            public void failed(String error) {
+                                runOnUiThread(() -> {
+                                    StatusHelper.hideLoading();
+                                    Toast.makeText(AddWaiterActivity.this, "Gagal hapus di server: " + error, Toast.LENGTH_SHORT).show();
+                                });
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void failed(String error) {
+                        runOnUiThread(() -> {
+                            StatusHelper.hideLoading();
+                            Toast.makeText(AddWaiterActivity.this, "Gagal hapus data KTP: " + error, Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                });
+            }
+
+            @Override
+            public void failed(String error) {
+                runOnUiThread(() -> {
+                    StatusHelper.hideLoading();
+                    Toast.makeText(AddWaiterActivity.this, "Gagal hapus foto profil: " + error, Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+    }
+
+    private void deleteLocalFile(String path) {
+        if (path != null && !path.startsWith("http")) {
+            try {
+                File file = new File(Uri.parse(path).getPath());
+                if (file.exists()) file.delete();
+            } catch (Exception ignored) {}
+        }
     }
 
     private void checkAndLoadEditData() {
@@ -166,28 +245,20 @@ public class AddWaiterActivity extends AppCompatActivity {
                     edtAddress.setText(existingWaiter.address != null ? existingWaiter.address : "");
                     edtEmployeeNumber.setText(existingWaiter.employeeNumber != null ? existingWaiter.employeeNumber : "");
                     edtUsername.setText(existingWaiter.username != null ? existingWaiter.username : "");
-                    // Password field biarkan kosong saat edit untuk keamanan, 
-                    // hanya diisi jika ingin mengubah password.
                     edtPassword.setText("");
-                    
                     spinnerStatus.setText(existingWaiter.isActive ? "Aktif" : "Tidak Aktif", false);
 
                     if (existingWaiter.photoPath != null && !existingWaiter.photoPath.isEmpty()) {
                         try {
                             imgWaiter.setImageURI(Uri.parse(existingWaiter.photoPath));
                             imgWaiter.setImageTintList(null);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        } catch (Exception e) { e.printStackTrace(); }
                     }
-                    
                     if (existingWaiter.ktpPhotoPath != null && !existingWaiter.ktpPhotoPath.isEmpty()) {
                         try {
                             imgKtp.setImageURI(Uri.parse(existingWaiter.ktpPhotoPath));
                             imgKtp.setImageTintList(null);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        } catch (Exception e) { e.printStackTrace(); }
                     }
                 });
             } else {
@@ -209,43 +280,22 @@ public class AddWaiterActivity extends AppCompatActivity {
         String[] statuses = {"Aktif", "Tidak Aktif"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, statuses);
         spinnerStatus.setAdapter(adapter);
-        spinnerStatus.setText(statuses[0], false); // Default Aktif
+        spinnerStatus.setText(statuses[0], false);
     }
 
     private void loadBranchInfo() {
         executor.execute(() -> {
-            // Jika branchId masih 0, coba ambil dari session
             if (branchId == 0) {
                 AppSession session = db.sessionDao().getSession();
-                if (session != null) {
-                    branchId = session.branchId;
-                }
+                if (session != null) branchId = session.branchId;
             }
-
             Branch branch = db.branchDao().getById(branchId);
-            long rId = 0;
-            
-            if (branch != null) {
-                rId = branch.restaurantId;
-            } else {
-                // Fallback ke session jika branch null
-                AppSession session = db.sessionDao().getSession();
-                if (session != null) {
-                    rId = session.restaurantId;
-                    if (branchId == 0) branchId = session.branchId;
-                }
-            }
-
-            restaurantId = rId;
+            if (branch != null) restaurantId = branch.restaurantId;
             
             if (waiterId == -1) {
                 int count = db.waiterDao().countByBranchId(branchId);
                 String generatedCode = String.format(Locale.getDefault(), "RES%d-BR%d-W%03d", restaurantId, branchId, count + 1);
-                
-                runOnUiThread(() -> {
-                    edtEmployeeNumber.setText(generatedCode);
-                    Toast.makeText(this, "Nomor pegawai berhasil dibuat: " + generatedCode, Toast.LENGTH_SHORT).show();
-                });
+                runOnUiThread(() -> edtEmployeeNumber.setText(generatedCode));
             }
         });
     }
@@ -261,19 +311,17 @@ public class AddWaiterActivity extends AppCompatActivity {
         String password = edtPassword.getText().toString().trim();
 
         if (name.isEmpty() || nik.isEmpty() || phone.isEmpty() || username.isEmpty()) {
-            Toast.makeText(this, "Mohon lengkapi data wajib (Nama, NIK, HP, Username)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Mohon lengkapi data wajib", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (waiterId == -1 && password.isEmpty()) {
-            edtPassword.setError("Password wajib diisi untuk waiter baru");
+            edtPassword.setError("Password wajib diisi");
             return;
         }
 
         if (waiterId != -1) {
-            StatusHelper.showConfirm(this, "Simpan Perubahan", "Apakah Anda yakin ingin menyimpan perubahan data waiter ini?", () -> {
-                executeSave(name, nik, phone, address, education, employeeNumber, username, password);
-            });
+            StatusHelper.showConfirm(this, "Simpan", "Simpan perubahan data waiter?", () -> executeSave(name, nik, phone, address, education, employeeNumber, username, password));
         } else {
             executeSave(name, nik, phone, address, education, employeeNumber, username, password);
         }
@@ -283,178 +331,97 @@ public class AddWaiterActivity extends AppCompatActivity {
         StatusHelper.showLoading(this, getString(R.string.msg_loading_save));
 
         executor.execute(() -> {
-            Waiter waiter;
-            if (waiterId != -1) {
-                if (existingWaiter != null) {
-                    waiter = existingWaiter;
-                } else {
-                    // Coba ambil lagi jika sebelumnya gagal
-                    waiter = db.waiterDao().getById(waiterId);
-                }
-                
-                if (waiter == null) {
-                    runOnUiThread(() -> {
-                        StatusHelper.hideLoading();
-                        Toast.makeText(this, "Gagal memperbarui: Data tidak ditemukan", Toast.LENGTH_SHORT).show();
-                    });
-                    return;
-                }
-            } else {
-                waiter = new Waiter();
-            }
-
+            Waiter waiter = (waiterId != -1 && existingWaiter != null) ? existingWaiter : new Waiter();
             waiter.branchId = branchId;
-            waiter.name = capitalizeWords(name);
+            waiter.name = name;
             waiter.nik = nik;
             waiter.phone = phone;
-            waiter.address = capitalizeSentence(address);
+            waiter.address = address;
             waiter.education = education;
             waiter.employeeNumber = employeeNumber;
             waiter.username = username;
             
-            // Hash password if it's new or changed (not empty)
             if (!password.isEmpty()) {
                 waiter.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());
-            } else if (waiterId == -1) {
-                // Should not happen due to validation above
-                waiter.password = BCrypt.withDefaults().hashToString(12, "123456".toCharArray());
             }
-            // else: password tetap yang lama (karena tidak diubah)
 
             waiter.isActive = "Aktif".equals(spinnerStatus.getText().toString());
-            waiter.role = "waiter";
+            if (selectedImageUri != null) waiter.photoPath = saveImageToInternalStorage(selectedImageUri, "profile");
+            if (selectedKtpUri != null) waiter.ktpPhotoPath = saveImageToInternalStorage(selectedKtpUri, "ktp");
             
-            if (selectedImageUri != null) {
-                waiter.photoPath = saveImageToInternalStorage(selectedImageUri, "profile");
-            }
-            
-            if (selectedKtpUri != null) {
-                waiter.ktpPhotoPath = saveImageToInternalStorage(selectedKtpUri, "ktp");
-            }
-            
+            waiter.syncStatus = 0;
             if (waiterId == -1) {
-                waiter.syncStatus = 0;
-                long id = db.waiterDao().insert(waiter);
-                waiter.id = id;
+                waiter.id = db.waiterDao().insert(waiter);
             } else {
-                waiter.syncStatus = 0; // Mark for re-sync
                 db.waiterDao().update(waiter);
             }
 
-            // =========================
-            // SYNC TO FIRESTORE
-            // =========================
-            
+            // Sync to Firebase (Storage then Firestore)
             String waiterUuid = waiter.firebaseId != null ? waiter.firebaseId : UUID.randomUUID().toString();
             waiter.firebaseId = waiterUuid;
 
-            Map<String, Object> waiterData = new HashMap<>();
-            waiterData.put("id", waiter.id);
-            waiterData.put("firebaseId", waiterUuid);
-            waiterData.put("name", waiter.name);
-            waiterData.put("nik", waiter.nik);
-            waiterData.put("phone", waiter.phone);
-            waiterData.put("address", waiter.address);
-            waiterData.put("education", waiter.education);
-            waiterData.put("employeeNumber", waiter.employeeNumber);
-            waiterData.put("username", waiter.username);
-            waiterData.put("password", waiter.password);
-            waiterData.put("isActive", waiter.isActive);
-            waiterData.put("role", waiter.role);
-            waiterData.put("branchId", waiter.branchId);
-            waiterData.put("photoPath", waiter.photoPath);
-            waiterData.put("ktpPhotoPath", waiter.ktpPhotoPath);
-            
-            // Get additional info from session for better filtering in Firestore
             AppSession session = db.sessionDao().getSession();
-            if (session != null) {
-                waiterData.put("restaurantId", session.restaurantId);
-                waiterData.put("ownerId", session.ownerId);
-            }
+            long resId = session != null ? session.restaurantId : 0;
+            long ownId = session != null ? session.ownerId : 0;
 
-            firestore.collection("waiters")
-                    .document(waiterUuid)
-                    .set(waiterData)
-                    .addOnSuccessListener(aVoid -> {
-                        executor.execute(() -> {
-                            waiter.syncStatus = 1;
-                            db.waiterDao().update(waiter);
-                        });
-                    })
-                    .addOnFailureListener(e -> {
-                        e.printStackTrace();
+            FirebaseRepository repo = new FirebaseRepository();
+            final Waiter finalWaiter = waiter;
+
+            repo.uploadImage("waiters/profile", waiterUuid, waiter.photoPath, new FirebaseRepository.OnImageUploadListener() {
+                @Override
+                public void success(String profileUrl) {
+                    if (!profileUrl.isEmpty()) finalWaiter.photoPath = profileUrl;
+                    repo.uploadImage("waiters/ktp", waiterUuid, finalWaiter.ktpPhotoPath, new FirebaseRepository.OnImageUploadListener() {
+                        @Override
+                        public void success(String ktpUrl) {
+                            if (!ktpUrl.isEmpty()) finalWaiter.ktpPhotoPath = ktpUrl;
+                            saveToFirestore(repo, finalWaiter, resId, ownId);
+                        }
+                        @Override
+                        public void failed(String e) { saveToFirestore(repo, finalWaiter, resId, ownId); }
                     });
+                }
+                @Override
+                public void failed(String e) { saveToFirestore(repo, finalWaiter, resId, ownId); }
+            });
 
             runOnUiThread(() -> {
                 StatusHelper.hideLoading();
-                StatusHelper.showSuccess(
-                        this,
-                        getString(R.string.dialog_success),
-                        getString(R.string.msg_success_save),
-                        this::finish
-                );
+                StatusHelper.showSuccess(this, "Berhasil", "Data waiter berhasil disimpan", this::finish);
             });
         });
     }
 
+    private void saveToFirestore(FirebaseRepository repo, Waiter waiter, long resId, long ownId) {
+        repo.saveWaiter(waiter.firebaseId, waiter.branchFirebaseId != null ? waiter.branchFirebaseId : "", waiter.branchId, waiter.name, waiter.username, waiter.password, waiter.phone, waiter.nik, waiter.address, waiter.education, waiter.photoPath, waiter.ktpPhotoPath, waiter.employeeNumber, waiter.role, waiter.isActive, waiter.syncStatus, resId, ownId, new FirebaseRepository.OnCompleteListener() {
+            @Override
+            public void success() {
+                executor.execute(() -> {
+                    waiter.syncStatus = 1;
+                    db.waiterDao().update(waiter);
+                });
+            }
+            @Override
+            public void failed(String error) {
+                executor.execute(() -> {
+                    waiter.syncStatus = 2;
+                    db.waiterDao().update(waiter);
+                });
+            }
+        });
+    }
+
     private String saveImageToInternalStorage(Uri uri, String type) {
-        if (uri == null) return null;
-        if (!"content".equals(uri.getScheme())) {
-            return uri.toString();
-        }
         try {
-            InputStream inputStream = getContentResolver().openInputStream(uri);
-            if (inputStream == null) return null;
-
+            InputStream is = getContentResolver().openInputStream(uri);
             File file = new File(getFilesDir(), "waiter_" + type + "_" + System.currentTimeMillis() + ".jpg");
-            FileOutputStream outputStream = new FileOutputStream(file);
-
-            byte[] buffer = new byte[4096];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-
-            outputStream.close();
-            inputStream.close();
-
+            FileOutputStream os = new FileOutputStream(file);
+            byte[] buf = new byte[4096];
+            int r;
+            while ((r = is.read(buf)) != -1) os.write(buf, 0, r);
+            os.close(); is.close();
             return Uri.fromFile(file).toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return uri.toString();
-        }
-    }
-
-    private String capitalizeWords(String str) {
-        if (str == null || str.isEmpty()) return str;
-        String[] words = str.toLowerCase().split("\\s+");
-        StringBuilder sb = new StringBuilder();
-        for (String word : words) {
-            if (!word.isEmpty()) {
-                sb.append(Character.toUpperCase(word.charAt(0)))
-                  .append(word.substring(1))
-                  .append(" ");
-            }
-        }
-        return sb.toString().trim();
-    }
-
-    private String capitalizeSentence(String str) {
-        if (str == null || str.isEmpty()) return str;
-        StringBuilder sb = new StringBuilder();
-        boolean capitalizeNext = true;
-        for (char c : str.toLowerCase().toCharArray()) {
-            if (Character.isLetter(c) && capitalizeNext) {
-                sb.append(Character.toUpperCase(c));
-                capitalizeNext = false;
-            } else {
-                sb.append(c);
-                if (c == '.' || c == '!' || c == '?') {
-                    capitalizeNext = true;
-                }
-            }
-        }
-        return sb.toString().trim();
+        } catch (Exception e) { return uri.toString(); }
     }
 
     @Override

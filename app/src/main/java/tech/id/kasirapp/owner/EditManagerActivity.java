@@ -373,13 +373,16 @@ public class EditManagerActivity extends AppCompatActivity {
         FirebaseRepository firebase =
                 new FirebaseRepository();
 
-        firebase.updateManager(
+        firebase.saveManager(
                 manager.firebaseId,
+                manager.branchFirebaseId,
                 manager.branchId,
                 manager.name,
                 manager.username,
                 manager.password,
                 manager.phone,
+                manager.role,
+                manager.syncStatus,
                 new FirebaseRepository.OnCompleteListener() {
 
                     @Override

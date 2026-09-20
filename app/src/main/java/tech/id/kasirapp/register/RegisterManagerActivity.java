@@ -293,6 +293,8 @@ public class RegisterManagerActivity extends AppCompatActivity {
                     username,
                     passwordHash,
                     telepon,
+                    manager.role,
+                    manager.syncStatus,
                     new FirebaseRepository.OnCompleteListener() {
 
                         @Override

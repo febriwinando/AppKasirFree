@@ -34,6 +34,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import tech.id.kasirapp.R;
+import tech.id.kasirapp.data.firebase.FirebaseRepository;
 import tech.id.kasirapp.data.local.AppDatabase;
 import tech.id.kasirapp.data.local.DatabaseClient;
 import tech.id.kasirapp.data.local.entity.AppSession;
@@ -192,6 +193,14 @@ public class AddMenuActivity extends AppCompatActivity {
         if (toolbar != null) {
             if (menuId != -1) {
                 toolbar.setTitle("Edit Menu");
+                toolbar.inflateMenu(R.menu.menu_delete);
+                toolbar.setOnMenuItemClickListener(item -> {
+                    if (item.getItemId() == R.id.action_delete) {
+                        showDeleteConfirmation();
+                        return true;
+                    }
+                    return false;
+                });
             }
             toolbar.setNavigationOnClickListener(
                     v -> finish()
@@ -209,6 +218,66 @@ public class AddMenuActivity extends AppCompatActivity {
         // =========================
 
         btnSave.setOnClickListener(v -> saveMenu());
+    }
+
+    private void showDeleteConfirmation() {
+        StatusHelper.showConfirm(this, "Hapus Menu", "Apakah Anda yakin ingin menghapus menu ini? Data di server dan gambar juga akan dihapus.", () -> {
+            if (existingMenu != null) {
+                deleteMenu();
+            }
+        });
+    }
+
+    private void deleteMenu() {
+        StatusHelper.showLoading(this, "Deleting menu and assets...");
+        
+        FirebaseRepository repo = new FirebaseRepository();
+        
+        // 1. Delete image from Storage
+        repo.deleteImage(existingMenu.imagePath, new FirebaseRepository.OnCompleteListener() {
+            @Override
+            public void success() {
+                // 2. Delete from Firestore
+                repo.deleteMenu(existingMenu.firebaseId, new FirebaseRepository.OnCompleteListener() {
+                    @Override
+                    public void success() {
+                        // 3. Delete from Local Room
+                        executor.execute(() -> {
+                            db.menuDao().delete(existingMenu);
+                            
+                            // 4. Delete local image file
+                            if (existingMenu.imagePath != null && !existingMenu.imagePath.startsWith("http")) {
+                                try {
+                                    File file = new File(Uri.parse(existingMenu.imagePath).getPath());
+                                    if (file.exists()) file.delete();
+                                } catch (Exception ignored) {}
+                            }
+                            
+                            runOnUiThread(() -> {
+                                StatusHelper.hideLoading();
+                                StatusHelper.showSuccess(AddMenuActivity.this, "Berhasil", "Menu telah dihapus secara permanen", AddMenuActivity.this::finish);
+                            });
+                        });
+                    }
+
+                    @Override
+                    public void failed(String error) {
+                        runOnUiThread(() -> {
+                            StatusHelper.hideLoading();
+                            Toast.makeText(AddMenuActivity.this, "Gagal menghapus di server: " + error, Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                });
+            }
+
+            @Override
+            public void failed(String error) {
+                runOnUiThread(() -> {
+                    StatusHelper.hideLoading();
+                    Toast.makeText(AddMenuActivity.this, "Gagal menghapus aset gambar: " + error, Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
     }
 
     // =========================
@@ -718,45 +787,30 @@ public class AddMenuActivity extends AppCompatActivity {
                 }
 
                 // =========================
-                // SYNC TO FIRESTORE
+                // SYNC TO FIREBASE (STORAGE THEN FIRESTORE)
                 // =========================
 
                 String menuUuid = menu.firebaseId != null ? menu.firebaseId : UUID.randomUUID().toString();
                 menu.firebaseId = menuUuid;
 
-                Map<String, Object> menuData = new HashMap<>();
-                menuData.put("id", menu.id);
-                menuData.put("firebaseId", menuUuid);
-                menuData.put("name", menu.name);
-                menuData.put("sku", menu.sku);
-                menuData.put("type", menu.type);
-                menuData.put("category", menu.category);
-                menuData.put("unit", menu.unit);
-                menuData.put("price", menu.price);
-                menuData.put("description", menu.description);
-                menuData.put("isAvailable", menu.isAvailable);
-                menuData.put("status", menu.status);
-                menuData.put("branchId", menu.branchId);
-                menuData.put("imagePath", menu.imagePath);
-                
-                if (session != null) {
-                    menuData.put("restaurantId", session.restaurantId);
-                    menuData.put("ownerId", session.ownerId);
-                }
+                long resId = (session != null) ? session.restaurantId : 0;
+                long ownId = (session != null) ? session.ownerId : 0;
 
-                firestore.collection("menus")
-                        .document(menuUuid)
-                        .set(menuData)
-                        .addOnSuccessListener(aVoid -> {
-                            // Update syncStatus di local
-                            executor.execute(() -> {
-                                menu.syncStatus = 1;
-                                db.menuDao().update(menu);
-                            });
-                        })
-                        .addOnFailureListener(e -> {
-                            e.printStackTrace();
-                        });
+                FirebaseRepository repo = new FirebaseRepository();
+                final Menu finalMenu = menu;
+
+                repo.uploadImage("menus", menuUuid, menu.imagePath, new FirebaseRepository.OnImageUploadListener() {
+                    @Override
+                    public void success(String downloadUrl) {
+                        if (!downloadUrl.isEmpty()) finalMenu.imagePath = downloadUrl;
+                        saveMenuToFirestore(repo, finalMenu, resId, ownId);
+                    }
+
+                    @Override
+                    public void failed(String error) {
+                        saveMenuToFirestore(repo, finalMenu, resId, ownId);
+                    }
+                });
 
                 // =========================
                 // SUCCESS
@@ -775,19 +829,30 @@ public class AddMenuActivity extends AppCompatActivity {
                 });
 
             } catch (Exception e) {
-
                 e.printStackTrace();
-
                 runOnUiThread(() -> {
-
                     StatusHelper.hideLoading();
+                    Toast.makeText(this, "Gagal menyimpan menu: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
+            }
+        });
+    }
 
-                    Toast.makeText(
-                            this,
-                            "Gagal menyimpan menu: "
-                                    + e.getMessage(),
-                            Toast.LENGTH_LONG
-                    ).show();
+    private void saveMenuToFirestore(FirebaseRepository repo, Menu menu, long resId, long ownId) {
+        repo.saveMenu(menu.firebaseId, menu.branchId, menu.name, menu.type, menu.category, menu.unit, menu.sku, menu.costPrice, menu.price, menu.description, menu.imagePath, menu.stock, menu.status, menu.isAvailable, menu.syncStatus, resId, ownId, new FirebaseRepository.OnCompleteListener() {
+            @Override
+            public void success() {
+                executor.execute(() -> {
+                    menu.syncStatus = 1;
+                    db.menuDao().update(menu);
+                });
+            }
+
+            @Override
+            public void failed(String error) {
+                executor.execute(() -> {
+                    menu.syncStatus = 2;
+                    db.menuDao().update(menu);
                 });
             }
         });
