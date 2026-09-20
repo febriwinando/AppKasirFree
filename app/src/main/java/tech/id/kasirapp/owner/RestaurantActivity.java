@@ -41,6 +41,7 @@ import tech.id.kasirapp.data.local.entity.Restaurant;
 import tech.id.kasirapp.register.RegisterBranchActivity;
 import tech.id.kasirapp.register.RegisterManagerActivity;
 import tech.id.kasirapp.register.RegisterRestaurantActivity;
+import tech.id.kasirapp.util.DeletionHelper;
 import tech.id.kasirapp.util.StatusHelper;
 
 public class RestaurantActivity extends AppCompatActivity {
@@ -1084,31 +1085,24 @@ public class RestaurantActivity extends AppCompatActivity {
             Restaurant restaurant
     ) {
         StatusHelper.showLoading(this, getString(R.string.msg_delete_loading));
-        executor.execute(() -> {
+        
+        DeletionHelper.deleteRestaurant(this, db, restaurant, new DeletionHelper.OnDeleteCompleteListener() {
+            @Override
+            public void onSuccess() {
+                runOnUiThread(() -> {
+                    StatusHelper.hideLoading();
+                    StatusHelper.showSuccess(RestaurantActivity.this, getString(R.string.dialog_success), getString(R.string.msg_delete_success), () -> loadRestaurants());
+                });
+            }
 
-            // Hapus cabang terlebih dahulu
-
-            db.branchDao()
-                    .deleteByRestaurant(
-                            restaurant.id
-                    );
-
-
-            // Kemudian restoran
-
-            db.restaurantDao()
-                    .delete(
-                            restaurant
-                    );
-
-
-            runOnUiThread(() -> {
-                StatusHelper.hideLoading();
-                StatusHelper.showSuccess(this, getString(R.string.dialog_success), getString(R.string.msg_delete_success), () -> loadRestaurants());
-            });
-
+            @Override
+            public void onFailed(String error) {
+                runOnUiThread(() -> {
+                    StatusHelper.hideLoading();
+                    StatusHelper.showError(RestaurantActivity.this, "Gagal", "Beberapa data mungkin gagal terhapus di server: " + error, () -> loadRestaurants());
+                });
+            }
         });
-
     }
 
 
@@ -1509,136 +1503,26 @@ public class RestaurantActivity extends AppCompatActivity {
             return;
         }
 
-        AppDatabase db =
-                DatabaseClient.getDatabase(this);
-
-        FirebaseRepository firebase =
-                new FirebaseRepository();
-
         StatusHelper.showLoading(this, getString(R.string.msg_delete_branch_loading));
 
-        executor.execute(() -> {
+        DeletionHelper.deleteBranchData(this, db, branch, new DeletionHelper.OnDeleteCompleteListener() {
+            @Override
+            public void onSuccess() {
+                runOnUiThread(() -> {
+                    StatusHelper.hideLoading();
+                    StatusHelper.showSuccess(RestaurantActivity.this, getString(R.string.dialog_success), getString(R.string.msg_delete_branch_success), () -> loadRestaurants());
+                });
+            }
 
-            // =====================================================
-            // CARI MANAGER CABANG
-            // =====================================================
-
-            Manager manager =
-                    db.managerDao()
-                            .getByBranchId(
-                                    branch.id
-                            );
-
-            runOnUiThread(() -> {
-
-                // =================================================
-                // JIKA ADA MANAGER
-                // =================================================
-
-                if (manager != null) {
-
-                    firebase.deleteManager(
-                            manager.firebaseId,
-                            new FirebaseRepository.OnCompleteListener() {
-
-                                @Override
-                                public void success() {
-
-                                    deleteBranchLocal(
-                                            db,
-                                            branch
-                                    );
-                                }
-
-                                @Override
-                                public void failed(
-                                        String error
-                                ) {
-                                    runOnUiThread(() -> {
-                                        StatusHelper.hideLoading();
-                                        StatusHelper.showError(
-                                                RestaurantActivity.this,
-                                                "Gagal",
-                                                "Gagal menghapus Manager: " + error,
-                                                null
-                                        );
-                                    });
-                                }
-                            }
-                    );
-
-                } else {
-
-                    // Tidak ada manager,
-                    // langsung hapus cabang
-
-                    deleteBranchLocal(
-                            db,
-                            branch
-                    );
-                }
-
-            });
-
+            @Override
+            public void onFailed(String error) {
+                runOnUiThread(() -> {
+                    StatusHelper.hideLoading();
+                    StatusHelper.showError(RestaurantActivity.this, "Gagal", "Gagal menghapus beberapa data cabang: " + error, () -> loadRestaurants());
+                });
+            }
         });
     }
-
-    public void deleteManager(
-            String firebaseId,
-            FirebaseRepository.OnCompleteListener listener
-    ) {
-
-        FirebaseFirestore db =
-                FirebaseFirestore.getInstance();
-
-        db.collection("managers")
-                .document(firebaseId)
-                .delete()
-                .addOnSuccessListener(
-                        unused -> listener.success()
-                )
-                .addOnFailureListener(
-                        e -> listener.failed(
-                                e.getMessage()
-                        )
-                );
-    }
-
-    private void deleteBranchLocal(
-            AppDatabase db,
-            Branch branch
-    ) {
-
-        executor.execute(() -> {
-
-            // =====================================================
-            // HAPUS MANAGER DARI ROOM
-            // =====================================================
-
-            db.managerDao()
-                    .deleteByBranchId(
-                            branch.id
-                    );
-
-            // =====================================================
-            // HAPUS CABANG DARI ROOM
-            // =====================================================
-
-            db.branchDao()
-                    .deleteById(
-                            branch.id
-                    );
-
-            runOnUiThread(() -> {
-                StatusHelper.hideLoading();
-                StatusHelper.showSuccess(this, getString(R.string.dialog_success), getString(R.string.msg_delete_branch_success), () -> loadRestaurants());
-            });
-
-        });
-    }
-    // =========================================================
-    // DP
-    // =========================================================
 
     private int dp(int value) {
 
