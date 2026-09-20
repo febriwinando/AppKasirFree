@@ -56,34 +56,45 @@
                 android:text="Pilih skema diskon untuk operasional hari ini"
                 android:alpha="0.6" />
 
-            <!-- Selector: Global vs Item -->
+            <!-- Selector: Global vs Item (Switch) -->
             <com.google.android.material.card.MaterialCardView
                 style="@style/Widget.App.Card.Solid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp">
-                <RadioGroup
-                    android:id="@+id/rgDiscountType"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-                    <RadioButton
-                        android:id="@+id/rbItemWise"
-                        android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="20dp">
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Diskon Per Item Menu"
-                        android:padding="12dp"
-                        android:buttonTint="@color/primary"
-                        android:checked="true" />
-                    <RadioButton
-                        android:id="@+id/rbGlobal"
-                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            style="@style/TextAppearance.App.TitleLarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Diskon Menyeluruh"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            style="@style/TextAppearance.App.BodyLarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Aktifkan untuk seluruh menu"
+                            android:alpha="0.6"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switchDiscountMode"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Diskon Menyeluruh (Global)"
-                        android:padding="12dp"
-                        android:buttonTint="@color/primary" />
-                </RadioGroup>
+                        app:thumbTint="@color/primary"
+                        app:trackTint="@color/surface_variant" />
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Global Discount Form -->

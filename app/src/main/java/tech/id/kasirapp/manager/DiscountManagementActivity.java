@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +23,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ import tech.id.kasirapp.util.StatusHelper;
 
 public class DiscountManagementActivity extends AppCompatActivity {
 
-    private RadioGroup rgDiscountType;
+    private MaterialSwitch switchDiscountMode;
     private MaterialCardView cardGlobalForm;
     private LinearLayout layoutItemWise;
     private RecyclerView rvMenu;
@@ -80,7 +80,7 @@ public class DiscountManagementActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        rgDiscountType = findViewById(R.id.rgDiscountType);
+        switchDiscountMode = findViewById(R.id.switchDiscountMode);
         cardGlobalForm = findViewById(R.id.cardGlobalForm);
         layoutItemWise = findViewById(R.id.layoutItemWise);
         rvMenu = findViewById(R.id.rvMenuForDiscount);
@@ -95,8 +95,8 @@ public class DiscountManagementActivity extends AppCompatActivity {
         spinnerGlobalUnit.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, units));
         spinnerGlobalUnit.setText(units[0], false);
 
-        rgDiscountType.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.rbGlobal) {
+        switchDiscountMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
                 cardGlobalForm.setVisibility(View.VISIBLE);
                 layoutItemWise.setVisibility(View.GONE);
             } else {
@@ -170,7 +170,7 @@ public class DiscountManagementActivity extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 if (activeGlobalDiscount != null) {
-                    rgDiscountType.check(R.id.rbGlobal);
+                    switchDiscountMode.setChecked(true);
                     edtGlobalName.setText(activeGlobalDiscount.name);
                     edtGlobalValue.setText(String.valueOf(activeGlobalDiscount.value));
                     spinnerGlobalUnit.setText(activeGlobalDiscount.isPercentage ? "%" : "Rp", false);
@@ -178,21 +178,21 @@ public class DiscountManagementActivity extends AppCompatActivity {
                     btnSaveGlobal.setBackgroundTintList(getColorStateList(R.color.error));
                     
                     // Lock mode to Global if active
-                    findViewById(R.id.rbItemWise).setEnabled(false);
+                    switchDiscountMode.setEnabled(false);
                     cardGlobalForm.setVisibility(View.VISIBLE);
                     layoutItemWise.setVisibility(View.GONE);
                 } else {
-                    findViewById(R.id.rbItemWise).setEnabled(true);
-                    // Don't auto-check ItemWise if user is currently filling Global form
-                    if (rgDiscountType.getCheckedRadioButtonId() == -1) {
-                        rgDiscountType.check(R.id.rbItemWise);
+                    switchDiscountMode.setEnabled(true);
+                    // Reset fields if nothing active
+                    if (!switchDiscountMode.isChecked()) {
+                        edtGlobalName.setText("");
+                        edtGlobalValue.setText("");
                     }
                     
                     btnSaveGlobal.setText("Aktifkan Diskon Global");
                     btnSaveGlobal.setBackgroundTintList(getColorStateList(R.color.primary));
                     
-                    // Visibility will be handled by the listener or manual check
-                    if (rgDiscountType.getCheckedRadioButtonId() == R.id.rbGlobal) {
+                    if (switchDiscountMode.isChecked()) {
                         cardGlobalForm.setVisibility(View.VISIBLE);
                         layoutItemWise.setVisibility(View.GONE);
                     } else {
@@ -410,11 +410,20 @@ public class DiscountManagementActivity extends AppCompatActivity {
                 holder.tvStatus.setText("Diskon: " + val);
                 holder.tvStatus.setBackgroundTintList(getColorStateList(R.color.primary_container));
                 holder.tvStatus.setTextColor(getColor(R.color.primary));
+                
+                // Highlight item with discount
+                ((MaterialCardView) holder.itemView).setStrokeColor(getColor(R.color.primary));
+                ((MaterialCardView) holder.itemView).setStrokeWidth(4);
+                holder.itemView.setBackgroundTintList(getColorStateList(R.color.primary_light));
             } else {
                 holder.tvStatus.setText("Tanpa Diskon");
                 holder.tvStatus.setBackgroundTintList(null);
                 holder.tvStatus.setTextColor(getColor(R.color.secondary));
                 holder.tvStatus.setAlpha(0.5f);
+                
+                // Reset highlight
+                ((MaterialCardView) holder.itemView).setStrokeWidth(0);
+                holder.itemView.setBackgroundTintList(null);
             }
 
             holder.itemView.setOnClickListener(v -> showItemDiscountDialog(menu));
