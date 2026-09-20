@@ -10,6 +10,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.widget.NestedScrollView;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -62,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
                 R.layout.activity_login
         );
 
-
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
@@ -77,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                 v.setPadding(0, insets.top, 0, insets.bottom);
                 return windowInsets;
             });
+            setupAutoScroll((NestedScrollView) scrollView);
         }
 
         // Menerapkan Animasi Future Google
@@ -94,923 +95,271 @@ public class LoginActivity extends AppCompatActivity {
         if (txtRegistrasi != null) txtRegistrasi.startAnimation(entrance);
 
         if (txtRegistrasi != null) {
-            txtRegistrasi.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(LoginActivity.this, RegisterOwnerActivity.class));
-                }
-            });
+            txtRegistrasi.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterOwnerActivity.class)));
         }
 
         firestore = FirebaseFirestore.getInstance();
-
-        db =
-                DatabaseClient.getDatabase(this);
-
+        db = DatabaseClient.getDatabase(this);
 
         btnLogin.setOnClickListener(v -> {
-
-            String username =
-                    edtUsername
-                            .getText()
-                            .toString()
-                            .trim();
-
-            String password =
-                    edtPassword
-                            .getText()
-                            .toString();
-
+            String username = edtUsername.getText().toString().trim();
+            String password = edtPassword.getText().toString();
 
             if (username.isEmpty()) {
-
-                edtUsername.setError(
-                        getString(R.string.err_username_required)
-                );
-
+                edtUsername.setError(getString(R.string.err_username_required));
                 edtUsername.requestFocus();
-
                 return;
             }
-
 
             if (password.isEmpty()) {
-
-                edtPassword.setError(
-                        getString(R.string.err_password_required)
-                );
-
+                edtPassword.setError(getString(R.string.err_password_required));
                 edtPassword.requestFocus();
-
                 return;
             }
 
-
-            prosesLogin(
-                    username,
-                    password
-            );
-
+            prosesLogin(username, password);
         });
-
     }
 
+    private void setupAutoScroll(NestedScrollView scrollView) {
+        View.OnFocusChangeListener focusListener = (v, hasFocus) -> {
+            if (hasFocus) {
+                scrollView.postDelayed(() -> {
+                    int scrollTo = v.getTop() - 200;
+                    if (scrollTo < 0) scrollTo = 0;
+                    scrollView.smoothScrollTo(0, scrollTo);
+                }, 150);
+            }
+        };
 
-    private void prosesLogin(
-            String username,
-            String password
-    ) {
+        edtUsername.setOnFocusChangeListener(focusListener);
+        edtPassword.setOnFocusChangeListener(focusListener);
+    }
 
+    private void prosesLogin(String username, String password) {
         btnLogin.setEnabled(false);
-
-        progress.setVisibility(
-                View.VISIBLE
-        );
-
-
-        String userLower = username.toLowerCase().trim();
-
-        /*
-         * Cari username di Firestore.
-         */
-
-        cekOwner(
-                userLower,
-                password
-        );
-
+        progress.setVisibility(View.VISIBLE);
+        executor.execute(() -> cekOwner(username, password));
     }
 
-
-    // =========================================================
-    // CEK OWNER
-    // =========================================================
-
-    private void cekOwner(
-            String username,
-            String password
-    ) {
-
+    private void cekOwner(String username, String password) {
         firestore.collection("owners")
-                .whereEqualTo(
-                        "username",
-                        username
-                )
-                .limit(1)
+                .whereEqualTo("username", username)
                 .get()
-                .addOnSuccessListener(
-                        result -> {
-
-                            if (!result.isEmpty()) {
-
-                                DocumentSnapshot doc =
-                                        result.getDocuments()
-                                                .get(0);
-
-                                prosesLoginOwner(
-                                        doc,
-                                        password
-                                );
-
-                            } else {
-
-                                cekManager(
-                                        username,
-                                        password
-                                );
-
-                            }
-
-                        }
-                )
-                .addOnFailureListener(
-                        e -> loginGagal(
-                                getString(R.string.msg_server_error)
-                        )
-                );
-
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        prosesLoginOwner(task.getResult().getDocuments().get(0), password);
+                    } else {
+                        cekManager(username, password);
+                    }
+                });
     }
 
-
-    // =========================================================
-    // CEK MANAGER
-    // =========================================================
-
-    private void cekManager(
-            String username,
-            String password
-    ) {
-
+    private void cekManager(String username, String password) {
         firestore.collection("managers")
-                .whereEqualTo(
-                        "username",
-                        username
-                )
-                .limit(1)
+                .whereEqualTo("username", username)
                 .get()
-                .addOnSuccessListener(
-                        result -> {
-
-                            if (!result.isEmpty()) {
-
-                                DocumentSnapshot doc =
-                                        result.getDocuments()
-                                                .get(0);
-
-                                prosesLoginManager(
-                                        doc,
-                                        password
-                                );
-
-                            } else {
-
-                                cekWaiter(
-                                        username,
-                                        password
-                                );
-
-                            }
-
-                        }
-                )
-                .addOnFailureListener(
-                        e -> loginGagal(
-                                getString(R.string.msg_server_error)
-                        )
-                );
-
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        prosesLoginManager(task.getResult().getDocuments().get(0), password);
+                    } else {
+                        cekWaiter(username, password);
+                    }
+                });
     }
 
-
-    // =========================================================
-    // CEK WAITER
-    // =========================================================
-
-    private void cekWaiter(
-            String username,
-            String password
-    ) {
-
+    private void cekWaiter(String username, String password) {
         firestore.collection("waiters")
-                .whereEqualTo(
-                        "username",
-                        username
-                )
-                .limit(1)
+                .whereEqualTo("username", username)
                 .get()
-                .addOnSuccessListener(
-                        result -> {
-
-                            if (!result.isEmpty()) {
-
-                                DocumentSnapshot doc =
-                                        result.getDocuments()
-                                                .get(0);
-
-                                prosesLoginWaiter(
-                                        doc,
-                                        password
-                                );
-
-                            } else {
-
-                                cekKasir(
-                                        username,
-                                        password
-                                );
-
-                            }
-
-                        }
-                )
-                .addOnFailureListener(
-                        e -> loginGagal(
-                                getString(R.string.msg_server_error)
-                        )
-                );
-
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        prosesLoginWaiter(task.getResult().getDocuments().get(0), password);
+                    } else {
+                        cekKasir(username, password);
+                    }
+                });
     }
 
-
-    // =========================================================
-    // CEK KASIR
-    // =========================================================
-
-    private void cekKasir(
-            String username,
-            String password
-    ) {
-
+    private void cekKasir(String username, String password) {
         firestore.collection("cashiers")
-                .whereEqualTo(
-                        "username",
-                        username
-                )
-                .limit(1)
+                .whereEqualTo("username", username)
                 .get()
-                .addOnSuccessListener(
-                        result -> {
-
-                            if (!result.isEmpty()) {
-
-                                DocumentSnapshot doc =
-                                        result.getDocuments()
-                                                .get(0);
-
-                                prosesLoginKasir(
-                                        doc,
-                                        password
-                                );
-
-                            } else {
-
-                                cekDapur(
-                                        username,
-                                        password
-                                );
-
-                            }
-
-                        }
-                )
-                .addOnFailureListener(
-                        e -> loginGagal(
-                                getString(R.string.msg_server_error)
-                        )
-                );
-
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        prosesLoginKasir(task.getResult().getDocuments().get(0), password);
+                    } else {
+                        cekDapur(username, password);
+                    }
+                });
     }
 
-
-    // =========================================================
-    // CEK DAPUR
-    // =========================================================
-
-    private void cekDapur(
-            String username,
-            String password
-    ) {
-
-        firestore.collection("kitchens")
-                .whereEqualTo(
-                        "username",
-                        username
-                )
-                .limit(1)
+    private void cekDapur(String username, String password) {
+        firestore.collection("kitchen_staff")
+                .whereEqualTo("username", username)
                 .get()
-                .addOnSuccessListener(
-                        result -> {
-
-                            if (!result.isEmpty()) {
-
-                                DocumentSnapshot doc =
-                                        result.getDocuments()
-                                                .get(0);
-
-                                prosesLoginDapur(
-                                        doc,
-                                        password
-                                );
-
-                            } else {
-
-                                loginGagal(
-                                        getString(R.string.msg_login_failed)
-                                );
-
-                            }
-
-                        }
-                )
-                .addOnFailureListener(
-                        e -> loginGagal(
-                                getString(R.string.msg_server_error)
-                        )
-                );
-
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        prosesLoginDapur(task.getResult().getDocuments().get(0), password);
+                    } else {
+                        loginGagal(getString(R.string.msg_login_failed));
+                    }
+                });
     }
 
-    private void prosesLoginOwner(
-            DocumentSnapshot doc,
-            String password
-    ) {
+    private void prosesLoginOwner(DocumentSnapshot doc, String password) {
+        String dbPassword = doc.getString("password");
+        if (verifikasiPassword(password, dbPassword)) {
+            Owner owner = new Owner();
+            owner.firebaseId = doc.getId();
+            owner.name = doc.getString("name");
+            owner.username = doc.getString("username");
+            owner.email = doc.getString("email");
+            owner.phone = doc.getString("phone");
+            owner.role = "owner";
+            owner.syncStatus = 1;
 
-        String passwordHash =
-                doc.getString("password");
-
-        if (!verifikasiPassword(
-                password,
-                passwordHash
-        )) {
-
-            loginGagal(
-                    getString(R.string.msg_login_failed)
-            );
-
-            return;
+            executor.execute(() -> {
+                long id = db.ownerDao().insert(owner);
+                AppSession session = new AppSession();
+                session.userId = id;
+                session.ownerId = id;
+                session.uuid = owner.firebaseId;
+                session.isLoggedIn = true;
+                session.role = "OWNER";
+                simpanSession(session, DashboardOwnerActivity.class);
+            });
+        } else {
+            loginGagal(getString(R.string.msg_login_failed));
         }
-
-        AppSession session =
-                new AppSession();
-
-        session.id = 1;
-
-        long ownerId = getLongSafe(doc, "id");
-
-        session.userId =
-                ownerId;
-
-        session.uuid =
-                doc.getId();
-
-        session.role =
-                "OWNER";
-
-        session.ownerId =
-                ownerId;
-
-        session.restaurantId = 0;
-
-        session.branchId = 0;
-
-        session.isLoggedIn = true;
-
-        // Simpan atau update data Owner ke database lokal (Room) agar ProfileActivity bisa membacanya
-        executor.execute(() -> {
-            Owner localOwner = new Owner();
-            localOwner.id = ownerId;
-            localOwner.firebaseId = doc.getString("firebaseId") != null ? doc.getString("firebaseId") : doc.getId();
-            localOwner.name = doc.getString("name");
-            localOwner.username = doc.getString("username");
-            localOwner.email = doc.getString("email");
-            localOwner.phone = doc.getString("phone");
-            localOwner.password = passwordHash;
-            localOwner.syncStatus = 1; // Sudah sinkron dari server
-
-            // Cek apakah owner sudah ada di local, jika belum insert, jika sudah update
-            Owner existing = db.ownerDao().getById(ownerId);
-            if (existing == null) {
-                db.ownerDao().insert(localOwner);
-            } else {
-                db.ownerDao().update(localOwner);
-            }
-
-            // Setelah data owner tersimpan di local, simpan session
-            simpanSession(
-                    session,
-                    DashboardOwnerActivity.class
-            );
-        });
     }
 
-    private void prosesLoginManager(
-            DocumentSnapshot doc,
-            String password
-    ) {
+    private void prosesLoginManager(DocumentSnapshot doc, String password) {
+        String dbPassword = doc.getString("password");
+        if (verifikasiPassword(password, dbPassword)) {
+            Manager manager = new Manager();
+            manager.firebaseId = doc.getId();
+            manager.branchFirebaseId = doc.getString("branchFirebaseId");
+            manager.branchId = getLongSafe(doc, "branchId");
+            manager.name = doc.getString("name");
+            manager.username = doc.getString("username");
+            manager.phone = doc.getString("phone");
+            manager.role = "manager";
+            manager.syncStatus = 1;
 
-        String passwordHash =
-                doc.getString("password");
-
-        // =========================================
-        // CEK PASSWORD
-        // =========================================
-
-        if (passwordHash == null ||
-                !verifikasiPassword(
-                        password,
-                        passwordHash
-                )) {
-
-            loginGagal(
-                    getString(R.string.msg_login_failed)
-            );
-
-            return;
+            executor.execute(() -> {
+                long id = db.managerDao().insert(manager);
+                AppSession session = new AppSession();
+                session.userId = id;
+                session.branchId = manager.branchId;
+                session.uuid = manager.firebaseId;
+                session.isLoggedIn = true;
+                session.role = "MANAGER";
+                simpanSession(session, DashboardManagerActivity.class);
+            });
+        } else {
+            loginGagal(getString(R.string.msg_login_failed));
         }
-
-
-        // =========================================
-        // BUAT SESSION
-        // =========================================
-
-        AppSession session =
-                new AppSession();
-
-        session.id = 1;
-
-
-        // =========================================
-        // ID USER
-        // =========================================
-
-        session.userId =
-                getLongSafe(
-                        doc,
-                        "id"
-                );
-
-
-        // =========================================
-        // ID FIREBASE
-        // =========================================
-
-        session.uuid = doc.getId();
-
-        // =========================================
-        // ROLE
-        // =========================================
-        session.role = "MANAGER";
-
-
-        // =========================================
-        // OWNER
-        // =========================================
-        session.ownerId = getLongSafe(
-                        doc,
-                        "ownerId");
-
-
-        // =========================================
-        // RESTAURANT
-        // =========================================
-        session.restaurantId =
-                getLongSafe(
-                        doc,
-                        "restaurantId"
-                );
-
-
-        // =========================================
-        // BRANCH
-        // =========================================
-        session.branchId =
-                getLongSafe(
-                        doc,
-                        "branchId"
-                );
-
-        Log.d("Session Lgoin", String.valueOf(session.branchId));
-        // =========================================
-        // STATUS LOGIN
-        // =========================================
-        session.isLoggedIn =
-                true;
-
-        // =========================================
-        // SIMPAN DATA MANAGER KE LOCAL
-        // =========================================
-        executor.execute(() -> {
-            Manager localManager = new Manager();
-            localManager.id = session.userId;
-            localManager.firebaseId = doc.getString("firebaseId");
-            localManager.branchId = session.branchId;
-            localManager.branchFirebaseId = doc.getString("branchFirebaseId");
-            localManager.name = doc.getString("name");
-            localManager.username = doc.getString("username");
-            localManager.phone = doc.getString("phone");
-            localManager.password = passwordHash;
-            localManager.role = "manager";
-            localManager.syncStatus = 1;
-
-            Manager existing = db.managerDao().getById(session.userId);
-            if (existing == null) {
-                db.managerDao().insert(localManager);
-            } else {
-                db.managerDao().update(localManager);
-            }
-
-            // =========================================
-            // SIMPAN SESSION
-            // =========================================
-            simpanSession(
-                    session,
-                    DashboardManagerActivity.class
-            );
-        });
     }
 
-    private void prosesLoginWaiter(
-            DocumentSnapshot doc,
-            String password
-    ) {
-        String passwordHash = doc.getString("password");
-        Log.d("LoginWaiter", "Attempting login for: " + doc.getString("username"));
+    private void prosesLoginWaiter(DocumentSnapshot doc, String password) {
+        String dbPassword = doc.getString("password");
+        if (verifikasiPassword(password, dbPassword)) {
+            Waiter waiter = new Waiter();
+            waiter.firebaseId = doc.getId();
+            waiter.branchFirebaseId = doc.getString("branchFirebaseId");
+            waiter.branchId = getLongSafe(doc, "branchId");
+            waiter.name = doc.getString("name");
+            waiter.username = doc.getString("username");
+            waiter.phone = doc.getString("phone");
+            waiter.nik = doc.getString("nik");
+            waiter.employeeNumber = doc.getString("employeeNumber");
+            waiter.role = "waiter";
+            waiter.syncStatus = 1;
 
-        if (passwordHash == null || !verifikasiPassword(
-                password,
-                passwordHash
-        )) {
-            Log.e("LoginWaiter", "Password verification failed");
-            loginGagal(
-                    getString(R.string.msg_login_failed)
-            );
-            return;
+            executor.execute(() -> {
+                long id = db.waiterDao().insert(waiter);
+                AppSession session = new AppSession();
+                session.userId = id;
+                session.branchId = waiter.branchId;
+                session.uuid = waiter.firebaseId;
+                session.isLoggedIn = true;
+                session.role = "WAITER";
+                simpanSession(session, DashboardWaiterActivity.class);
+            });
+        } else {
+            loginGagal(getString(R.string.msg_login_failed));
         }
-
-        // Cek apakah akun aktif
-        Boolean isActive = doc.getBoolean("isActive");
-        if (isActive != null && !isActive) {
-            Log.w("LoginWaiter", "Account is inactive");
-            loginGagal("Akun Waiter Anda dinonaktifkan. Silakan hubungi Manajer.");
-            return;
-        }
-
-
-        AppSession session =
-                new AppSession();
-
-        session.id = 1;
-
-
-        session.uuid =
-                doc.getId();
-
-        long waiterId = getLongSafe(doc, "id");
-        session.userId = waiterId;
-
-        session.ownerId =
-                getLongSafe(doc, "ownerId");
-
-        session.restaurantId =
-                getLongSafe(doc, "restaurantId");
-
-        session.branchId =
-                getLongSafe(doc, "branchId");
-
-        session.role =
-                "WAITER";
-
-        session.isLoggedIn =
-                true;
-
-        // Simpan data waiter ke database lokal agar dashboard bisa menampilkan profilnya
-        executor.execute(() -> {
-            Waiter localWaiter = new Waiter();
-            localWaiter.id = waiterId;
-            localWaiter.firebaseId = doc.getString("firebaseId");
-            localWaiter.branchId = session.branchId;
-            localWaiter.name = doc.getString("name");
-            localWaiter.username = doc.getString("username");
-            localWaiter.phone = doc.getString("phone");
-            localWaiter.nik = doc.getString("nik");
-            localWaiter.address = doc.getString("address");
-            localWaiter.education = doc.getString("education");
-            localWaiter.photoPath = doc.getString("photoPath");
-            localWaiter.ktpPhotoPath = doc.getString("ktpPhotoPath");
-            localWaiter.employeeNumber = doc.getString("employeeNumber");
-            localWaiter.password = passwordHash;
-            localWaiter.role = "waiter";
-            localWaiter.isActive = true;
-            localWaiter.syncStatus = 1;
-
-            Waiter existing = db.waiterDao().getById(waiterId);
-            if (existing == null) {
-                db.waiterDao().insert(localWaiter);
-            } else {
-                db.waiterDao().update(localWaiter);
-            }
-
-            simpanSession(
-                    session,
-                    DashboardWaiterActivity.class
-            );
-        });
     }
 
-    private void prosesLoginKasir(
-            DocumentSnapshot doc,
-            String password
-    ) {
-
-        if (!verifikasiPassword(
-                password,
-                doc.getString("password")
-        )) {
-
-            loginGagal(
-                    getString(R.string.msg_login_failed)
-            );
-
-            return;
+    private void prosesLoginKasir(DocumentSnapshot doc, String password) {
+        String dbPassword = doc.getString("password");
+        if (verifikasiPassword(password, dbPassword)) {
+            AppSession session = new AppSession();
+            session.branchId = getLongSafe(doc, "branchId");
+            session.uuid = doc.getId();
+            session.isLoggedIn = true;
+            session.role = "CASHIER";
+            simpanSession(session, DashboardCashierActivity.class);
+        } else {
+            loginGagal(getString(R.string.msg_login_failed));
         }
-
-
-        AppSession session =
-                new AppSession();
-        session.id = 1;
-
-        session.userId =
-                getLongSafe(doc, "id");
-
-        session.ownerId =
-                getLongSafe(doc, "ownerId");
-
-        session.restaurantId =
-                getLongSafe(doc, "restaurantId");
-
-        session.branchId =
-                getLongSafe(doc, "branchId");
-
-
-        session.uuid =
-                doc.getId();
-
-        session.role =
-                "KASIR";
-
-        session.isLoggedIn =
-                true;
-
-
-        simpanSession(
-                session,
-                DashboardCashierActivity.class
-        );
     }
 
-    private void prosesLoginDapur(
-            DocumentSnapshot doc,
-            String password
-    ) {
-
-        if (!verifikasiPassword(
-                password,
-                doc.getString("password")
-        )) {
-
-            loginGagal(
-                    getString(R.string.msg_login_failed)
-            );
-
-            return;
+    private void prosesLoginDapur(DocumentSnapshot doc, String password) {
+        String dbPassword = doc.getString("password");
+        if (verifikasiPassword(password, dbPassword)) {
+            AppSession session = new AppSession();
+            session.branchId = getLongSafe(doc, "branchId");
+            session.uuid = doc.getId();
+            session.isLoggedIn = true;
+            session.role = "KITCHEN";
+            simpanSession(session, DashboardKitchenActivity.class);
+        } else {
+            loginGagal(getString(R.string.msg_login_failed));
         }
-
-
-        AppSession session =
-                new AppSession();
-
-        session.id = 1;
-
-        session.userId =
-                getLongSafe(doc, "id");
-
-        session.ownerId =
-                getLongSafe(doc, "ownerId");
-
-        session.restaurantId =
-                getLongSafe(doc, "restaurantId");
-
-        session.branchId =
-                getLongSafe(doc, "branchId");
-
-        session.uuid =
-                doc.getId();
-
-        session.role =
-                "DAPUR";
-
-        session.isLoggedIn =
-                true;
-
-
-        simpanSession(
-                session,
-                DashboardKitchenActivity.class
-        );
     }
 
-    private boolean verifikasiPassword(
-            String password,
-            String passwordHash
-    ) {
-
-        if (passwordHash == null ||
-                passwordHash.isEmpty()) {
-
-            return false;
-        }
-
-
+    private boolean verifikasiPassword(String plain, String hashed) {
         try {
-
-            return BCrypt.verifyer()
-                    .verify(
-                            password.toCharArray(),
-                            passwordHash
-                    )
-                    .verified;
-
+            return BCrypt.verifyer().verify(plain.toCharArray(), hashed).verified;
         } catch (Exception e) {
-
             return false;
         }
     }
 
-    private void simpanSession(
-            AppSession session,
-            Class<?> dashboard
-    ) {
-
-        executor.execute(() -> {
-            // Hapus data lokal yang mungkin tertinggal sebelum menyimpan session baru untuk memicu sync ulang yang bersih
-            db.menuDao().deleteByBranch(session.branchId);
-
-            db.sessionDao()
-                    .insert(session);
-
-            // Ambil data menu dari Firestore berdasarkan branchId untuk di-restore secara lokal
-            if (session.branchId > 0) {
-                firestore.collection("menus")
-                        .whereEqualTo("branchId", session.branchId)
-                        .get()
-                        .addOnSuccessListener(queryDocumentSnapshots -> {
-                            if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
-                                executor.execute(() -> {
-                                    for (DocumentSnapshot menuDoc : queryDocumentSnapshots.getDocuments()) {
-                                        try {
-                                            Menu menu = new Menu();
-                                            menu.id = getLongSafe(menuDoc, "id");
-                                            menu.firebaseId = menuDoc.getString("firebaseId") != null ? menuDoc.getString("firebaseId") : menuDoc.getId();
-                                            menu.branchId = getLongSafe(menuDoc, "branchId");
-                                            menu.name = menuDoc.getString("name");
-                                            menu.sku = menuDoc.getString("sku");
-                                            menu.type = menuDoc.getString("type");
-                                            menu.category = menuDoc.getString("category");
-                                            menu.unit = menuDoc.getString("unit");
-                                            
-                                            Double priceVal = menuDoc.getDouble("price");
-                                            menu.price = priceVal != null ? priceVal : 0.0;
-                                            
-                                            Double costPriceVal = menuDoc.getDouble("costPrice");
-                                            menu.costPrice = costPriceVal != null ? costPriceVal : 0.0;
-                                            
-                                            menu.description = menuDoc.getString("description");
-                                            menu.imagePath = menuDoc.getString("imagePath");
-                                            
-                                            Long stockVal = menuDoc.getLong("stock");
-                                            menu.stock = stockVal != null ? stockVal.intValue() : 0;
-                                            
-                                            Boolean isAvail = menuDoc.getBoolean("isAvailable");
-                                            menu.isAvailable = isAvail != null ? isAvail : true;
-                                            
-                                            menu.status = menuDoc.getString("status") != null ? menuDoc.getString("status") : "Aktif";
-                                            menu.syncStatus = 1; // Sudah tersinkronisasi dari cloud
-
-                                            // Insert ke DB lokal Room
-                                            db.menuDao().insert(menu);
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                    navigateToDashboard(dashboard);
-                                });
-                            } else {
-                                navigateToDashboard(dashboard);
-                            }
-                        })
-                        .addOnFailureListener(e -> {
-                            e.printStackTrace();
-                            navigateToDashboard(dashboard);
-                        });
-            } else {
-                // Jika Owner login tanpa branchId tertentu, langsung arahkan ke dashboard
-                navigateToDashboard(dashboard);
-            }
-        });
+    private void simpanSession(AppSession session, Class<?> target) {
+        db.sessionDao().insert(session);
+        navigateToDashboard(target);
     }
 
-    private void navigateToDashboard(Class<?> dashboard) {
+    private void navigateToDashboard(Class<?> target) {
         runOnUiThread(() -> {
-            progress.setVisibility(
-                    View.GONE
-            );
-
-            btnLogin.setEnabled(
-                    true
-            );
-
-            Toast.makeText(
-                    LoginActivity.this,
-                    getString(R.string.msg_login_success),
-                    Toast.LENGTH_SHORT
-                ).show();
-
-            Intent intent =
-                    new Intent(
-                            LoginActivity.this,
-                            dashboard
-                    );
-
+            progress.setVisibility(View.GONE);
+            Intent intent = new Intent(LoginActivity.this, target);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         });
     }
 
-    private void loginGagal(
-            String message
-    ) {
-
+    private void loginGagal(String pesan) {
         runOnUiThread(() -> {
-
-            progress.setVisibility(
-                    View.GONE
-            );
-
-            btnLogin.setEnabled(
-                    true
-            );
-
-            Toast.makeText(
-                    LoginActivity.this,
-                    message,
-                    Toast.LENGTH_SHORT
-            ).show();
-
+            btnLogin.setEnabled(true);
+            progress.setVisibility(View.GONE);
+            Toast.makeText(LoginActivity.this, pesan, Toast.LENGTH_SHORT).show();
         });
-
     }
 
-    private long getLongSafe(
-            DocumentSnapshot doc,
-            String field
-    ) {
-
-        Object value =
-                doc.get(field);
-
-        if (value == null) {
-            return 0;
-        }
-
-        if (value instanceof Number) {
-
-            return ((Number) value).longValue();
-
-        }
-
-        if (value instanceof String) {
-
-            try {
-
-                return Long.parseLong(
-                        (String) value
-                );
-
-            } catch (NumberFormatException e) {
-
-                return 0;
-            }
-        }
-
+    private long getLongSafe(DocumentSnapshot doc, String field) {
+        Object val = doc.get(field);
+        if (val instanceof Number) return ((Number) val).longValue();
         return 0;
     }
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
-
         executor.shutdown();
-
     }
 }

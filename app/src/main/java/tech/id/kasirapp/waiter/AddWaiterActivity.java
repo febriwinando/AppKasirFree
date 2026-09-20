@@ -15,11 +15,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.widget.NestedScrollView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import android.view.inputmethod.InputMethodManager;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -111,6 +113,27 @@ public class AddWaiterActivity extends AppCompatActivity {
             v.setPadding(0, 0, 0, ime.bottom + systemBars.bottom);
             return insets;
         });
+
+        setupAutoScroll(findViewById(R.id.scrollView));
+    }
+
+    private void setupAutoScroll(NestedScrollView scrollView) {
+        View.OnFocusChangeListener focusListener = (v, hasFocus) -> {
+            if (hasFocus) {
+                scrollView.postDelayed(() -> {
+                    int scrollTo = v.getTop() - 100;
+                    if (scrollTo < 0) scrollTo = 0;
+                    scrollView.smoothScrollTo(0, scrollTo);
+                }, 150);
+            }
+        };
+
+        edtFullName.setOnFocusChangeListener(focusListener);
+        edtNik.setOnFocusChangeListener(focusListener);
+        edtPhone.setOnFocusChangeListener(focusListener);
+        edtAddress.setOnFocusChangeListener(focusListener);
+        edtUsername.setOnFocusChangeListener(focusListener);
+        edtPassword.setOnFocusChangeListener(focusListener);
     }
 
     private void initView() {
@@ -274,6 +297,7 @@ public class AddWaiterActivity extends AppCompatActivity {
         String[] educationLevels = {"SMP", "SMA", "S1", "S2", "S3"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, educationLevels);
         spinnerEducation.setAdapter(adapter);
+        spinnerEducation.setOnTouchListener((v, event) -> { hideKeyboard(); v.performClick(); return true; });
     }
 
     private void setupStatusSpinner() {
@@ -281,6 +305,15 @@ public class AddWaiterActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, statuses);
         spinnerStatus.setAdapter(adapter);
         spinnerStatus.setText(statuses[0], false);
+        spinnerStatus.setOnTouchListener((v, event) -> { hideKeyboard(); v.performClick(); return true; });
+    }
+
+    private void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     private void loadBranchInfo() {

@@ -6,16 +6,22 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -77,6 +83,33 @@ public class DiscountManagementActivity extends AppCompatActivity {
         setupToolbar();
         setupRecyclerView();
         loadSessionAndData();
+
+        // Keyboard Handling to prevent form being covered
+        NestedScrollView nestedScrollView = findViewById(R.id.scrollView);
+        ViewCompat.setOnApplyWindowInsetsListener(nestedScrollView, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+            v.setPadding(0, 0, 0, insets.bottom);
+            return windowInsets;
+        });
+
+        setupAutoScroll(nestedScrollView);
+    }
+
+    private void setupAutoScroll(NestedScrollView scrollView) {
+        View.OnFocusChangeListener focusListener = (v, hasFocus) -> {
+            if (hasFocus) {
+                scrollView.postDelayed(() -> {
+                    // Scroll so the focused view is at the top (plus some margin)
+                    int scrollTo = v.getTop() - 100;
+                    if (scrollTo < 0) scrollTo = 0;
+                    scrollView.smoothScrollTo(0, scrollTo);
+                }, 150);
+            }
+        };
+
+        edtGlobalName.setOnFocusChangeListener(focusListener);
+        edtGlobalValue.setOnFocusChangeListener(focusListener);
+        edtSearchMenu.setOnFocusChangeListener(focusListener);
     }
 
     private void initView() {
@@ -94,6 +127,11 @@ public class DiscountManagementActivity extends AppCompatActivity {
         String[] units = {"%", "Rp"};
         spinnerGlobalUnit.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, units));
         spinnerGlobalUnit.setText(units[0], false);
+        spinnerGlobalUnit.setOnTouchListener((v, event) -> {
+            hideKeyboard();
+            v.performClick(); // Trigger the dropdown
+            return true; // We handled it
+        });
 
         switchDiscountMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -208,29 +246,30 @@ public class DiscountManagementActivity extends AppCompatActivity {
     }
 
     private void saveGlobalDiscount() {
-        if (activeGlobalDiscount != null) {
+        final Diskon target = activeGlobalDiscount;
+        if (target != null) {
             // Deactivate
             StatusHelper.showConfirm(this, "Nonaktifkan Global", "Matikan diskon menyeluruh?", () -> {
-                activeGlobalDiscount.isActive = false;
-                activeGlobalDiscount.syncStatus = 0;
+                target.isActive = false;
+                target.syncStatus = 0;
                 executor.execute(() -> {
-                    db.diskonDao().update(activeGlobalDiscount);
-                    new FirebaseRepository().saveDiskon(activeGlobalDiscount.firebaseId, branchId, activeGlobalDiscount.name, 
-                            activeGlobalDiscount.type, activeGlobalDiscount.value, activeGlobalDiscount.isPercentage, 
-                            false, 0, "", activeGlobalDiscount.syncStatus, restaurantId, ownerId, new FirebaseRepository.OnCompleteListener() {
+                    db.diskonDao().update(target);
+                    new FirebaseRepository().saveDiskon(target.firebaseId, branchId, target.name, 
+                            target.type, target.value, target.isPercentage, 
+                            false, 0, "", target.syncStatus, restaurantId, ownerId, new FirebaseRepository.OnCompleteListener() {
                                 @Override
                                 public void success() {
                                     executor.execute(() -> {
-                                        activeGlobalDiscount.syncStatus = 1;
-                                        db.diskonDao().update(activeGlobalDiscount);
+                                        target.syncStatus = 1;
+                                        db.diskonDao().update(target);
                                         refreshData();
                                     });
                                 }
                                 @Override
                                 public void failed(String error) {
                                     executor.execute(() -> {
-                                        activeGlobalDiscount.syncStatus = 2;
-                                        db.diskonDao().update(activeGlobalDiscount);
+                                        target.syncStatus = 2;
+                                        db.diskonDao().update(target);
                                         refreshData();
                                     });
                                 }
@@ -305,6 +344,11 @@ public class DiscountManagementActivity extends AppCompatActivity {
         
         String[] units = {"%", "Rp"};
         spinnerUnit.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, units));
+        spinnerUnit.setOnTouchListener((v, event) -> {
+            hideKeyboard();
+            v.performClick();
+            return true;
+        });
         
         if (existing != null) {
             edtName.setText(existing.name);
@@ -444,6 +488,14 @@ public class DiscountManagementActivity extends AppCompatActivity {
                 tvStatus = itemView.findViewById(R.id.tvStatus);
                 btnEdit = itemView.findViewById(R.id.btnEditMenu);
             }
+        }
+    }
+
+    private void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 

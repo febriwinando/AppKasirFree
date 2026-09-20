@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.widget.NestedScrollView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
@@ -24,6 +25,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import android.view.inputmethod.InputMethodManager;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -286,7 +288,7 @@ public class AddMenuActivity extends AppCompatActivity {
 
     private void setupWindowInsets() {
 
-        View scrollView =
+        NestedScrollView scrollView =
                 findViewById(R.id.scrollView);
 
         if (scrollView == null) {
@@ -313,6 +315,25 @@ public class AddMenuActivity extends AppCompatActivity {
                     return insets;
                 }
         );
+
+        setupAutoScroll(scrollView);
+    }
+
+    private void setupAutoScroll(NestedScrollView scrollView) {
+        View.OnFocusChangeListener focusListener = (v, hasFocus) -> {
+            if (hasFocus) {
+                scrollView.postDelayed(() -> {
+                    int scrollTo = v.getTop() - 100;
+                    if (scrollTo < 0) scrollTo = 0;
+                    scrollView.smoothScrollTo(0, scrollTo);
+                }, 150);
+            }
+        };
+
+        edtMenuName.setOnFocusChangeListener(focusListener);
+        edtSKU.setOnFocusChangeListener(focusListener);
+        edtPrice.setOnFocusChangeListener(focusListener);
+        edtDescription.setOnFocusChangeListener(focusListener);
     }
 
     // =========================
@@ -402,11 +423,8 @@ public class AddMenuActivity extends AppCompatActivity {
                 );
 
         spinnerUnit.setAdapter(unitAdapter);
-
-        spinnerUnit.setText(
-                units[0],
-                false
-        );
+        spinnerUnit.setText(units[0], false);
+        spinnerUnit.setOnTouchListener((v, event) -> { hideKeyboard(); v.performClick(); return true; });
 
         // =========================
         // JENIS MENU
@@ -425,6 +443,7 @@ public class AddMenuActivity extends AppCompatActivity {
                 );
 
         spinnerMenuType.setAdapter(typeAdapter);
+        spinnerMenuType.setOnTouchListener((v, event) -> { hideKeyboard(); v.performClick(); return true; });
 
         // Default: Makanan
         spinnerMenuType.setText(
@@ -466,6 +485,7 @@ public class AddMenuActivity extends AppCompatActivity {
         spinnerStatus.setAdapter(
                 statusAdapter
         );
+        spinnerStatus.setOnTouchListener((v, event) -> { hideKeyboard(); v.performClick(); return true; });
 
         spinnerStatus.setText(
                 statuses[0],
@@ -491,11 +511,20 @@ public class AddMenuActivity extends AppCompatActivity {
         spinnerAvailability.setAdapter(
                 availabilityAdapter
         );
+        spinnerAvailability.setOnTouchListener((v, event) -> { hideKeyboard(); v.performClick(); return true; });
 
         spinnerAvailability.setText(
                 availability[0],
                 false
         );
+    }
+
+    private void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     // =========================
@@ -567,6 +596,7 @@ public class AddMenuActivity extends AppCompatActivity {
         spinnerCategory.setAdapter(
                 categoryAdapter
         );
+        spinnerCategory.setOnTouchListener((v, event) -> { hideKeyboard(); v.performClick(); return true; });
 
         // Pilih kategori pertama
         if (categories.length > 0) {

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.widget.NestedScrollView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
@@ -19,6 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 
+import android.view.inputmethod.InputMethodManager;
 import tech.id.kasirapp.R;
 import tech.id.kasirapp.data.firebase.FirebaseRepository;
 import tech.id.kasirapp.data.local.AppDatabase;
@@ -72,12 +74,14 @@ public class BranchSettingsActivity extends AppCompatActivity {
         loadBranch();
 
         // Keyboard Handling
-        View scrollView = findViewById(R.id.scrollView);
+        NestedScrollView scrollView = findViewById(R.id.scrollView);
         ViewCompat.setOnApplyWindowInsetsListener(scrollView, (v, windowInsets) -> {
             Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
             v.setPadding(0, 0, 0, insets.bottom);
             return windowInsets;
         });
+
+        setupAutoScroll(scrollView);
 
         // Menerapkan Animasi
         Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
@@ -106,6 +110,36 @@ public class BranchSettingsActivity extends AppCompatActivity {
 
         edtJamBuka.setOnClickListener(v -> showTimePicker(true));
         edtJamTutup.setOnClickListener(v -> showTimePicker(false));
+        
+        edtJamBuka.setOnTouchListener((v, event) -> { hideKeyboard(); return false; });
+        edtJamTutup.setOnTouchListener((v, event) -> { hideKeyboard(); return false; });
+    }
+
+    private void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    private void setupAutoScroll(NestedScrollView scrollView) {
+        View.OnFocusChangeListener focusListener = (v, hasFocus) -> {
+            if (hasFocus) {
+                scrollView.postDelayed(() -> {
+                    int scrollTo = v.getTop() - 100;
+                    if (scrollTo < 0) scrollTo = 0;
+                    scrollView.smoothScrollTo(0, scrollTo);
+                }, 150);
+            }
+        };
+
+        edtNamaCabang.setOnFocusChangeListener(focusListener);
+        edtAlamat.setOnFocusChangeListener(focusListener);
+        edtTelepon.setOnFocusChangeListener(focusListener);
+        edtJumlahMeja.setOnFocusChangeListener(focusListener);
+        edtPajak.setOnFocusChangeListener(focusListener);
+        edtServiceCharge.setOnFocusChangeListener(focusListener);
     }
 
     private void showTimePicker(boolean jamBuka) {

@@ -33,7 +33,8 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:clipToPadding="false"
-        android:paddingBottom="40dp">
+        android:fillViewport="true"
+        android:isScrollContainer="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -162,6 +163,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:clickable="true"
                             android:padding="18dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
